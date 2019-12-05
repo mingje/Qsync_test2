@@ -485,8 +485,11 @@ def check_team_folder():
             mount_disk(i["ip"],i["folder_name"],i["ac"],i["pwd"],"w") 
             check_copy_result(path,"w:\\")
             check_sync_icon(path = path)
-            mark_list = get_check_icon_list(path = path)
-            a("Y", 2, mark_list)
+            if current_data_counter(path = path , con_type = "folders") == 0:
+                pass
+            else:   
+                mark_list = get_check_icon_list(path = path)
+                a("Y", 2, mark_list)
             unmount_disk("w")
             
 def check_share_folder():
@@ -496,8 +499,11 @@ def check_share_folder():
     mount_disk(i["ip"],"@Qsync_test",i["ac"],i["pwd"],"w") 
     check_copy_result(path,"w:\\")
     check_sync_icon(path = path)
-    mark_list = get_check_icon_list(path = path)
-    a("Y", 2, mark_list)
+    if current_data_counter(path = path , con_type = "folders") == 0:
+        pass
+    else:   
+        mark_list = get_check_icon_list(path = path)
+        a("Y", 2, mark_list))
     unmount_disk("w")
 
 def login_pair(ip, ac, pwd):

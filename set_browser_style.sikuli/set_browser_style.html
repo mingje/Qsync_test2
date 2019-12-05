@@ -1,0 +1,172 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>set_browser_style.sikuli</h2> <a href="set_browser_style.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span> *
+<span class="kw">from</span> library_qsync <span class="kw">import</span> *
+
+<span class="kw">def</span> get_os_ver():
+    os_dir = os.popen(<span class="str">"ver"</span>).read()
+    <span class="kw">print</span>(os_dir)
+    os_split = os_dir.split(<span class="str">"["</span>)
+    <span class="kw">print</span>(os_split)
+    os_split1 = os_split[<span class="dig">1</span>].split(<span class="str">" "</span>)
+    <span class="kw">print</span>(os_split1)
+    os_split2 = os_split1[<span class="dig">1</span>].split(<span class="str">"."</span>)
+    <span class="kw">if</span> os_split2[<span class="dig">0</span>] == <span class="str">"10"</span>:
+        <span class="kw">print</span>(<span class="str">"Win10"</span>)
+        <span class="kw">return</span> <span class="str">"Win10"</span>
+    <span class="kw">elif</span> os_split2[<span class="dig">0</span>] == <span class="str">"6"</span>:
+        <span class="kw">print</span>(<span class="str">"Win7"</span>)
+        <span class="kw">return</span> <span class="str">"Win7"</span>
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"Unknown OS"</span>)
+        <span class="kw">return</span> <span class="str">"Unknown OS"</span>
+<span class="kw">def</span> set_browser_sty():
+    <span class="kw">if</span> get_os_ver() == <span class="str">"Win10"</span>:
+
+        check_region = Region(<span class="dig">59</span>,<span class="dig">7</span>,<span class="dig">273</span>,<span class="dig">44</span>)
+
+        check_region.<span class="skw">click</span>(Pattern(search_path(<span class="str">"view_tab"</span>)).similar(<span class="dig">0.70</span>))
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+        <span class="skw">click</span>(Pattern(search_path(<span class="str">"big_view_button"</span>)).similar(<span class="dig">0.70</span>))
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+        <span class="skw">click</span>(Pattern(search_path(<span class="str">"browser_window_button"</span>)).similar(<span class="dig">0.70</span>))
+    <span class="kw">elif</span> get_os_ver() == <span class="str">"Win7"</span>:
+        <span class="skw">type</span>(<span class="str">"v"</span>, KeyModifier.ALT)
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+        <span class="skw">type</span>(<span class="str">"r"</span>, KeyModifier.SHIFT)
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+        <span class="skw">type</span>(Key.ENTER)
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+        <span class="skw">click</span>(Pattern(search_path(<span class="str">"manager_button"</span>)).similar(<span class="dig">0.70</span>))
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+        <span class="skw">click</span>(Pattern(search_path(<span class="str">"configuration_button"</span>)).similar(<span class="dig">0.70</span>))
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"Failed"</span>)
+
+    <span class="skw">wait</span>(<span class="dig">2</span>)
+    <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"show_browser_window"</span>)).similar(<span class="dig">0.90</span>)):
+        <span class="kw">print</span>(<span class="str">"browser window opened status"</span>)
+        <span class="skw">click</span>(Pattern(search_path(<span class="str">"show_browser_window"</span>)).similar(<span class="dig">0.90</span>))
+    <span class="kw">elif</span> exists(Pattern(search_path(<span class="str">"hide_browser_window"</span>)).similar(<span class="dig">0.90</span>)):
+        <span class="kw">print</span>(<span class="str">"browser window closed status"</span>)
+        <span class="skw">type</span>(Key.ENTER)
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"set browser failed"</span>)
+
+<span class="skw">type</span>(<span class="str">"r"</span>, KeyModifier.WIN)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(<span class="str">"C:\\Users\\User\\Qsync\\dd"</span>)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(Key.ENTER)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(Key.UP, KeyModifier.WIN)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+set_browser_sty()
+
+data_items = <span class="dig">68</span>
+
+<span class="kw">if</span> exists(Pattern(search_path(<span class="str">"syncdone_item_icon"</span>)).similar(<span class="dig">0.70</span>)):
+    <span class="kw">pass</span>
+    flag = <span class="dig">1</span>
+<span class="kw">else</span>:
+    flag = <span class="dig">0</span>
+<span class="kw">assert</span> flag == <span class="dig">1</span>, <span class="str">"not find syncdone icon"</span>
+a = findAll(Pattern(search_path(<span class="str">"syncdone_item_icon"</span>)).similar(<span class="dig">0.70</span>))
+b = []
+<span class="kw">for</span> i <span class="kw">in</span> a:
+    b.append(i)
+<span class="kw">print</span>(len(b))
+
+<span class="kw">if</span> data_items &lt;= <span class="dig">33</span>:
+    <span class="kw">print</span>(<span class="str">"number: "</span> + str(len(b)))
+<span class="kw">elif</span> data_items &gt; <span class="dig">33</span>:
+    de = (data_items-<span class="dig">33</span>)/<span class="dig">11</span>
+    be = (data_items-<span class="dig">33</span>)%<span class="dig">11</span>
+    <span class="kw">if</span> be != <span class="dig">0</span>:
+        <span class="kw">for</span> i <span class="kw">in</span> range(de+<span class="dig">1</span>):
+            <span class="kw">print</span>(de+<span class="dig">1</span>)
+            <span class="skw">wait</span>(<span class="dig">1</span>)
+            click_region = Region(<span class="dig">1253</span>,<span class="dig">625</span>,<span class="dig">27</span>,<span class="dig">36</span>)
+            click_region.<span class="skw">click</span>(Pattern(search_path(<span class="str">"down_button"</span>)).similar(<span class="dig">0.70</span>))
+
+
+            xregion = Region(<span class="dig">7</span>,<span class="dig">526</span>,<span class="dig">1247</span>,<span class="dig">127</span>)
+            c = xregion.findAll(Pattern(search_path(<span class="str">"syncdone_item_icon"</span>)).similar(<span class="dig">0.70</span>))
+            d = []
+            <span class="kw">for</span> i <span class="kw">in</span> c:
+                d.append(i)
+            <span class="kw">print</span>(len(d))
+</pre>
+</body>
+</html>

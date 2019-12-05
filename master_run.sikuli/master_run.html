@@ -1,0 +1,138 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>master_run.sikuli</h2> <a href="master_run.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span> *
+<span class="kw">from</span> library_qsync <span class="kw">import</span> *
+
+<span class="str">"""
+# Remove nas
+close_qsync()
+wait(5)
+open_qsync()
+wait(2)
+if exists(Pattern(search_path("host_field")).similar(0.70)):
+    print("Already remove nas")
+else:
+    remove_nas_profile()
+close_qsync()
+
+
+# delete sync folder
+current_user = os.popen("whoami").read()
+print(current_user)
+r = str(current_user)
+rr = r.split("\\")
+pc_name = rr[0]
+ss = rr[1]
+ss = ss[0:-1]
+path_user = ss
+dd = "rd /s/q C:\\Users\\" + path_user + "\\@Qsync_test\\"
+print(dd)
+try:
+    os.system(dd)
+    print("Clean up sync folder")
+except:
+    pass
+
+
+# delete nas shared folder
+xx = "rd /s/q z:\\"
+try:
+    os.system(xx)
+    print("remove shared folder")
+except:
+    pass
+"""</span>
+
+<span class="cmt"># login and pair sync folder</span>
+nas_lanip = sys.argv[<span class="dig">1</span>]
+nas_ac = sys.argv[<span class="dig">2</span>]
+nas_pwd = sys.argv[<span class="dig">3</span>]
+<span class="str">"""
+nas_lanip = "10.20.241.196"
+nas_ac = "admin"
+nas_pwd = "dqvts453bt3" 
+"""</span>
+target = nas_detail(lanip = nas_lanip, ac = nas_ac, pwd = nas_pwd)
+<span class="kw">print</span>(target)
+
+
+open_qsync()
+<span class="skw">wait</span>(<span class="dig">2</span>)
+<span class="kw">if</span> exists(Pattern(search_path(<span class="str">"host_field"</span>)).similar(<span class="dig">0.70</span>)):
+    login_pair(ip=target[<span class="str">"lanip"</span>], ac=target[<span class="str">"ac"</span>] , pwd=target[<span class="str">"pwd"</span>])
+    <span class="skw">wait</span>(<span class="dig">2</span>)
+<span class="kw">else</span>:
+    <span class="kw">print</span>(<span class="str">"Already login"</span>)
+</pre>
+</body>
+</html>

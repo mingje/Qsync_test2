@@ -1,0 +1,163 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>add_team_folder.sikuli</h2> <a href="add_team_folder.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">def</span> get_pc_user_name(info_name):
+    info_name_list = []
+    pc_info = os.popen(<span class="str">"whoami"</span>).read()
+    pc_info_list = pc_info.split(<span class="str">"\\"</span>)
+    pc_name = pc_info_list[<span class="dig">0</span>]
+    user_name = pc_info_list[<span class="dig">1</span>]
+    user_name = user_name[<span class="dig">0</span>:-<span class="dig">1</span>]
+    <span class="kw">if</span> info_name == <span class="str">"pc_name"</span>:
+        <span class="kw">return</span> pc_name
+    <span class="kw">else</span>:
+        <span class="kw">return</span> user_name
+
+<span class="kw">def</span> open_folder(folder_path):
+    <span class="skw">type</span>(<span class="str">"r"</span>, KeyModifier.WIN)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="kw">if</span> folder_path == <span class="str">"default"</span>:
+        path = <span class="str">"C:\\Users\\"</span> + get_pc_user_name(user_name) + <span class="str">"\\Qsync\\"</span>
+    <span class="kw">else</span>:
+        path = folder_path
+    <span class="skw">type</span>(path)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(<span class="dig">3</span>)
+    <span class="skw">type</span>(Key.UP, KeyModifier.WIN)
+
+open_folder(folder_path = <span class="str">"D:\\test"</span>)
+<span class="str">"""
+open_folder(folder_path = "default")
+rightClick("1572422143831.png")
+wait(1)
+hover("1572422335523.png")
+wait(1)
+type(Key.DOWN)
+type(Key.DOWN)
+type(Key.ENTER)
+
+        
+def checkbox_no():
+    try:
+        c = findAll("1572492372069.png")
+        d = []
+        for i in c:
+            d.append(i)
+        return len(d)
+    except:
+        return 0
+
+
+a = findAll("1572492103478.png")
+z = 0
+for j in a:
+    click(j)
+    z = z + 1
+    wait(2)
+    if checkbox_no() &gt; z:
+        print("select all")
+        break
+    else:
+        print("not select yet")
+type(Key.ENTER)
+waitVanish("1572427525514.png",120)
+wait(3)
+
+click("1572492515839.png")
+wait(5)
+click("1572492588442.png")
+wait(1)
+click("1572492615774.png")
+wait(3)
+type(Key.F4, Key.ALT)
+        
+
+click("1572492515839.png")
+wait(5)
+click("1572504810362.png")
+wait(1)
+type(Key.RIGHT)
+wait(1)
+click("1572504910752.png")
+type(Key.TAB)
+wait(2)
+type(Key.ENTER)
+wait(2)
+if exists("1572505062213.png"):
+    print("accept team shared folder success")
+else:
+    print("accept team shared folder failed")
+
+"""</span>
+</pre>
+</body>
+</html>

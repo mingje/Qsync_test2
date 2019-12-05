@@ -1,0 +1,159 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>code_test1.sikuli</h2> <a href="code_test1.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="cmt"># -*- coding:utf-8 -*-</span>
+<span class="kw">import</span> random
+
+<span class="kw">def</span> get_check_icon_list(path):
+    path = path
+    attrib_cmd = <span class="str">"attrib -s -h -r "</span> + path + <span class="str">"\\*.* &amp;&amp; del "</span> + path + <span class="str">"\\*.* /q"</span>
+    dir_cmd = <span class="str">"dir "</span> + path + <span class="str">" /ad /b /s &gt;del.txt"</span>
+    to_utf8 = <span class="str">'PowerShell -Command "&amp; {get-content del.txt -encoding default | set-content del_utf8.txt -encoding utf8}"'</span>
+    os.system(attrib_cmd)
+    os.system(dir_cmd)
+    os.system(to_utf8)
+    <span class="cmt"># add mark to list</span>
+    <span class="kw">with</span> open(<span class="str">'del_utf8.txt'</span>, <span class="str">'r'</span>) <span class="kw">as</span> f:
+        path_list = f.read()
+        path_list_space = path_list.split(<span class="str">"\n"</span>)
+        switch_list = []
+        <span class="kw">for</span> i <span class="kw">in</span> path_list_space:
+            <span class="kw">print</span>(i)
+            mark_string = <span class="str">'\"'</span> + i + <span class="str">'\"'</span>
+            <span class="kw">print</span>(mark_string)
+            switch_list.append(mark_string)
+    <span class="kw">del</span> switch_list[-<span class="dig">1</span>]
+    <span class="kw">print</span>(switch_list)
+    <span class="kw">print</span>(len(switch_list))
+    <span class="cmt"># get mark txt file</span>
+    <span class="kw">with</span> open(<span class="str">'del_utf8.txt'</span>, <span class="str">'w'</span>) <span class="kw">as</span> e:
+        <span class="kw">for</span> j <span class="kw">in</span> switch_list:
+            e.write(j)
+            e.write(<span class="str">'\n'</span>)
+    <span class="cmt"># get final list</span>
+    <span class="kw">with</span> open(<span class="str">'del_utf8.txt'</span>, <span class="str">'r'</span>) <span class="kw">as</span> g:
+        mark_data = g.read()
+        mark_list = mark_data.split(<span class="str">"\n"</span>)
+    <span class="kw">return</span> mark_list
+
+<span class="kw">print</span>(get_check_icon_list(path = <span class="str">"D:\\test"</span>))
+<span class="str">"""    
+ran_list = random.sample(mark_list, 2)
+for i in ran_list:
+    type("r", KeyModifier.WIN)
+    wait(1)
+    paste(unicode(i, "utf8"))
+    print("ok")
+"""</span>
+
+
+<span class="str">"""
+a2 = "dir D:\\test /ad /b /s &gt;del.txt"
+a3 = "for /F %i in (del.txt) do rd %i /s /q"
+a4 = 'PowerShell -Command "&amp; {get-content del.txt -encoding default | set-content del_utf8.txt -encoding utf8}"'
+os.system(a1)
+os.system(a2)
+os.system(a4)
+# os.system(a3)
+
+with open('del_utf8.txt', 'r') as f:
+    qq = f.read()
+    ss = qq.split("\n")
+    e_list = []
+    for i in ss:
+        print(i)
+        er = '\"' + i + '\"'
+        print(er)
+        e_list.append(er)
+del e_list[-1]
+print(e_list)  
+print(len(e_list))
+
+with open('del_utf8.txt', 'w') as f:
+    for i in e_list:
+        f.write(i)
+        f.write('\n')
+
+with open('del_utf8.txt', 'r') as f:
+    qq = f.read()
+    ss = qq.split("\n")
+
+sq = random.sample(ss, 2)
+for i in sq:
+    type("r", KeyModifier.WIN)
+    wait(1)
+    paste(unicode(i, "utf8"))
+    print("ok")
+"""</span>
+</pre>
+</body>
+</html>

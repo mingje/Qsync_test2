@@ -1,0 +1,660 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>library_qsync.sikuli</h2> <a href="library_qsync.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="cmt"># -*- coding:utf-8 -*-</span>
+<span class="kw">from</span> sikuli <span class="kw">import</span> *
+<span class="kw">import</span> os
+<span class="kw">import</span> sys
+<span class="kw">import</span> random
+<span class="kw">import</span> time
+<span class="kw">import</span> smtplib
+<span class="kw">from</span> email.mime.multipart <span class="kw">import</span> MIMEMultipart
+<span class="kw">from</span> email.mime.text <span class="kw">import</span> MIMEText
+<span class="kw">from</span> email.mime.application <span class="kw">import</span> MIMEApplication
+
+AT_PC_t1 = {
+    <span class="str">"ip"</span>: <span class="str">"10.20.240.40"</span>,
+    <span class="str">"folder_name"</span>: <span class="str">"share_test_yushuwang-nb"</span>,
+    <span class="str">"pc_name"</span>: <span class="str">"yushuwang-nb"</span>,
+    <span class="str">"ac"</span>: <span class="str">"user"</span>,
+    <span class="str">"pwd"</span>: <span class="str">"1234"</span>
+        }
+AT_PC_S1 = {
+    <span class="str">"ip"</span>: <span class="str">"10.20.241.131"</span>,
+    <span class="str">"folder_name"</span>: <span class="str">"share_test_desktop-11ih26e"</span>,
+    <span class="str">"pc_name"</span>: <span class="str">"desktop-11ih26e"</span>,
+    <span class="str">"ac"</span>: <span class="str">"dqv"</span>,
+    <span class="str">"pwd"</span>: <span class="str">"swqa"</span>
+        }
+AT_PC_S2 = {
+    <span class="str">"ip"</span>: <span class="str">"10.20.241.132"</span>,
+    <span class="str">"folder_name"</span>: <span class="str">"share_test_desktop-u1af6o9"</span>,
+    <span class="str">"pc_name"</span>: <span class="str">"desktop-u1af6o9"</span>,
+    <span class="str">"ac"</span>: <span class="str">"Utility_test"</span>,
+    <span class="str">"pwd"</span>: <span class="str">"swqa"</span>
+        }
+AT_VM_S3 = {
+    <span class="str">"ip"</span>: <span class="str">"10.20.241.133"</span>,
+    <span class="str">"folder_name"</span>: <span class="str">"share_test_dqv-pc1"</span>,
+    <span class="str">"pc_name"</span>: <span class="str">"dqv-pc"</span>,
+    <span class="str">"ac"</span>: <span class="str">"dqv1"</span>,
+    <span class="str">"pwd"</span>: <span class="str">"swqa"</span>
+        }
+AT_list = [AT_PC_t1, AT_VM_S3, AT_PC_S2]
+
+sys_path = sys.path[<span class="dig">0</span>]
+sys_path_split = sys_path.split(<span class="str">"\\"</span>)
+<span class="kw">del</span> sys_path_split[-<span class="dig">1</span>]
+<span class="kw">print</span>(sys_path_split)
+delimiter = <span class="str">"\\"</span>
+picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\\"</span>
+<span class="kw">print</span>(picture_path)
+
+<span class="kw">def</span> search_path(picture_name):
+    check_path = picture_path + picture_name + <span class="str">"\\"</span>
+    <span class="kw">print</span>(check_path)
+    search_list = os.listdir(check_path)
+    <span class="kw">print</span>(search_list)
+    <span class="kw">for</span> i <span class="kw">in</span> search_list:
+        <span class="kw">print</span>(i)
+        final_path = check_path + i
+        <span class="kw">print</span>(final_path)
+        <span class="kw">if</span> exists(final_path):
+            <span class="kw">print</span>(<span class="str">"Found picture"</span>)
+            flag = final_path
+            <span class="kw">break</span>
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"Not Found picture"</span>)
+            flag = final_path
+    <span class="kw">return</span> flag
+
+<span class="kw">def</span> nas_detail(**kwargs):
+    nas = {}
+    nas[<span class="str">"lanip"</span>] = kwargs.get(<span class="str">"lanip"</span>)
+    nas[<span class="str">"ac"</span>] = kwargs.get(<span class="str">"ac"</span>)
+    nas[<span class="str">"pwd"</span>] = kwargs.get(<span class="str">"pwd"</span>)
+    <span class="kw">return</span> nas
+
+<span class="kw">def</span> send_mail(test_pc):
+    gmail_user = <span class="str">'stevenhsu@qnap.com'</span>
+    gmail_password = <span class="str">'Qwer!23456'</span> <span class="cmt"># your gmail password</span>
+    gmail_to = [<span class="str">'mingje1104@gmail.com'</span>, <span class="str">'danielhuang@qnap.com'</span>, <span class="str">'rexhchsu@qnap.com'</span>]
+    gmail_cc = [<span class="str">'stevenhsu@qnap.com'</span>]
+    COMMASPACE = <span class="str">', '</span>
+    <span class="cmt">#msg = MIMEText('content')</span>
+    msg = MIMEMultipart()
+    msg[<span class="str">'Subject'</span>] = <span class="str">'ERROR'</span>
+    msg[<span class="str">'From'</span>] = <span class="str">"AT manager"</span>
+    msg[<span class="str">'To'</span>] = COMMASPACE.join(gmail_to)
+    msg[<span class="str">'cc'</span>] = COMMASPACE.join(gmail_cc)
+    part = MIMEText(test_pc + <span class="str">" error"</span>)
+    msg.attach(part)
+
+    server = smtplib.SMTP_SSL(<span class="str">'smtp.gmail.com'</span>, <span class="dig">465</span>)
+    server.ehlo()
+    server.login(gmail_user, gmail_password)
+    server.sendmail(gmail_user,gmail_to,msg.as_string())
+    server.quit()
+    <span class="kw">print</span>(<span class="str">'Email sent!'</span>)
+
+<span class="kw">def</span> open_qsync():
+    flag = <span class="dig">0</span>
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">3</span>):
+        os_bit = os.popen(<span class="str">"echo %PROCESSOR_ARCHITECTURE%"</span>).read()
+        <span class="kw">if</span> <span class="str">"64"</span> <span class="kw">in</span> os_bit:
+            qsync = <span class="str">"C:\Program Files (x86)\QNAP\Qsync\Qsync.exe"</span>
+        <span class="kw">else</span>:
+            qsync = <span class="str">"C:\Program Files\QNAP\Qsync\Qsync.exe"</span>
+        openApp(qsync)
+        <span class="skw">wait</span>(<span class="dig">5</span>)
+        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"delete_button"</span>)).similar(<span class="dig">0.70</span>)):
+            <span class="skw">click</span>(Pattern(search_path(<span class="str">"delete_button"</span>)).similar(<span class="dig">0.70</span>))
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"No warning"</span>)
+        <span class="kw">if</span> <span class="str">"64"</span> <span class="kw">in</span> os_bit:
+            os.system(<span class="str">'"C:\\Program Files (x86)\\QNAP\\Qsync\\Qsync.exe"'</span>)
+        <span class="kw">else</span>:
+            os.system(<span class="str">'"C:\\Program Files\\QNAP\\Qsync\\Qsync.exe"'</span>)
+        <span class="skw">wait</span>(<span class="dig">5</span>)
+        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"minwindow_icon"</span>)).similar(<span class="dig">0.80</span>)):
+            <span class="skw">click</span>(Pattern(search_path(<span class="str">"minwindow_icon"</span>)).similar(<span class="dig">0.80</span>))
+        <span class="kw">elif</span> exists(Pattern(search_path(<span class="str">"maxwindow_icon"</span>)).similar(<span class="dig">0.70</span>)):
+            <span class="kw">print</span>(<span class="str">"Max Qsync window"</span>)
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"Max Qsync window failed"</span>)
+        <span class="skw">wait</span>(<span class="dig">5</span>)
+        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"qsync_logo"</span>)).similar(<span class="dig">0.70</span>)):
+            <span class="kw">print</span>(<span class="str">"Open Qsync success"</span>)
+            flag = <span class="dig">1</span>
+            <span class="kw">break</span>
+        <span class="kw">else</span>:
+            flag = <span class="dig">0</span>
+    <span class="kw">assert</span> flag == <span class="dig">1</span>, <span class="str">"Open Qsync failed"</span>
+
+<span class="kw">def</span> close_qsync():
+    os.system(<span class="str">"taskkill /f /im Qsync.exe"</span>)
+    <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"qsync_logo"</span>)).similar(<span class="dig">0.70</span>)):
+        flag = <span class="dig">0</span>
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"Close Qsync success"</span>)
+        flag = <span class="dig">1</span>
+    <span class="kw">assert</span> flag == <span class="dig">1</span>, <span class="str">"Close Qsync failed"</span>
+
+<span class="kw">def</span> remove_nas_profile():
+    <span class="skw">click</span>(Pattern(search_path(<span class="str">"more_button"</span>)).similar(<span class="dig">0.70</span>))
+    <span class="skw">wait</span>(<span class="dig">2</span>)
+    <span class="skw">click</span>(Pattern(search_path(<span class="str">"removeNAS_option"</span>)).similar(<span class="dig">0.70</span>))
+    <span class="skw">wait</span>(<span class="dig">2</span>)
+    <span class="skw">click</span>(Pattern(search_path(<span class="str">"option_button"</span>)).similar(<span class="dig">0.70</span>))
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.DOWN)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(<span class="dig">5</span>)
+    waitVanish((Pattern(search_path(<span class="str">"pleasewait_string"</span>)).similar(<span class="dig">0.70</span>)),<span class="dig">600</span>)
+    <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"host_field"</span>)).similar(<span class="dig">0.70</span>)):
+        <span class="kw">print</span>(<span class="str">"Remove NAS success"</span>)
+        flag = <span class="dig">1</span>
+    <span class="kw">else</span>:
+        flag = <span class="dig">0</span>
+    <span class="kw">assert</span> flag == <span class="dig">1</span>, <span class="str">"Remove NAS failed"</span>
+
+<span class="cmt"># input path then get check list (get_check_icon_list(path = "D:\\test"))</span>
+<span class="kw">def</span> get_check_icon_list(path):
+    path = path
+    path_q = path + <span class="str">"\\.qsync"</span>
+    attrib_cmd = <span class="str">"attrib -s -h -r "</span> + path + <span class="str">"\\*.* &amp;&amp; del "</span> + path + <span class="str">"\\*.* /q"</span>
+    dir_cmd = <span class="str">"dir "</span> + path + <span class="str">" /ad /b /s &gt;del.txt"</span>
+    to_utf8 = <span class="str">'PowerShell -Command "&amp; {get-content del.txt -encoding default | set-content del_utf8.txt -encoding utf8}"'</span>
+    os.system(attrib_cmd)
+    os.system(dir_cmd)
+    os.system(to_utf8)
+    <span class="cmt"># add mark to list</span>
+    <span class="kw">with</span> open(<span class="str">'del_utf8.txt'</span>, <span class="str">'r'</span>) <span class="kw">as</span> f:
+        path_list = f.read()
+        path_list = path_list[<span class="dig">3</span>:]
+        path_list_space = path_list.split(<span class="str">"\n"</span>)
+        switch_list = []
+        <span class="kw">for</span> i <span class="kw">in</span> path_list_space:
+            <span class="kw">print</span>(i)
+            <span class="kw">if</span> i == path_q:
+                <span class="kw">pass</span>
+            <span class="kw">else</span>:
+                mark_string = <span class="str">'\"'</span> + i + <span class="str">'\"'</span>
+                <span class="kw">print</span>(mark_string)
+                switch_list.append(mark_string)
+    <span class="kw">del</span> switch_list[-<span class="dig">1</span>]
+    <span class="kw">print</span>(switch_list)
+    <span class="kw">print</span>(len(switch_list))
+    <span class="cmt"># get mark txt file</span>
+    <span class="kw">with</span> open(<span class="str">'del_utf8.txt'</span>, <span class="str">'w'</span>) <span class="kw">as</span> e:
+        <span class="kw">for</span> j <span class="kw">in</span> switch_list:
+            e.write(j)
+            e.write(<span class="str">'\n'</span>)
+    <span class="cmt"># get final list</span>
+    <span class="kw">with</span> open(<span class="str">'del_utf8.txt'</span>, <span class="str">'r'</span>) <span class="kw">as</span> g:
+        mark_data = g.read()
+        mark_list = mark_data.split(<span class="str">"\n"</span>)
+        <span class="kw">del</span> mark_list[-<span class="dig">1</span>]
+    <span class="kw">return</span> mark_list
+
+<span class="cmt"># get_pc_info(info_name = "pc_name" or "user_name")</span>
+<span class="kw">def</span> get_pc_info(info_name):
+    info_name_list = []
+    pc_info = os.popen(<span class="str">"whoami"</span>).read()
+    pc_info_list = pc_info.split(<span class="str">"\\"</span>)
+    pc_name = pc_info_list[<span class="dig">0</span>]
+    user_name = pc_info_list[<span class="dig">1</span>]
+    user_name = user_name[<span class="dig">0</span>:-<span class="dig">1</span>]
+    <span class="kw">if</span> info_name == <span class="str">"pc_name"</span>:
+        <span class="kw">return</span> pc_name
+    <span class="kw">else</span>:
+        <span class="kw">return</span> user_name
+
+<span class="cmt"># open folder with win browser (open_folder("D:\\test"))</span>
+<span class="kw">def</span> open_folder(folder_path):
+    <span class="skw">wait</span>(<span class="dig">2</span>)
+    <span class="skw">type</span>(<span class="str">"r"</span>, KeyModifier.WIN)
+    <span class="skw">wait</span>(<span class="dig">2</span>)
+    <span class="kw">if</span> folder_path == <span class="str">"default"</span>:
+        path = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\Qsync\\"</span>
+    <span class="kw">else</span>:
+        path = folder_path
+    paste(unicode(path, <span class="str">"utf8"</span>))
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="cmt"># type(path)</span>
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(<span class="dig">3</span>)
+    <span class="skw">type</span>(Key.UP, KeyModifier.WIN)
+
+<span class="kw">def</span> check_icon_no(data_items, row_items):
+    <span class="str">"""
+    data_items = 110
+    row_items = 11
+    """</span>
+    <span class="cmt"># get items at first page</span>
+    <span class="kw">try</span>:
+        a = findAll(Pattern(search_path(<span class="str">"syncdone_item_icon"</span>)).similar(<span class="dig">0.70</span>))
+        b = []
+        <span class="kw">for</span> i <span class="kw">in</span> a:
+            b.append(i)
+        <span class="kw">print</span>(<span class="str">"b:"</span> + str(len(b)))
+    <span class="kw">except</span>:
+        b = []
+    page_item_no = len(b)
+    d = []
+    <span class="kw">if</span> page_item_no == <span class="dig">0</span>:
+        <span class="kw">print</span>(<span class="str">"number: "</span> + str(len(b)))
+    <span class="kw">elif</span> data_items &lt;= page_item_no:
+        <span class="kw">print</span>(<span class="str">"number: "</span> + str(len(b)))
+    <span class="kw">else</span>:
+        click_region = Region(<span class="dig">1253</span>,<span class="dig">625</span>,<span class="dig">27</span>,<span class="dig">36</span>)
+        <span class="kw">if</span> click_region.exists(Pattern(search_path(<span class="str">"down_button"</span>)).similar(<span class="dig">0.70</span>)):
+            <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">100</span>):
+
+                click_region.<span class="skw">click</span>(Pattern(search_path(<span class="str">"down_button"</span>)).similar(<span class="dig">0.70</span>))
+                <span class="skw">wait</span>(<span class="dig">1</span>)
+                xregion = Region(<span class="dig">13</span>,<span class="dig">562</span>,<span class="dig">1239</span>,<span class="dig">84</span>)
+                c = xregion.findAll(Pattern(search_path(<span class="str">"syncdone_item_icon"</span>)).similar(<span class="dig">0.70</span>))
+                <span class="kw">for</span> j <span class="kw">in</span> c:
+                    d.append(j)
+                <span class="kw">print</span>(len(d))
+                yregion = Region(<span class="dig">1250</span>,<span class="dig">601</span>,<span class="dig">30</span>,<span class="dig">54</span>)
+                <span class="kw">if</span> yregion.exists(Pattern(search_path(<span class="str">"syncdone_item_icon"</span>)).similar(<span class="dig">0.90</span>)):
+                    <span class="kw">print</span>(<span class="str">"ghh"</span>)
+                    <span class="kw">break</span>
+                <span class="kw">else</span>:
+                    <span class="kw">pass</span>
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"number: "</span> + str(len(b)))
+    ss = len(b) + len(d)
+
+    <span class="kw">if</span> len(b) &gt; data_items:
+        <span class="kw">print</span>(ss)
+    <span class="kw">elif</span> ss &gt; data_items:
+        ss = ss -row_items
+        <span class="kw">print</span>(ss)
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(ss)
+    <span class="kw">return</span> ss
+
+<span class="kw">def</span> get_os_ver():
+    os_dir = os.popen(<span class="str">"ver"</span>).read()
+    <span class="kw">print</span>(os_dir)
+    os_split = os_dir.split(<span class="str">"["</span>)
+    <span class="kw">print</span>(os_split)
+    os_split1 = os_split[<span class="dig">1</span>].split(<span class="str">" "</span>)
+    <span class="kw">print</span>(os_split1)
+    os_split2 = os_split1[<span class="dig">1</span>].split(<span class="str">"."</span>)
+    <span class="kw">if</span> os_split2[<span class="dig">0</span>] == <span class="str">"10"</span>:
+        <span class="kw">print</span>(<span class="str">"Win10"</span>)
+        <span class="kw">return</span> <span class="str">"Win10"</span>
+    <span class="kw">elif</span> os_split2[<span class="dig">0</span>] == <span class="str">"6"</span>:
+        <span class="kw">print</span>(<span class="str">"Win7"</span>)
+        <span class="kw">return</span> <span class="str">"Win7"</span>
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"Unknown OS"</span>)
+        <span class="kw">return</span> <span class="str">"Unknown OS"</span>
+
+<span class="kw">def</span> set_browser_sty():
+    <span class="kw">if</span> get_os_ver() == <span class="str">"Win10"</span>:
+
+        check_region = Region(<span class="dig">59</span>,<span class="dig">7</span>,<span class="dig">273</span>,<span class="dig">44</span>)
+
+        check_region.<span class="skw">click</span>(Pattern(search_path(<span class="str">"view_tab"</span>)).similar(<span class="dig">0.70</span>))
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+        <span class="skw">click</span>(Pattern(search_path(<span class="str">"big_view_button"</span>)).similar(<span class="dig">0.70</span>))
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+        <span class="skw">click</span>(Pattern(search_path(<span class="str">"browser_window_button"</span>)).similar(<span class="dig">0.70</span>))
+    <span class="kw">elif</span> get_os_ver() == <span class="str">"Win7"</span>:
+        <span class="skw">type</span>(<span class="str">"v"</span>, KeyModifier.ALT)
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+        <span class="skw">type</span>(<span class="str">"r"</span>, KeyModifier.SHIFT)
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+        <span class="skw">type</span>(Key.ENTER)
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+        <span class="skw">click</span>(Pattern(search_path(<span class="str">"manager_button"</span>)).similar(<span class="dig">0.70</span>))
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+        <span class="skw">click</span>(Pattern(search_path(<span class="str">"configuration_button"</span>)).similar(<span class="dig">0.70</span>))
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"Failed"</span>)
+
+    <span class="skw">wait</span>(<span class="dig">2</span>)
+    <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"show_browser_window"</span>)).similar(<span class="dig">0.90</span>)):
+        <span class="kw">print</span>(<span class="str">"browser window opened status"</span>)
+        <span class="skw">click</span>(Pattern(search_path(<span class="str">"show_browser_window"</span>)).similar(<span class="dig">0.90</span>))
+    <span class="kw">elif</span> exists(Pattern(search_path(<span class="str">"hide_browser_window"</span>)).similar(<span class="dig">0.90</span>)):
+        <span class="kw">print</span>(<span class="str">"browser window closed status"</span>)
+        <span class="skw">type</span>(Key.ENTER)
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"set browser failed"</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.F5)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+
+<span class="kw">def</span> mount_disk(ip, folder_name, username, password, disk):
+    mount_cmd = <span class="str">"net use "</span> + disk + <span class="str">": "</span> + <span class="str">"\\\\"</span> + ip + <span class="str">"\\"</span> + folder_name + <span class="str">" /user:"</span> + username + <span class="str">" "</span> + password
+    <span class="kw">print</span>(mount_cmd)
+    os.system(mount_cmd)
+    dir_cmd = <span class="str">"dir "</span> + disk + <span class="str">":\\"</span>
+    flag = os.system(dir_cmd)
+    <span class="kw">if</span> flag == <span class="dig">0</span>:
+        <span class="kw">print</span>(<span class="str">"Mount success"</span>)
+    <span class="kw">else</span>:
+        <span class="kw">pass</span>
+    <span class="kw">assert</span> flag == <span class="dig">0</span>, <span class="str">"Mount failed"</span>
+
+<span class="kw">def</span> unmount_disk(disk):
+    os.system(<span class="str">"net use * /d /YES"</span>)
+    dir_cmd = <span class="str">"dir "</span> + disk + <span class="str">":\\"</span>
+    flag = os.system(dir_cmd)
+    <span class="kw">if</span> flag == <span class="dig">1</span>:
+        <span class="kw">print</span>(<span class="str">"Unmount success"</span>)
+    <span class="kw">else</span>:
+        <span class="kw">pass</span>
+    <span class="kw">assert</span> flag == <span class="dig">1</span>, <span class="str">"Unmount failed"</span>
+
+
+<span class="kw">def</span> counter_data(data_line, con_type):
+    data_space = data_line.split(<span class="str">" "</span>)
+    no_list = []
+    <span class="kw">for</span> i <span class="kw">in</span> data_space:
+        <span class="kw">if</span> i != <span class="str">""</span>:
+           no_list.append(i)
+    <span class="kw">if</span> con_type == <span class="str">"size"</span>:
+        <span class="kw">return</span> no_list[<span class="dig">2</span>]
+    <span class="kw">else</span>:
+        <span class="kw">return</span> no_list[<span class="dig">0</span>]
+<span class="cmt"># con_type = size, folders, total (current_data_counter("D:\\test","total"))</span>
+<span class="kw">def</span> current_data_counter(path, con_type):
+    <span class="kw">if</span> con_type == <span class="str">"folders"</span>:
+        dir_cmd = <span class="str">"dir "</span> + path
+    <span class="kw">else</span>:
+        dir_cmd = <span class="str">"dir "</span> + path + <span class="str">" /s"</span>
+    dir_result = os.popen(dir_cmd).read()
+    dir_result_line = dir_result.split(<span class="str">"\n"</span>)
+    files_no = dir_result_line[-<span class="dig">3</span>]
+    subfolders_no = dir_result_line[-<span class="dig">2</span>]
+    total_data_no = int(counter_data(files_no, <span class="str">"amount"</span>)) + int(counter_data(subfolders_no, <span class="str">"amount"</span>))
+    current_data_no = total_data_no - <span class="dig">2</span>
+    current_data_size = counter_data(files_no, <span class="str">"size"</span>)
+    current_data_size1 = current_data_size.split(<span class="str">','</span>)
+    <span class="kw">if</span> con_type == <span class="str">"size"</span>:
+        <span class="kw">return</span> current_data_size1[<span class="dig">0</span>]
+    <span class="kw">elif</span> con_type == <span class="str">"folders"</span>:
+        <span class="kw">return</span> current_data_no
+    <span class="kw">else</span>:
+        <span class="kw">return</span> total_data_no
+
+<span class="cmt"># clean_remote_disk("w")</span>
+<span class="kw">def</span> clean_remote_disk(disk):
+    clean_cmd = <span class="str">"rd /s/q "</span> + disk + <span class="str">":\\"</span>
+    <span class="kw">try</span>:
+        os.system(clean_cmd)
+    <span class="kw">except</span>:
+        <span class="kw">pass</span>
+    path = disk + <span class="str">":\\"</span>
+    <span class="kw">if</span> current_data_counter(path = path , con_type = <span class="str">"folders"</span>) == <span class="dig">0</span>:
+        <span class="kw">print</span>(<span class="str">"clean success"</span>)
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"clean failed"</span>)
+
+<span class="kw">def</span> week_current():
+    localtime = time.asctime( time.localtime(time.time()) )
+    <span class="kw">print</span> <span class="str">"Locatime:"</span>, localtime
+    localtime_space = localtime.split(<span class="str">" "</span>)
+    week_current = localtime_space[<span class="dig">0</span>]
+    <span class="kw">return</span> week_current
+
+<span class="kw">def</span> check_copy_result(path1, path2):
+    path_from_amount = current_data_counter(path1, con_type = <span class="str">"amount"</span>)
+    <span class="kw">print</span>(path_from_amount)
+    path_from_size = current_data_counter(path1, con_type = <span class="str">"size"</span>)
+    <span class="kw">print</span>(path_from_size)
+    path_to_amount = current_data_counter(path2, con_type = <span class="str">"amount"</span>)
+    <span class="kw">print</span>(path_to_amount)
+    path_to_size = current_data_counter(path2, con_type = <span class="str">"size"</span>)
+    <span class="kw">print</span>(path_to_size)
+    <span class="kw">if</span> path_from_amount == path_to_amount <span class="kw">and</span> path_from_size == path_to_size:
+        <span class="kw">print</span>(<span class="str">"Copy data consistent"</span>)
+        <span class="kw">return</span> True
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"Copy data inconsistent"</span>)
+        <span class="kw">return</span> False
+
+<span class="cmt"># copy_data("D:\\test", "D:\\test2\\", "by_week")</span>
+<span class="kw">def</span> copy_data(path1, path2, check_type):
+    path_from = path1
+    <span class="kw">if</span> check_type == <span class="str">"by_week"</span>:
+        path_to = path2 + week_current()
+    <span class="kw">else</span>:
+        path_to = path2
+    dir_cmd = <span class="str">"dir "</span> + path2
+    <span class="kw">print</span>(dir_cmd)
+    copy_cmd = <span class="str">"XCOPY "</span> + path_from + <span class="str">" "</span> + path_to + <span class="str">"\ /I /E"</span>
+    <span class="kw">if</span> os.system(dir_cmd) == <span class="dig">0</span>:
+        os.system(copy_cmd)
+        <span class="kw">if</span> check_copy_result(path1 = path_from, path2 = path_to) == <span class="dig">1</span>:
+            <span class="kw">print</span>(<span class="str">"Copy data success"</span>)
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"Copy data failed"</span>)
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"Folder not existed"</span>)
+
+<span class="kw">def</span> check_sync_icon(path):
+    open_folder(path)
+    set_browser_sty()
+    data_items = current_data_counter(path, <span class="str">"folders"</span>)
+    row_items = <span class="dig">11</span>
+    <span class="kw">if</span> data_items == check_icon_no(data_items, row_items):
+        <span class="kw">print</span>(<span class="str">"pass icon check"</span>)
+        flag = <span class="dig">1</span>
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"fail icon check"</span>)
+        flag = <span class="dig">0</span>
+    <span class="skw">type</span>(Key.F4, KeyModifier.ALT)
+    <span class="kw">return</span> flag
+
+<span class="kw">def</span> a(ran_switch, ran_no, *args):
+    <span class="kw">if</span> isinstance(args[<span class="dig">0</span>], list) == True:
+        args = args[<span class="dig">0</span>]
+    <span class="kw">else</span>:
+        args = args
+    <span class="cmt"># decide run_list</span>
+    <span class="kw">if</span> ran_switch == <span class="str">"Y"</span>:
+        <span class="kw">if</span> len(args) == <span class="dig">1</span>:
+            run_list = random.sample(args, <span class="dig">1</span>)
+        <span class="kw">else</span>:
+            run_list = random.sample(args, ran_no)
+    <span class="kw">else</span>:
+        run_list = args
+        ran_no = <span class="dig">1</span>
+    <span class="kw">for</span> i <span class="kw">in</span> run_list:
+        <span class="kw">print</span>(i)
+        flag = check_sync_icon(path = i)
+        <span class="kw">if</span> flag != <span class="dig">1</span>:
+            <span class="kw">break</span>
+    <span class="kw">return</span> flag
+
+<span class="kw">def</span> check_team_folder():
+    <span class="kw">for</span> i <span class="kw">in</span> AT_list:
+        ew = i[<span class="str">"folder_name"</span>].split(<span class="str">"_"</span>)
+        qa = get_pc_info(<span class="str">"pc_name"</span>)
+        path = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\Qsync\\"</span> + i[<span class="str">"folder_name"</span>]
+        <span class="kw">if</span> ew[-<span class="dig">1</span>] == qa:
+            <span class="kw">pass</span>
+        <span class="kw">else</span>:
+            mount_disk(i[<span class="str">"ip"</span>],i[<span class="str">"folder_name"</span>],i[<span class="str">"ac"</span>],i[<span class="str">"pwd"</span>],<span class="str">"w"</span>)
+            check_copy_result(path,<span class="str">"w:\\"</span>)
+            check_sync_icon(path = path)
+            mark_list = get_check_icon_list(path = path)
+            a(<span class="str">"Y"</span>, <span class="dig">2</span>, mark_list)
+            unmount_disk(<span class="str">"w"</span>)
+
+<span class="kw">def</span> check_share_folder():
+    i = AT_PC_S1
+    path = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\@Qsync_test"</span>
+    <span class="kw">print</span>(path)
+    mount_disk(i[<span class="str">"ip"</span>],<span class="str">"@Qsync_test"</span>,i[<span class="str">"ac"</span>],i[<span class="str">"pwd"</span>],<span class="str">"w"</span>)
+    check_copy_result(path,<span class="str">"w:\\"</span>)
+    check_sync_icon(path = path)
+    mark_list = get_check_icon_list(path = path)
+    a(<span class="str">"Y"</span>, <span class="dig">2</span>, mark_list)
+    unmount_disk(<span class="str">"w"</span>)
+
+<span class="kw">def</span> login_pair(ip, ac, pwd):
+    <span class="skw">click</span>(Pattern(search_path(<span class="str">"host_field"</span>)).similar(<span class="dig">0.70</span>))
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(ip)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(ac)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pwd)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish((Pattern(search_path(<span class="str">"pairing_string"</span>)).similar(<span class="dig">0.70</span>)),<span class="dig">120</span>)
+    <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"pairing_string"</span>)).similar(<span class="dig">0.70</span>)):
+        <span class="kw">print</span>(<span class="str">"over 2 mins.."</span>)
+    <span class="kw">elif</span> exists(Pattern(search_path(<span class="str">"loginfail_string"</span>)).similar(<span class="dig">0.70</span>)):
+        <span class="kw">print</span>(<span class="str">"login failed"</span>)
+    <span class="kw">elif</span> exists(Pattern(search_path(<span class="str">"qsyncpath_string"</span>)).similar(<span class="dig">0.70</span>)):
+        <span class="kw">print</span>(<span class="str">"login success"</span>)
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"unknown status"</span>)
+    <span class="skw">wait</span>(<span class="dig">5</span>)
+    <span class="skw">click</span>(Pattern(search_path(<span class="str">"addfolder_icon"</span>)).similar(<span class="dig">0.70</span>))
+    <span class="skw">wait</span>(<span class="dig">2</span>)
+    rregion = Region(<span class="dig">447</span>,<span class="dig">151</span>,<span class="dig">387</span>,<span class="dig">368</span>)
+    <span class="kw">if</span> rregion.exists(Pattern(search_path(<span class="str">"browsefolder_string"</span>)).similar(<span class="dig">0.70</span>)):
+        <span class="kw">print</span>(<span class="str">"open"</span>)
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"open Failed"</span>)
+    <span class="skw">type</span>(<span class="str">"M"</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">"@Qsync_test"</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(<span class="dig">3</span>)
+    <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"folder_exist_icon"</span>)).similar(<span class="dig">0.70</span>)):
+        <span class="skw">type</span>(Key.ENTER)
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+    <span class="kw">else</span>:
+        <span class="kw">pass</span>
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">click</span>(Pattern(search_path(<span class="str">"finish_button"</span>)).similar(<span class="dig">0.70</span>))
+
+
+<span class="kw">def</span> check_main_sync():
+    <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"syncdone_icon"</span>)).similar(<span class="dig">0.70</span>)):
+        <span class="kw">print</span>(<span class="str">"Sync success, start to check data"</span>)
+        flag = <span class="dig">1</span>
+    <span class="kw">elif</span> exists(Pattern(search_path(<span class="str">"syncing_icon"</span>)).similar(<span class="dig">0.70</span>)):
+        <span class="kw">print</span>(<span class="str">"Syncing..."</span>)
+        flag = <span class="dig">2</span>
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"Sync failed"</span>)
+        flag = <span class="dig">0</span>
+    <span class="kw">return</span> flag
+
+<span class="kw">def</span> target_client():
+    current_pc = get_pc_info(<span class="str">"pc_name"</span>)
+    <span class="kw">for</span> i <span class="kw">in</span> AT_list:
+        <span class="kw">if</span> i[<span class="str">"pc_name"</span>] == current_pc:
+            target_client = i
+            <span class="kw">break</span>
+        <span class="kw">else</span>:
+            target_client = <span class="str">"unknown"</span>
+    <span class="kw">return</span> target_client
+
+<span class="kw">def</span> run_path():
+    source_path =sys.path[<span class="dig">0</span>]
+    path_spl = source_path.split(<span class="str">"\\"</span>)
+    <span class="kw">del</span> path_spl[-<span class="dig">1</span>]
+    out_path = <span class="str">"\\"</span>.join(path_spl)
+    <span class="kw">return</span> out_path
+
+<span class="cmt"># delete_folder("D:\\test\\")</span>
+<span class="kw">def</span> delete_folder(path):
+    cmd = run_path() + <span class="str">"\\delete.bat "</span> + path
+    <span class="kw">print</span>(cmd)
+    os.system(cmd)
+    <span class="kw">if</span> current_data_counter(path = path , con_type = <span class="str">"folders"</span>) == <span class="dig">0</span>:
+        <span class="kw">print</span>(<span class="str">"clean success"</span>)
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"clean failed"</span>)
+</pre>
+</body>
+</html>

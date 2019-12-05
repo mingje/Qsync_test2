@@ -1,0 +1,190 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>slave_run.sikuli</h2> <a href="slave_run.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span> *
+<span class="kw">from</span> library_qsync <span class="kw">import</span> *
+
+
+<span class="str">"""
+nas_lanip = sys.argv[1]
+nas_ac = sys.argv[2]
+nas_pwd = sys.argv[3]
+reset_flag = sys.argv[4] # "Y" or "N"
+
+"""</span>
+nas_lanip = <span class="str">"10.20.241.137"</span>
+nas_ac = <span class="str">"qa03"</span>
+nas_pwd = <span class="str">"1234"</span>
+reset_flag = <span class="str">"N"</span>
+
+<span class="cmt"># define target_client</span>
+target_client = target_client()
+
+target = nas_detail(lanip = nas_lanip, ac = nas_ac, pwd = nas_pwd)
+<span class="kw">print</span>(target)
+
+<span class="kw">if</span> reset_flag == <span class="str">"Y"</span>:
+    <span class="cmt"># Remove nas</span>
+    close_qsync()
+    <span class="skw">wait</span>(<span class="dig">5</span>)
+    open_qsync()
+    <span class="skw">wait</span>(<span class="dig">2</span>)
+    <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"host_field"</span>)).similar(<span class="dig">0.70</span>)):
+        <span class="kw">print</span>(<span class="str">"Already remove nas"</span>)
+    <span class="kw">else</span>:
+        remove_nas_profile()
+    close_qsync()
+
+    <span class="cmt"># delete sync folder</span>
+    current_user = os.popen(<span class="str">"whoami"</span>).read()
+    <span class="kw">print</span>(current_user)
+    r = str(current_user)
+    rr = r.split(<span class="str">"\\"</span>)
+    pc_name = rr[<span class="dig">0</span>]
+    ss = rr[<span class="dig">1</span>]
+    ss = ss[<span class="dig">0</span>:-<span class="dig">1</span>]
+    path_user = ss
+    dd = <span class="str">"rd /s/q C:\\Users\\"</span> + path_user + <span class="str">"\\@Qsync_test\\"</span>
+    <span class="kw">print</span>(dd)
+    <span class="kw">try</span>:
+        os.system(dd)
+        <span class="kw">print</span>(<span class="str">"Clean up sync folder"</span>)
+    <span class="kw">except</span>:
+        <span class="kw">pass</span>
+<span class="kw">else</span>:
+    <span class="kw">print</span>(<span class="str">"Not reset"</span>)
+
+<span class="cmt"># login and pair sync folder</span>
+
+open_qsync()
+<span class="skw">wait</span>(<span class="dig">2</span>)
+<span class="kw">if</span> exists(Pattern(search_path(<span class="str">"host_field"</span>)).similar(<span class="dig">0.70</span>)):
+    login_pair(ip=target[<span class="str">"lanip"</span>], ac=target[<span class="str">"ac"</span>] , pwd=target[<span class="str">"pwd"</span>])
+    <span class="skw">wait</span>(<span class="dig">2</span>)
+<span class="kw">else</span>:
+    <span class="kw">print</span>(<span class="str">"Already login"</span>)
+close_qsync()
+<span class="skw">wait</span>(<span class="dig">3</span>)
+
+
+<span class="cmt"># Open and close Qsync</span>
+x = <span class="dig">1</span>
+<span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">2</span>):
+    <span class="kw">print</span>(<span class="str">"Execute "</span> + str(x) + <span class="str">" Times"</span>)
+    open_qsync()
+    <span class="skw">wait</span>(<span class="dig">20</span>)
+    stop_time = int(time.strftime(<span class="str">"%H%M%S"</span>))
+    <span class="kw">print</span>(<span class="str">"current_time is: "</span> + str(stop_time))
+    <span class="kw">if</span> <span class="dig">210000</span> &lt; stop_time &lt; <span class="dig">220000</span> <span class="kw">and</span> week_current() == <span class="str">"Sat"</span>:
+        <span class="kw">print</span>(<span class="str">"delete time is coming up, stop testing"</span>)
+        path = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\Qsync\\"</span> + target_client[<span class="str">"folder_name"</span>] + <span class="str">"\\"</span>
+        delete_folder(path)
+        <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">10</span>):
+            <span class="skw">wait</span>(<span class="dig">600</span>)
+            jump_time = int(time.strftime(<span class="str">"%H%M%S"</span>))
+            ui_result = check_main_sync()
+            <span class="kw">if</span> ui_result == <span class="dig">1</span> <span class="kw">and</span> jump_time &gt; <span class="dig">220000</span>:
+                close_qsync()
+                <span class="skw">wait</span>(<span class="dig">2</span>)
+                <span class="kw">break</span>
+            <span class="kw">elif</span> ui_result == <span class="dig">0</span>:
+                <span class="kw">break</span>
+            <span class="kw">else</span>:
+                <span class="kw">pass</span>
+    <span class="kw">elif</span> <span class="dig">210000</span> &lt; stop_time &lt; <span class="dig">220000</span> <span class="kw">and</span> week_current() != <span class="str">"Sun"</span>:
+        <span class="kw">print</span>(<span class="str">"copy time is coming up, stop testing"</span>)
+        path1 = <span class="str">"C:\\team_folder_data"</span>
+        path2 = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\Qsync\\"</span> + target_client[<span class="str">"folder_name"</span>] + <span class="str">"\\"</span>
+        copy_data(path1, path2, <span class="str">"by_week"</span>)
+        close_qsync()
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"Testing time, keep going"</span>)
+        ui_result= check_main_sync()
+        <span class="kw">if</span> ui_result == <span class="dig">1</span>:
+            check_share_folder()
+            check_team_folder()
+        <span class="kw">elif</span> ui_result == <span class="dig">2</span>:
+            <span class="kw">print</span>(<span class="str">"Still syncing..."</span>)
+        <span class="kw">else</span>:
+            send_mail(target_client[<span class="str">"pc_name"</span>])
+            <span class="kw">break</span>
+            <span class="cmt"># wait(600)</span>
+            <span class="skw">wait</span>(<span class="dig">10</span>)
+            close_qsync()
+            <span class="skw">wait</span>(<span class="dig">2</span>)
+    x = x + <span class="dig">1</span>
+    <span class="cmt"># wait(600)</span>
+    <span class="skw">wait</span>(<span class="dig">10</span>)
+</pre>
+</body>
+</html>

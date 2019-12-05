@@ -503,7 +503,7 @@ def check_share_folder():
         pass
     else:   
         mark_list = get_check_icon_list(path = path)
-        a("Y", 2, mark_list))
+        a("Y", 2, mark_list)
     unmount_disk("w")
 
 def login_pair(ip, ac, pwd):

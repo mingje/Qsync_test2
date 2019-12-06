@@ -9,12 +9,12 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
 
-AT_PC_t1 = {
-    "ip": "10.20.240.40",
-    "folder_name": "share_test_yushuwang-nb",
-    "pc_name": "yushuwang-nb",
-    "ac": "user",
-    "pwd": "1234"
+AT_VM_S2 = {
+    "ip": "10.20.241.134",
+    "folder_name": "share_test_desktop-kp8ovfb",
+    "pc_name": "desktop-kp8ovfb",
+    "ac": "dqv",
+    "pwd": "swqa"
         }
 AT_PC_S1 = {
     "ip": "10.20.241.131",
@@ -37,7 +37,7 @@ AT_VM_S3 = {
     "ac": "dqv1",
     "pwd": "swqa"
         }
-AT_list = [AT_PC_t1, AT_VM_S3, AT_PC_S2]
+AT_list = [AT_VM_S2, AT_VM_S3, AT_PC_S2]
 
 sys_path = sys.path[0]
 sys_path_split = sys_path.split("\\")
@@ -211,18 +211,31 @@ def get_pc_info(info_name):
 # open folder with win browser (open_folder("D:\\test"))
 def open_folder(folder_path):
     wait(2)
-    type("r", KeyModifier.WIN)
-    wait(2)
-    if folder_path == "default":
-        path = "C:\\Users\\" + get_pc_info("user_name") + "\\Qsync\\"
-    else:
-        path = folder_path
-    paste(unicode(path, "utf8"))
-    wait(1)
+    for j in range(3):
+        wait(2)
+        type("r", KeyModifier.WIN)
+        wait(2)
+        if folder_path == "default":
+            path = "C:\\Users\\" + get_pc_info("user_name") + "\\Qsync\\"
+        else:
+            path = folder_path
+        print(path)
+        paste(unicode(path, "utf8"))
+        print("paste path")
+        wait(1)
+        type(Key.TAB)
+        wait(3)
+        if exists(Pattern(search_path("confirm_button")).similar(0.70)):
+            break
+        else:
+            print("paste fail, redo")
+            type(Key.F4, KeyModifier.ALT)
+        
     # type(path)
     type(Key.ENTER)
     wait(3)
     type(Key.UP, KeyModifier.WIN)
+    
 
 def check_icon_no(data_items, row_items):
     """
@@ -247,7 +260,7 @@ def check_icon_no(data_items, row_items):
     else:
         click_region = Region(1253,625,27,36)
         if click_region.exists(Pattern(search_path("down_button")).similar(0.70)):
-            for i in range(100):
+            for i in range(10):
             
                 click_region.click(Pattern(search_path("down_button")).similar(0.70))
                 wait(1)
@@ -440,6 +453,7 @@ def copy_data(path1, path2, check_type):
         print("Folder not existed")
         
 def check_sync_icon(path):
+    print(path)
     open_folder(path)
     set_browser_sty()
     data_items = current_data_counter(path, "folders")
@@ -486,7 +500,7 @@ def check_team_folder():
             check_copy_result(path,"w:\\")
             check_sync_icon(path = path)
             if current_data_counter(path = path , con_type = "folders") == 0:
-                pass
+                print("Pass advanced icon check")
             else:   
                 mark_list = get_check_icon_list(path = path)
                 a("Y", 2, mark_list)
@@ -500,10 +514,10 @@ def check_share_folder():
     check_copy_result(path,"w:\\")
     check_sync_icon(path = path)
     if current_data_counter(path = path , con_type = "folders") == 0:
-        pass
+        print("Pass advanced icon check")
     else:   
         mark_list = get_check_icon_list(path = path)
-        a("Y", 2, mark_list))
+        a("Y", 2, mark_list)
     unmount_disk("w")
 
 def login_pair(ip, ac, pwd):

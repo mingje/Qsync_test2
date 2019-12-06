@@ -37,6 +37,13 @@ AT_VM_S3 = {
     "ac": "dqv1",
     "pwd": "swqa"
         }
+AT_VM_S1 = {
+    "ip": "10.20.241.135",
+    "folder_name": "share_test_desktop-d3ogd7m",
+    "pc_name": "desktop-d3ogd7m",
+    "ac": "dqv",
+    "pwd": "swqa"
+        }
 AT_list = [AT_VM_S2, AT_VM_S3, AT_PC_S2]
 
 sys_path = sys.path[0]

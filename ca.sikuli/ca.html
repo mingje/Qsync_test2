@@ -1,0 +1,174 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>ca.sikuli</h2> <a href="ca.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span> *
+<span class="kw">from</span> library_qsync <span class="kw">import</span> *
+
+
+
+<span class="str">"""
+path = "C:\\Users\\User\\@Qsync_test\\"
+path_q = path + ".qsync"
+attrib_cmd = "attrib -s -h -r " + path + "\\*.* &amp;&amp; del " + path + "\\*.* /q"
+dir_cmd = "dir " + path + " /ad /b /s &gt;del.txt"
+to_utf8 = 'PowerShell -Command "&amp; {get-content del.txt -encoding default | set-content del_utf8.txt -encoding utf8}"'
+os.system(attrib_cmd)
+os.system(dir_cmd)
+os.system(to_utf8)
+# add mark to list
+with open('del_utf8.txt', 'r') as f:
+    path_list = f.read()
+    path_list = path_list[3:]
+    path_list_space = path_list.split("\n")
+    print(path_list_space)
+    switch_list = []
+    for i in path_list_space:
+        print(i)
+        if i == path_q:
+            pass
+        else:
+            mark_string = '\"' + i + '\"'
+            print(mark_string)
+            switch_list.append(mark_string)
+print(len(switch_list))
+del switch_list[-1]
+print(switch_list)  
+print(len(switch_list))
+
+# get mark txt file
+with open('del_utf8.txt', 'w') as e:
+    for j in switch_list:
+        e.write(j)
+        e.write('\n')
+    # get final list
+with open('del_utf8.txt', 'r') as g:
+    mark_data = g.read()
+    mark_list = mark_data.split("\n")
+    del mark_list[-1]
+print(mark_list)
+print(len(mark_list))
+"""</span>
+
+
+<span class="str">"""
+target = AT_PC_t1  
+path1 = "C:\\team_folder_data"
+path2 = "C:\\Users\\" + get_pc_info("user_name") + "\\Qsync\\" + target["folder_name"] + "\\"
+copy_data(path1, path2, "by_week")
+"""</span>
+<span class="str">"""
+# delete_folder("D:\\test\\")
+
+def delete_folder(path):
+    cmd = "D:\\Qsync_test_stage2\\delete.bat " + path
+    print(cmd)
+    os.system(cmd)
+    if current_data_counter(path = path , con_type = "folders") == 0:
+        print("clean success")
+    else:
+        print("clean failed")
+delete_folder("D:\\test\\")
+path = "D:\\test\\"
+print(current_data_counter(path = path , con_type = "folders"))
+#delete_folder("D:\\test")
+"""</span>
+<span class="kw">def</span> target_client():
+    current_pc = get_pc_info(<span class="str">"pc_name"</span>)
+    <span class="kw">for</span> i <span class="kw">in</span> AT_list:
+        <span class="kw">if</span> i[<span class="str">"pc_name"</span>] == current_pc:
+            target_client = i
+            <span class="kw">break</span>
+        <span class="kw">else</span>:
+            target_client = <span class="str">"unknown"</span>
+    <span class="kw">return</span> target_client
+
+
+<span class="kw">def</span> run_path():
+    source_path =sys.path[<span class="dig">0</span>]
+    path_spl = source_path.split(<span class="str">"\\"</span>)
+    <span class="kw">del</span> path_spl[-<span class="dig">1</span>]
+    out_path = <span class="str">"\\"</span>.join(path_spl)
+    <span class="kw">return</span> out_path
+
+<span class="kw">def</span> delete_folder(path):
+    cmd = run_path() + <span class="str">"\\delete.bat "</span> + path
+    <span class="kw">print</span>(cmd)
+    os.system(cmd)
+    <span class="kw">if</span> current_data_counter(path = path , con_type = <span class="str">"folders"</span>) == <span class="dig">0</span>:
+        <span class="kw">print</span>(<span class="str">"clean success"</span>)
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"clean failed"</span>)
+
+delete_folder(path=<span class="str">"D:\\test\\"</span>)
+</pre>
+</body>
+</html>

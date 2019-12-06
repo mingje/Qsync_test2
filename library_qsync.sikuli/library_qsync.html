@@ -81,12 +81,12 @@
 <span class="kw">from</span> email.mime.text <span class="kw">import</span> MIMEText
 <span class="kw">from</span> email.mime.application <span class="kw">import</span> MIMEApplication
 
-AT_PC_t1 = {
-    <span class="str">"ip"</span>: <span class="str">"10.20.240.40"</span>,
-    <span class="str">"folder_name"</span>: <span class="str">"share_test_yushuwang-nb"</span>,
-    <span class="str">"pc_name"</span>: <span class="str">"yushuwang-nb"</span>,
-    <span class="str">"ac"</span>: <span class="str">"user"</span>,
-    <span class="str">"pwd"</span>: <span class="str">"1234"</span>
+AT_VM_S2 = {
+    <span class="str">"ip"</span>: <span class="str">"10.20.241.134"</span>,
+    <span class="str">"folder_name"</span>: <span class="str">"share_test_desktop-kp8ovfb"</span>,
+    <span class="str">"pc_name"</span>: <span class="str">"desktop-kp8ovfb"</span>,
+    <span class="str">"ac"</span>: <span class="str">"dqv"</span>,
+    <span class="str">"pwd"</span>: <span class="str">"swqa"</span>
         }
 AT_PC_S1 = {
     <span class="str">"ip"</span>: <span class="str">"10.20.241.131"</span>,
@@ -109,7 +109,7 @@ AT_VM_S3 = {
     <span class="str">"ac"</span>: <span class="str">"dqv1"</span>,
     <span class="str">"pwd"</span>: <span class="str">"swqa"</span>
         }
-AT_list = [AT_PC_t1, AT_VM_S3, AT_PC_S2]
+AT_list = [AT_VM_S2, AT_VM_S3, AT_PC_S2]
 
 sys_path = sys.path[<span class="dig">0</span>]
 sys_path_split = sys_path.split(<span class="str">"\\"</span>)
@@ -283,18 +283,31 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
 <span class="cmt"># open folder with win browser (open_folder("D:\\test"))</span>
 <span class="kw">def</span> open_folder(folder_path):
     <span class="skw">wait</span>(<span class="dig">2</span>)
-    <span class="skw">type</span>(<span class="str">"r"</span>, KeyModifier.WIN)
-    <span class="skw">wait</span>(<span class="dig">2</span>)
-    <span class="kw">if</span> folder_path == <span class="str">"default"</span>:
-        path = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\Qsync\\"</span>
-    <span class="kw">else</span>:
-        path = folder_path
-    paste(unicode(path, <span class="str">"utf8"</span>))
-    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="kw">for</span> j <span class="kw">in</span> range(<span class="dig">3</span>):
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+        <span class="skw">type</span>(<span class="str">"r"</span>, KeyModifier.WIN)
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+        <span class="kw">if</span> folder_path == <span class="str">"default"</span>:
+            path = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\Qsync\\"</span>
+        <span class="kw">else</span>:
+            path = folder_path
+        <span class="kw">print</span>(path)
+        paste(unicode(path, <span class="str">"utf8"</span>))
+        <span class="kw">print</span>(<span class="str">"paste path"</span>)
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+        <span class="skw">type</span>(Key.TAB)
+        <span class="skw">wait</span>(<span class="dig">3</span>)
+        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"confirm_button"</span>)).similar(<span class="dig">0.70</span>)):
+            <span class="kw">break</span>
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"paste fail, redo"</span>)
+            <span class="skw">type</span>(Key.F4, KeyModifier.ALT)
+
     <span class="cmt"># type(path)</span>
     <span class="skw">type</span>(Key.ENTER)
     <span class="skw">wait</span>(<span class="dig">3</span>)
     <span class="skw">type</span>(Key.UP, KeyModifier.WIN)
+
 
 <span class="kw">def</span> check_icon_no(data_items, row_items):
     <span class="str">"""
@@ -319,7 +332,7 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     <span class="kw">else</span>:
         click_region = Region(<span class="dig">1253</span>,<span class="dig">625</span>,<span class="dig">27</span>,<span class="dig">36</span>)
         <span class="kw">if</span> click_region.exists(Pattern(search_path(<span class="str">"down_button"</span>)).similar(<span class="dig">0.70</span>)):
-            <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">100</span>):
+            <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">10</span>):
 
                 click_region.<span class="skw">click</span>(Pattern(search_path(<span class="str">"down_button"</span>)).similar(<span class="dig">0.70</span>))
                 <span class="skw">wait</span>(<span class="dig">1</span>)
@@ -512,6 +525,7 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
         <span class="kw">print</span>(<span class="str">"Folder not existed"</span>)
 
 <span class="kw">def</span> check_sync_icon(path):
+    <span class="kw">print</span>(path)
     open_folder(path)
     set_browser_sty()
     data_items = current_data_counter(path, <span class="str">"folders"</span>)
@@ -558,7 +572,7 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
             check_copy_result(path,<span class="str">"w:\\"</span>)
             check_sync_icon(path = path)
             <span class="kw">if</span> current_data_counter(path = path , con_type = <span class="str">"folders"</span>) == <span class="dig">0</span>:
-                <span class="kw">pass</span>
+                <span class="kw">print</span>(<span class="str">"Pass advanced icon check"</span>)
             <span class="kw">else</span>:
                 mark_list = get_check_icon_list(path = path)
                 a(<span class="str">"Y"</span>, <span class="dig">2</span>, mark_list)
@@ -572,7 +586,7 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     check_copy_result(path,<span class="str">"w:\\"</span>)
     check_sync_icon(path = path)
     <span class="kw">if</span> current_data_counter(path = path , con_type = <span class="str">"folders"</span>) == <span class="dig">0</span>:
-        <span class="kw">pass</span>
+        <span class="kw">print</span>(<span class="str">"Pass advanced icon check"</span>)
     <span class="kw">else</span>:
         mark_list = get_check_icon_list(path = path)
         a(<span class="str">"Y"</span>, <span class="dig">2</span>, mark_list)

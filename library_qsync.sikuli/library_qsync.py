@@ -162,9 +162,16 @@ def get_check_icon_list(path):
     path_q = path + "\\.qsync"
     attrib_cmd = "attrib -s -h -r " + path + "\\*.* && del " + path + "\\*.* /q"
     dir_cmd = "dir " + path + " /ad /b /s >del.txt"
-    to_utf8 = 'PowerShell -Command "& {get-content del.txt -encoding default | set-content del_utf8.txt -encoding utf8}"'
+    if get_os_ver() == "Win10":
+        to_utf8 = 'PowerShell -Command "& {get-content del.txt -encoding default | set-content del_utf8.txt -encoding utf8}"'
+    elif get_os_ver() == "Win7":
+        to_utf8 = 'PowerShell -Command "& {get-content del.txt -encoding String | set-content del_utf8.txt -encoding utf8}"'
+    else:
+        print("Unknown OS")
     os.system(attrib_cmd)
     os.system(dir_cmd)
+    print(to_utf8)
+    wait(10)
     os.system(to_utf8)
     # add mark to list
     with open('del_utf8.txt', 'r') as f:
@@ -316,6 +323,18 @@ def set_browser_sty():
         click(Pattern(search_path("big_view_button")).similar(0.70))
         wait(2)
         click(Pattern(search_path("browser_window_button")).similar(0.70))
+        wait(2)
+        if exists(Pattern(search_path("show_browser_window")).similar(0.90)):
+            print("browser window opened status")
+            click(Pattern(search_path("show_browser_window")).similar(0.90))
+        elif exists(Pattern(search_path("hide_browser_window")).similar(0.90)):
+            print("browser window closed status")
+            type(Key.ENTER)
+        else:
+            print("set browser failed")
+        wait(1)
+        type(Key.F5)
+        wait(1)
     elif get_os_ver() == "Win7":
         type("v", KeyModifier.ALT)
         wait(1)
@@ -327,21 +346,20 @@ def set_browser_sty():
         wait(1)
         click(Pattern(search_path("configuration_button")).similar(0.70))
         wait(1)
+        wait(2)
+        if exists(Pattern(search_path("show_browser_window_7")).similar(0.90)):
+            print("browser window opened status")
+            click(Pattern(search_path("show_browser_window_7")).similar(0.90))
+        elif exists(Pattern(search_path("hide_browser_window_7")).similar(0.90)):
+            print("browser window closed status")
+            type(Key.ENTER)
+        else:
+            print("set browser failed")
+        wait(1)
+        type(Key.F5)
+        wait(1)
     else:
         print("Failed")
-
-    wait(2)
-    if exists(Pattern(search_path("show_browser_window")).similar(0.90)):
-        print("browser window opened status")
-        click(Pattern(search_path("show_browser_window")).similar(0.90))
-    elif exists(Pattern(search_path("hide_browser_window")).similar(0.90)):
-        print("browser window closed status")
-        type(Key.ENTER)
-    else:
-        print("set browser failed")
-    wait(1)
-    type(Key.F5)
-    wait(1)
 
 def mount_disk(ip, folder_name, username, password, disk):
     mount_cmd = "net use " + disk + ": " + "\\\\" + ip + "\\" + folder_name + " /user:" + username + " " + password

@@ -234,9 +234,16 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     path_q = path + <span class="str">"\\.qsync"</span>
     attrib_cmd = <span class="str">"attrib -s -h -r "</span> + path + <span class="str">"\\*.* &amp;&amp; del "</span> + path + <span class="str">"\\*.* /q"</span>
     dir_cmd = <span class="str">"dir "</span> + path + <span class="str">" /ad /b /s &gt;del.txt"</span>
-    to_utf8 = <span class="str">'PowerShell -Command "&amp; {get-content del.txt -encoding default | set-content del_utf8.txt -encoding utf8}"'</span>
+    <span class="kw">if</span> get_os_ver() == <span class="str">"Win10"</span>:
+        to_utf8 = <span class="str">'PowerShell -Command "&amp; {get-content del.txt -encoding default | set-content del_utf8.txt -encoding utf8}"'</span>
+    <span class="kw">elif</span> get_os_ver() == <span class="str">"Win7"</span>:
+        to_utf8 = <span class="str">'PowerShell -Command "&amp; {get-content del.txt -encoding String | set-content del_utf8.txt -encoding utf8}"'</span>
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"Unknown OS"</span>)
     os.system(attrib_cmd)
     os.system(dir_cmd)
+    <span class="kw">print</span>(to_utf8)
+    <span class="skw">wait</span>(<span class="dig">10</span>)
     os.system(to_utf8)
     <span class="cmt"># add mark to list</span>
     <span class="kw">with</span> open(<span class="str">'del_utf8.txt'</span>, <span class="str">'r'</span>) <span class="kw">as</span> f:
@@ -388,6 +395,18 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
         <span class="skw">click</span>(Pattern(search_path(<span class="str">"big_view_button"</span>)).similar(<span class="dig">0.70</span>))
         <span class="skw">wait</span>(<span class="dig">2</span>)
         <span class="skw">click</span>(Pattern(search_path(<span class="str">"browser_window_button"</span>)).similar(<span class="dig">0.70</span>))
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"show_browser_window"</span>)).similar(<span class="dig">0.90</span>)):
+            <span class="kw">print</span>(<span class="str">"browser window opened status"</span>)
+            <span class="skw">click</span>(Pattern(search_path(<span class="str">"show_browser_window"</span>)).similar(<span class="dig">0.90</span>))
+        <span class="kw">elif</span> exists(Pattern(search_path(<span class="str">"hide_browser_window"</span>)).similar(<span class="dig">0.90</span>)):
+            <span class="kw">print</span>(<span class="str">"browser window closed status"</span>)
+            <span class="skw">type</span>(Key.ENTER)
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"set browser failed"</span>)
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+        <span class="skw">type</span>(Key.F5)
+        <span class="skw">wait</span>(<span class="dig">1</span>)
     <span class="kw">elif</span> get_os_ver() == <span class="str">"Win7"</span>:
         <span class="skw">type</span>(<span class="str">"v"</span>, KeyModifier.ALT)
         <span class="skw">wait</span>(<span class="dig">1</span>)
@@ -399,21 +418,20 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
         <span class="skw">wait</span>(<span class="dig">1</span>)
         <span class="skw">click</span>(Pattern(search_path(<span class="str">"configuration_button"</span>)).similar(<span class="dig">0.70</span>))
         <span class="skw">wait</span>(<span class="dig">1</span>)
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"show_browser_window_7"</span>)).similar(<span class="dig">0.90</span>)):
+            <span class="kw">print</span>(<span class="str">"browser window opened status"</span>)
+            <span class="skw">click</span>(Pattern(search_path(<span class="str">"show_browser_window_7"</span>)).similar(<span class="dig">0.90</span>))
+        <span class="kw">elif</span> exists(Pattern(search_path(<span class="str">"hide_browser_window_7"</span>)).similar(<span class="dig">0.90</span>)):
+            <span class="kw">print</span>(<span class="str">"browser window closed status"</span>)
+            <span class="skw">type</span>(Key.ENTER)
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"set browser failed"</span>)
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+        <span class="skw">type</span>(Key.F5)
+        <span class="skw">wait</span>(<span class="dig">1</span>)
     <span class="kw">else</span>:
         <span class="kw">print</span>(<span class="str">"Failed"</span>)
-
-    <span class="skw">wait</span>(<span class="dig">2</span>)
-    <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"show_browser_window"</span>)).similar(<span class="dig">0.90</span>)):
-        <span class="kw">print</span>(<span class="str">"browser window opened status"</span>)
-        <span class="skw">click</span>(Pattern(search_path(<span class="str">"show_browser_window"</span>)).similar(<span class="dig">0.90</span>))
-    <span class="kw">elif</span> exists(Pattern(search_path(<span class="str">"hide_browser_window"</span>)).similar(<span class="dig">0.90</span>)):
-        <span class="kw">print</span>(<span class="str">"browser window closed status"</span>)
-        <span class="skw">type</span>(Key.ENTER)
-    <span class="kw">else</span>:
-        <span class="kw">print</span>(<span class="str">"set browser failed"</span>)
-    <span class="skw">wait</span>(<span class="dig">1</span>)
-    <span class="skw">type</span>(Key.F5)
-    <span class="skw">wait</span>(<span class="dig">1</span>)
 
 <span class="kw">def</span> mount_disk(ip, folder_name, username, password, disk):
     mount_cmd = <span class="str">"net use "</span> + disk + <span class="str">": "</span> + <span class="str">"\\\\"</span> + ip + <span class="str">"\\"</span> + folder_name + <span class="str">" /user:"</span> + username + <span class="str">" "</span> + password

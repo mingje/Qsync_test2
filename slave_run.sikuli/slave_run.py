@@ -2,7 +2,7 @@ from sikuli import *
 from library_qsync import *
 
 
-"""
+
 nas_lanip = sys.argv[1]
 nas_ac = sys.argv[2]
 nas_pwd = sys.argv[3]
@@ -13,7 +13,7 @@ nas_lanip = "10.20.241.137"
 nas_ac = "qa03"
 nas_pwd = "1234" 
 reset_flag = "N"
-
+"""
 # define target_client
 target_client = target_client()
  
@@ -66,7 +66,7 @@ wait(3)
  
 # Open and close Qsync
 x = 1                         
-for i in range(2):
+for i in range(200):
     print("Execute " + str(x) + " Times")
     open_qsync()
     wait(20)
@@ -106,10 +106,10 @@ for i in range(2):
         else:
             send_mail(target_client["pc_name"])
             break
-            # wait(600)
-            wait(10)
+            wait(600)
+            # wait(10)
             close_qsync()       
             wait(2)
     x = x + 1
-    # wait(600)
-    wait(10)
+    wait(600)
+    # wait(10)

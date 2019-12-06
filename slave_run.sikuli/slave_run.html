@@ -74,18 +74,18 @@
 <span class="kw">from</span> library_qsync <span class="kw">import</span> *
 
 
-<span class="str">"""
-nas_lanip = sys.argv[1]
-nas_ac = sys.argv[2]
-nas_pwd = sys.argv[3]
-reset_flag = sys.argv[4] # "Y" or "N"
 
+nas_lanip = sys.argv[<span class="dig">1</span>]
+nas_ac = sys.argv[<span class="dig">2</span>]
+nas_pwd = sys.argv[<span class="dig">3</span>]
+reset_flag = sys.argv[<span class="dig">4</span>] <span class="cmt"># "Y" or "N"</span>
+
+<span class="str">"""         
+nas_lanip = "10.20.241.137"
+nas_ac = "qa03"
+nas_pwd = "1234" 
+reset_flag = "N"
 """</span>
-nas_lanip = <span class="str">"10.20.241.137"</span>
-nas_ac = <span class="str">"qa03"</span>
-nas_pwd = <span class="str">"1234"</span>
-reset_flag = <span class="str">"N"</span>
-
 <span class="cmt"># define target_client</span>
 target_client = target_client()
 
@@ -138,7 +138,7 @@ close_qsync()
 
 <span class="cmt"># Open and close Qsync</span>
 x = <span class="dig">1</span>
-<span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">2</span>):
+<span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">200</span>):
     <span class="kw">print</span>(<span class="str">"Execute "</span> + str(x) + <span class="str">" Times"</span>)
     open_qsync()
     <span class="skw">wait</span>(<span class="dig">20</span>)
@@ -178,13 +178,14 @@ x = <span class="dig">1</span>
         <span class="kw">else</span>:
             send_mail(target_client[<span class="str">"pc_name"</span>])
             <span class="kw">break</span>
-            <span class="cmt"># wait(600)</span>
-            <span class="skw">wait</span>(<span class="dig">10</span>)
+            <span class="skw">wait</span>(<span class="dig">600</span>)
+            <span class="cmt"># wait(10)</span>
             close_qsync()
             <span class="skw">wait</span>(<span class="dig">2</span>)
     x = x + <span class="dig">1</span>
-    <span class="cmt"># wait(600)</span>
-    <span class="skw">wait</span>(<span class="dig">10</span>)
+    <span class="skw">wait</span>(<span class="dig">600</span>)
+    <span class="cmt"># wait(10)</span>
+
 </pre>
 </body>
 </html>

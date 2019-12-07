@@ -16,7 +16,9 @@ reset_flag = "N"
 """
 # define target_client
 #target_client = target_client()
+print(target_client())
 tar = str(target_client())
+print(tar)
 target_client = eval(tar)
 
 target = nas_detail(lanip = nas_lanip, ac = nas_ac, pwd = nas_pwd)

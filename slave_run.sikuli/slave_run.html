@@ -88,7 +88,9 @@ reset_flag = "N"
 """</span>
 <span class="cmt"># define target_client</span>
 <span class="cmt">#target_client = target_client()</span>
+<span class="kw">print</span>(target_client())
 tar = str(target_client())
+<span class="kw">print</span>(tar)
 target_client = eval(tar)
 
 target = nas_detail(lanip = nas_lanip, ac = nas_ac, pwd = nas_pwd)

@@ -33,7 +33,7 @@ AT_PC_S2 = {
 AT_VM_S3 = {
     "ip": "10.20.241.133",
     "folder_name": "share_test_dqv-pc1",
-    "pc_name": "dqv-pc",
+    "pc_name": "dqv-pc1",
     "ac": "dqv1",
     "pwd": "swqa"
         }

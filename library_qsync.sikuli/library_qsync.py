@@ -604,6 +604,7 @@ def check_main_sync():
 
 def target_client():
     current_pc = get_pc_info("pc_name")
+    print(current_pc)
     for i in AT_list:
         if i["pc_name"] == current_pc:
             target_client = i

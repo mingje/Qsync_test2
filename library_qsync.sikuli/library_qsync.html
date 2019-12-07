@@ -676,6 +676,7 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
 
 <span class="kw">def</span> target_client():
     current_pc = get_pc_info(<span class="str">"pc_name"</span>)
+    <span class="kw">print</span>(current_pc)
     <span class="kw">for</span> i <span class="kw">in</span> AT_list:
         <span class="kw">if</span> i[<span class="str">"pc_name"</span>] == current_pc:
             target_client = i

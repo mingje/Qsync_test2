@@ -88,10 +88,9 @@ reset_flag = "N"
 """</span>
 <span class="cmt"># define target_client</span>
 <span class="cmt">#target_client = target_client()</span>
-<span class="kw">print</span>(target_client())
 tar = str(target_client())
-<span class="kw">print</span>(tar)
 target_client = eval(tar)
+<span class="kw">print</span>(target_client)
 
 target = nas_detail(lanip = nas_lanip, ac = nas_ac, pwd = nas_pwd)
 <span class="kw">print</span>(target)
@@ -128,6 +127,7 @@ target = nas_detail(lanip = nas_lanip, ac = nas_ac, pwd = nas_pwd)
     <span class="kw">print</span>(<span class="str">"Not reset"</span>)
 
 <span class="cmt"># login and pair sync folder</span>
+unmount_disk(<span class="str">"w"</span>)
 
 open_qsync()
 <span class="skw">wait</span>(<span class="dig">2</span>)

@@ -390,6 +390,7 @@ def mount_disk(ip, folder_name, username, password, disk):
     else:
         pass
     assert flag == 0, "Mount failed"
+    wait(1)
 
 def unmount_disk(disk):
     os.system("net use * /d /YES")
@@ -400,6 +401,7 @@ def unmount_disk(disk):
     else:
         pass
     assert flag == 1, "Unmount failed"
+    wait(1)
     
                        
 def counter_data(data_line, con_type):

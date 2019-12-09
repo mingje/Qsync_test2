@@ -16,10 +16,9 @@ reset_flag = "N"
 """
 # define target_client
 #target_client = target_client()
-print(target_client())
 tar = str(target_client())
-print(tar)
 target_client = eval(tar)
+print(target_client)
 
 target = nas_detail(lanip = nas_lanip, ac = nas_ac, pwd = nas_pwd)
 print(target)
@@ -56,7 +55,8 @@ else:
     print("Not reset")
 
 # login and pair sync folder
- 
+unmount_disk("w")
+
 open_qsync()
 wait(2)
 if exists(Pattern(search_path("host_field")).similar(0.70)):

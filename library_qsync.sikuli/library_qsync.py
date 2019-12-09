@@ -187,15 +187,12 @@ def get_check_icon_list(path):
         path_list_space = path_list.split("\n")
         switch_list = []
         for i in path_list_space:
-            print(i)
             if i == path_q:
                 pass
             else:
                 mark_string = '\"' + i + '\"'
-                print(mark_string)
                 switch_list.append(mark_string)
     del switch_list[-1]
-    print(switch_list)  
     print(len(switch_list))
     # get mark txt file
     with open('del_utf8.txt', 'w') as e:
@@ -274,7 +271,7 @@ def check_icon_no(data_items, row_items):
         b = []
         for i in a:
             b.append(i)
-        print("b:" + str(len(b)))
+        print("First page catch:" + str(len(b)))
     except:
         b = []
     page_item_no = len(b)

@@ -259,15 +259,12 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
         path_list_space = path_list.split(<span class="str">"\n"</span>)
         switch_list = []
         <span class="kw">for</span> i <span class="kw">in</span> path_list_space:
-            <span class="kw">print</span>(i)
             <span class="kw">if</span> i == path_q:
                 <span class="kw">pass</span>
             <span class="kw">else</span>:
                 mark_string = <span class="str">'\"'</span> + i + <span class="str">'\"'</span>
-                <span class="kw">print</span>(mark_string)
                 switch_list.append(mark_string)
     <span class="kw">del</span> switch_list[-<span class="dig">1</span>]
-    <span class="kw">print</span>(switch_list)
     <span class="kw">print</span>(len(switch_list))
     <span class="cmt"># get mark txt file</span>
     <span class="kw">with</span> open(<span class="str">'del_utf8.txt'</span>, <span class="str">'w'</span>) <span class="kw">as</span> e:
@@ -346,7 +343,7 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
         b = []
         <span class="kw">for</span> i <span class="kw">in</span> a:
             b.append(i)
-        <span class="kw">print</span>(<span class="str">"b:"</span> + str(len(b)))
+        <span class="kw">print</span>(<span class="str">"First page catch:"</span> + str(len(b)))
     <span class="kw">except</span>:
         b = []
     page_item_no = len(b)

@@ -249,7 +249,19 @@ def open_folder(folder_path):
     type(Key.ENTER)
     wait(3)
     type(Key.UP, KeyModifier.WIN)
-    
+
+def open_folder_cmd(folder_path):
+    wait(2)
+    if folder_path == "default":
+        path = "C:\\Users\\" + get_pc_info("user_name") + "\\Qsync\\"
+    else:
+        path = folder_path
+    print(path)
+    cmd = "explorer " + path
+    os.system(cmd)
+    wait(3)
+    type(Key.UP, KeyModifier.WIN)
+    wait(1)
 
 def check_icon_no(data_items, row_items):
     """
@@ -479,7 +491,7 @@ def copy_data(path1, path2, check_type):
         
 def check_sync_icon(path):
     print(path)
-    open_folder(path)
+    open_folder_cmd(path)
     set_browser_sty()
     data_items = current_data_counter(path, "folders")
     row_items = 11

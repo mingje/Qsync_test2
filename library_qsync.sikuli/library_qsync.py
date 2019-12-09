@@ -256,7 +256,7 @@ def open_folder_cmd(folder_path):
     print(path)
     cmd = "explorer " + path
     os.system(cmd)
-    wait(3)
+    wait(4)
     type(Key.UP, KeyModifier.WIN)
     wait(1)
 

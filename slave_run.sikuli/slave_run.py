@@ -77,7 +77,7 @@ for i in range(200):
     stop_time = int(time.strftime("%H%M%S"))
     print("current_time is: " + str(stop_time))
     #if 210000 < stop_time < 220000 and week_current() == "Sat":
-    if 000000 < stop_time < 010000 and week_current() == "Sun":
+    if 090000 < stop_time < 100000 and week_current() == "Mon":
         print("delete time is coming up, stop testing")
         path = "C:\\Users\\" + get_pc_info("user_name") + "\\Qsync\\" + target_client["folder_name"] + "\\"
         delete_folder(path)

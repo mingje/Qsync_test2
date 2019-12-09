@@ -44,7 +44,7 @@ AT_VM_S1 = {
     "ac": "dqv",
     "pwd": "swqa"
         }
-AT_list = [AT_VM_S2, AT_VM_S3, AT_PC_S2]
+AT_list = [AT_VM_S1, AT_VM_S2, AT_VM_S3, AT_PC_S2]
 
 sys_path = sys.path[0]
 sys_path_split = sys_path.split("\\")

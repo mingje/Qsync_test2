@@ -367,8 +367,7 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
                 <span class="kw">for</span> j <span class="kw">in</span> c:
                     d.append(j)
                 <span class="kw">print</span>(len(d))
-                yregion = Region(<span class="dig">1250</span>,<span class="dig">601</span>,<span class="dig">30</span>,<span class="dig">54</span>)
-                <span class="kw">if</span> yregion.exists(Pattern(search_path(<span class="str">"down_end_button"</span>)).similar(<span class="dig">0.90</span>)):
+                <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"down_end_button"</span>)).similar(<span class="dig">0.90</span>)):
                     <span class="kw">print</span>(<span class="str">"move to end"</span>)
                     <span class="kw">break</span>
                 <span class="kw">else</span>:

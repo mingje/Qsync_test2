@@ -295,8 +295,7 @@ def check_icon_no(data_items, row_items):
                 for j in c:
                     d.append(j)
                 print(len(d))
-                yregion = Region(1250,601,30,54)
-                if yregion.exists(Pattern(search_path("down_end_button")).similar(0.90)):
+                if exists(Pattern(search_path("down_end_button")).similar(0.90)):
                     print("move to end")
                     break
                 else:

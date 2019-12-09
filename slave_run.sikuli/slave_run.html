@@ -148,8 +148,7 @@ x = <span class="dig">1</span>
     <span class="skw">wait</span>(<span class="dig">20</span>)
     stop_time = int(time.strftime(<span class="str">"%H%M%S"</span>))
     <span class="kw">print</span>(<span class="str">"current_time is: "</span> + str(stop_time))
-    <span class="cmt">#if 210000 &lt; stop_time &lt; 220000 and week_current() == "Sat":</span>
-    <span class="kw">if</span> <span class="dig">0</span><span class="dig">90000</span> &lt; stop_time &lt; <span class="dig">100000</span> <span class="kw">and</span> week_current() == <span class="str">"Mon"</span>:
+    <span class="kw">if</span> <span class="dig">100000</span> &lt; stop_time &lt; <span class="dig">110000</span> <span class="kw">and</span> week_current() == <span class="str">"Mon"</span>:
         <span class="kw">print</span>(<span class="str">"delete time is coming up, stop testing"</span>)
         path = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\Qsync\\"</span> + target_client[<span class="str">"folder_name"</span>] + <span class="str">"\\"</span>
         delete_folder(path)

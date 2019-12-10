@@ -655,8 +655,8 @@ def check_open_folder():
         else:
             flag = 0
     else:
-        if exists(Pattern(search_path("refresh_button")).similar(0.70)):
-            click(Pattern(search_path("refresh_button")).similar(0.70))
+        if exists(Pattern(search_path("refresh_button_7")).similar(0.70)):
+            click(Pattern(search_path("refresh_button_7")).similar(0.70))
             flag = 1
         else:
             flag = 0

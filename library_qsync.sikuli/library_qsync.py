@@ -219,6 +219,7 @@ def get_pc_info(info_name):
     else:
         return user_name
 
+
 # open folder with win browser (open_folder("D:\\test"))
 def open_folder(folder_path):
     wait(2)
@@ -248,17 +249,24 @@ def open_folder(folder_path):
     type(Key.UP, KeyModifier.WIN)
 
 def open_folder_cmd(folder_path):
-    wait(2)
-    if folder_path == "default":
-        path = "C:\\Users\\" + get_pc_info("user_name") + "\\Qsync\\"
-    else:
-        path = folder_path
-    print(path)
-    cmd = "explorer " + path
-    os.system(cmd)
-    wait(4)
+    for i in range(3):
+        wait(2)
+        if folder_path == "default":
+            path = "C:\\Users\\" + get_pc_info("user_name") + "\\Qsync\\"
+        else:
+            path = folder_path
+        print(path)
+        cmd = "explorer " + path
+        os.system(cmd)  
+        wait(3)
+        if check_open_folder() == 1:
+            print("Open folder success")
+            break
+        else:
+            print("Open folder fail")
     type(Key.UP, KeyModifier.WIN)
     wait(1)
+
 
 def check_icon_no(data_items, row_items):
     """
@@ -638,3 +646,18 @@ def delete_folder(path):
         print("clean success")
     else:
         print("clean failed")
+
+def check_open_folder():
+    if get_os_ver() == "Win10":
+        if exists(Pattern(search_path("refresh_button")).similar(0.70)):
+            click(Pattern(search_path("refresh_button")).similar(0.70))
+            flag = 1
+        else:
+            flag = 0
+    else:
+        if exists(Pattern(search_path("refresh_button")).similar(0.70)):
+            click(Pattern(search_path("refresh_button")).similar(0.70))
+            flag = 1
+        else:
+            flag = 0
+    return flag 

@@ -291,6 +291,7 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     <span class="kw">else</span>:
         <span class="kw">return</span> user_name
 
+
 <span class="cmt"># open folder with win browser (open_folder("D:\\test"))</span>
 <span class="kw">def</span> open_folder(folder_path):
     <span class="skw">wait</span>(<span class="dig">2</span>)
@@ -320,17 +321,24 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     <span class="skw">type</span>(Key.UP, KeyModifier.WIN)
 
 <span class="kw">def</span> open_folder_cmd(folder_path):
-    <span class="skw">wait</span>(<span class="dig">2</span>)
-    <span class="kw">if</span> folder_path == <span class="str">"default"</span>:
-        path = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\Qsync\\"</span>
-    <span class="kw">else</span>:
-        path = folder_path
-    <span class="kw">print</span>(path)
-    cmd = <span class="str">"explorer "</span> + path
-    os.system(cmd)
-    <span class="skw">wait</span>(<span class="dig">4</span>)
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">3</span>):
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+        <span class="kw">if</span> folder_path == <span class="str">"default"</span>:
+            path = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\Qsync\\"</span>
+        <span class="kw">else</span>:
+            path = folder_path
+        <span class="kw">print</span>(path)
+        cmd = <span class="str">"explorer "</span> + path
+        os.system(cmd)
+        <span class="skw">wait</span>(<span class="dig">3</span>)
+        <span class="kw">if</span> check_open_folder() == <span class="dig">1</span>:
+            <span class="kw">print</span>(<span class="str">"Open folder success"</span>)
+            <span class="kw">break</span>
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"Open folder fail"</span>)
     <span class="skw">type</span>(Key.UP, KeyModifier.WIN)
     <span class="skw">wait</span>(<span class="dig">1</span>)
+
 
 <span class="kw">def</span> check_icon_no(data_items, row_items):
     <span class="str">"""
@@ -710,6 +718,21 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
         <span class="kw">print</span>(<span class="str">"clean success"</span>)
     <span class="kw">else</span>:
         <span class="kw">print</span>(<span class="str">"clean failed"</span>)
+
+<span class="kw">def</span> check_open_folder():
+    <span class="kw">if</span> get_os_ver() == <span class="str">"Win10"</span>:
+        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"refresh_button"</span>)).similar(<span class="dig">0.70</span>)):
+            <span class="skw">click</span>(Pattern(search_path(<span class="str">"refresh_button"</span>)).similar(<span class="dig">0.70</span>))
+            flag = <span class="dig">1</span>
+        <span class="kw">else</span>:
+            flag = <span class="dig">0</span>
+    <span class="kw">else</span>:
+        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"refresh_button"</span>)).similar(<span class="dig">0.70</span>)):
+            <span class="skw">click</span>(Pattern(search_path(<span class="str">"refresh_button"</span>)).similar(<span class="dig">0.70</span>))
+            flag = <span class="dig">1</span>
+        <span class="kw">else</span>:
+            flag = <span class="dig">0</span>
+    <span class="kw">return</span> flag
 </pre>
 </body>
 </html>

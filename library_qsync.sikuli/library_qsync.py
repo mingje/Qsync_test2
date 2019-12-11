@@ -264,7 +264,10 @@ def open_folder_cmd(folder_path):
             break
         else:
             print("Open folder fail")
-    type(Key.UP, KeyModifier.WIN)
+    if check_max_window() == 1:
+        print("Max window success")
+    else:
+        print("Max windows fail")
     wait(1)
 
 
@@ -655,9 +658,24 @@ def check_open_folder():
         else:
             flag = 0
     else:
-        if exists(Pattern(search_path("refresh_button_7")).similar(0.70)):
-            click(Pattern(search_path("refresh_button_7")).similar(0.70))
+        if exists(Pattern(search_path("refresh_button")).similar(0.70)):
+            click(Pattern(search_path("refresh_button")).similar(0.70))
             flag = 1
         else:
             flag = 0
     return flag 
+
+def check_max_window():
+    flag = 0
+    for i in range(3):
+        click(Pattern(search_path("refresh_button")).similar(0.70))
+        type(Key.UP, KeyModifier.WIN)
+        wait(3)
+        if exists(Pattern(search_path("maxwindow_folder_icon")).similar(0.70)):
+            print("Max window")
+            flag = 1
+            break
+        else:
+            print("Not max window")
+            flag = 0
+    return flag

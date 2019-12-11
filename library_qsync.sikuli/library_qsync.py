@@ -30,6 +30,13 @@ AT_PC_S2 = {
     "ac": "Utility_test",
     "pwd": "swqa"
         }
+AT_PC_S3 = {
+    "ip": "10.20.241.138",
+    "folder_name": "share_test_erincheng-pc",
+    "pc_name": "erincheng-pc",
+    "ac": "dqv",
+    "pwd": "swqa"
+        }
 AT_VM_S3 = {
     "ip": "10.20.241.133",
     "folder_name": "share_test_dqv-pc1",
@@ -44,7 +51,7 @@ AT_VM_S1 = {
     "ac": "dqv",
     "pwd": "swqa"
         }
-AT_list = [AT_VM_S1, AT_VM_S2, AT_VM_S3, AT_PC_S2]
+AT_list = [AT_VM_S1, AT_VM_S2, AT_VM_S3, AT_PC_S2, AT_PC_S3]
 
 sys_path = sys.path[0]
 sys_path_split = sys_path.split("\\")
@@ -611,15 +618,18 @@ def login_pair(ip, ac, pwd):
 
 
 def check_main_sync():
-    if exists(Pattern(search_path("syncdone_icon")).similar(0.70)):
-        print("Sync success, start to check data")
-        flag = 1
-    elif exists(Pattern(search_path("syncing_icon")).similar(0.70)):
-        print("Syncing...")
-        flag = 2
-    else:
-        print("Sync failed")
-        flag = 0
+    flag = 0
+    for in range(3):
+        wait(4)
+        if exists(Pattern(search_path("syncdone_icon")).similar(0.70)):
+            print("Sync success, start to check data")
+            flag = 1
+        elif exists(Pattern(search_path("syncing_icon")).similar(0.70)):
+            print("Syncing...")
+            flag = 2
+        else:
+            print("Sync failed")
+            flag = 0
     return flag
 
 def target_client():

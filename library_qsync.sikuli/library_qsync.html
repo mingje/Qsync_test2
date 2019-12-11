@@ -102,6 +102,13 @@ AT_PC_S2 = {
     <span class="str">"ac"</span>: <span class="str">"Utility_test"</span>,
     <span class="str">"pwd"</span>: <span class="str">"swqa"</span>
         }
+AT_PC_S3 = {
+    <span class="str">"ip"</span>: <span class="str">"10.20.241.138"</span>,
+    <span class="str">"folder_name"</span>: <span class="str">"share_test_erincheng-pc"</span>,
+    <span class="str">"pc_name"</span>: <span class="str">"erincheng-pc"</span>,
+    <span class="str">"ac"</span>: <span class="str">"dqv"</span>,
+    <span class="str">"pwd"</span>: <span class="str">"swqa"</span>
+        }
 AT_VM_S3 = {
     <span class="str">"ip"</span>: <span class="str">"10.20.241.133"</span>,
     <span class="str">"folder_name"</span>: <span class="str">"share_test_dqv-pc1"</span>,
@@ -116,7 +123,7 @@ AT_VM_S1 = {
     <span class="str">"ac"</span>: <span class="str">"dqv"</span>,
     <span class="str">"pwd"</span>: <span class="str">"swqa"</span>
         }
-AT_list = [AT_VM_S1, AT_VM_S2, AT_VM_S3, AT_PC_S2]
+AT_list = [AT_VM_S1, AT_VM_S2, AT_VM_S3, AT_PC_S2, AT_PC_S3]
 
 sys_path = sys.path[<span class="dig">0</span>]
 sys_path_split = sys_path.split(<span class="str">"\\"</span>)
@@ -683,15 +690,18 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
 
 
 <span class="kw">def</span> check_main_sync():
-    <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"syncdone_icon"</span>)).similar(<span class="dig">0.70</span>)):
-        <span class="kw">print</span>(<span class="str">"Sync success, start to check data"</span>)
-        flag = <span class="dig">1</span>
-    <span class="kw">elif</span> exists(Pattern(search_path(<span class="str">"syncing_icon"</span>)).similar(<span class="dig">0.70</span>)):
-        <span class="kw">print</span>(<span class="str">"Syncing..."</span>)
-        flag = <span class="dig">2</span>
-    <span class="kw">else</span>:
-        <span class="kw">print</span>(<span class="str">"Sync failed"</span>)
-        flag = <span class="dig">0</span>
+    flag = <span class="dig">0</span>
+    <span class="kw">for</span> <span class="kw">in</span> range(<span class="dig">3</span>):
+        <span class="skw">wait</span>(<span class="dig">4</span>)
+        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"syncdone_icon"</span>)).similar(<span class="dig">0.70</span>)):
+            <span class="kw">print</span>(<span class="str">"Sync success, start to check data"</span>)
+            flag = <span class="dig">1</span>
+        <span class="kw">elif</span> exists(Pattern(search_path(<span class="str">"syncing_icon"</span>)).similar(<span class="dig">0.70</span>)):
+            <span class="kw">print</span>(<span class="str">"Syncing..."</span>)
+            flag = <span class="dig">2</span>
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"Sync failed"</span>)
+            flag = <span class="dig">0</span>
     <span class="kw">return</span> flag
 
 <span class="kw">def</span> target_client():

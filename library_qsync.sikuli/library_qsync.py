@@ -619,7 +619,7 @@ def login_pair(ip, ac, pwd):
 
 def check_main_sync():
     flag = 0
-    for in range(10):
+    for i in range(10):
         wait(4)
         if exists(Pattern(search_path("syncdone_icon")).similar(0.70)):
             print("Sync success, start to check data")

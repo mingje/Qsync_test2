@@ -691,7 +691,7 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
 
 <span class="kw">def</span> check_main_sync():
     flag = <span class="dig">0</span>
-    <span class="kw">for</span> <span class="kw">in</span> range(<span class="dig">10</span>):
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">10</span>):
         <span class="skw">wait</span>(<span class="dig">4</span>)
         <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"syncdone_icon"</span>)).similar(<span class="dig">0.70</span>)):
             <span class="kw">print</span>(<span class="str">"Sync success, start to check data"</span>)

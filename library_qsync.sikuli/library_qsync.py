@@ -51,7 +51,7 @@ AT_VM_S1 = {
     "ac": "dqv",
     "pwd": "swqa"
         }
-AT_list = [AT_VM_S1, AT_VM_S2, AT_VM_S3, AT_PC_S2, AT_PC_S3]
+AT_list = [AT_VM_S1, AT_VM_S2, AT_VM_S3, AT_PC_S2]
 
 sys_path = sys.path[0]
 sys_path_split = sys_path.split("\\")
@@ -144,12 +144,18 @@ def open_qsync():
 
 def close_qsync():
     os.system("taskkill /f /im Qsync.exe")
-    if exists(Pattern(search_path("qsync_logo")).similar(0.70)):
-        flag = 0
-    else:
-        print("Close Qsync success")
+    wait(2)
+    if check_qsync_live() == False:
         flag = 1
+        print("Close Qsync success")
+    else:
+        flag = 0
     assert flag == 1, "Close Qsync failed"
+    if exists(Pattern(search_path("qsync_logo")).similar(0.70)):
+        print("Close Qsync fail_UI")
+    else:
+        print("Close Qsync success_UI")
+
 
 def remove_nas_profile():
     click(Pattern(search_path("more_button")).similar(0.70))
@@ -689,3 +695,11 @@ def check_max_window():
             print("Not max window")
             flag = 0
     return flag
+
+def check_qsync_live():
+    cmd = 'TASKLIST /FI "imagename eq Qsync.exe" /svc'
+    tasklist_cmd = os.popen(cmd).read()
+    if "Qsync" in tasklist_cmd:
+        return True
+    else:
+        return False

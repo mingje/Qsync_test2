@@ -306,8 +306,8 @@ def check_icon_no(data_items, row_items):
         print("number: " + str(len(b)))
     else:
         click_region = Region(1194,583,86,137)
-        if click_region.exists(Pattern(search_path("down_button")).similar(0.70)):
-            for i in range(10):
+        for i in range(5):
+            if click_region.exists(Pattern(search_path("down_button")).similar(0.70)):
                 click_region.click(Pattern(search_path("down_button")).similar(0.70))
                 wait(1)
                 xregion = Region(13,562,1239,84)
@@ -320,8 +320,8 @@ def check_icon_no(data_items, row_items):
                     break
                 else:
                     pass
-        else:
-            print("number: " + str(len(b)))
+            else:
+                print("number: " + str(len(b)))
     ss = len(b) + len(d)
     
     if len(b) > data_items:

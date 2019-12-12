@@ -113,7 +113,7 @@ for i in range(200):
         wait(600)
         # wait(10)
         close_qsync()       
-            wait(2)
+        wait(2)
     x = x + 1
     wait(600)
     # wait(10)

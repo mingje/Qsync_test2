@@ -305,10 +305,9 @@ def check_icon_no(data_items, row_items):
     elif data_items <= page_item_no:
         print("number: " + str(len(b)))
     else:
-        click_region = Region(1253,625,27,36)
+        click_region = Region(1194,583,86,137)
         if click_region.exists(Pattern(search_path("down_button")).similar(0.70)):
             for i in range(10):
-            
                 click_region.click(Pattern(search_path("down_button")).similar(0.70))
                 wait(1)
                 xregion = Region(13,562,1239,84)

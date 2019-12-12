@@ -667,6 +667,7 @@ def delete_folder(path):
         print("clean failed")
 
 def check_open_folder():
+    print("***Start to check_open_folder***")
     if get_os_ver() == "Win10":
         if exists(Pattern(search_path("refresh_button")).similar(0.70)):
             click(Pattern(search_path("refresh_button")).similar(0.70))
@@ -682,9 +683,13 @@ def check_open_folder():
     return flag 
 
 def check_max_window():
+    print("***Start to check_max_window***")
     flag = 0
     for i in range(3):
-        click(Pattern(search_path("refresh_button")).similar(0.70))
+        if get_os_ver() == "Win10":
+            click(Pattern(search_path("refresh_button")).similar(0.70))
+        else:
+            click(Pattern(search_path("refresh_button_7")).similar(0.70))
         type(Key.UP, KeyModifier.WIN)
         wait(3)
         if exists(Pattern(search_path("maxwindow_folder_icon")).similar(0.70)):

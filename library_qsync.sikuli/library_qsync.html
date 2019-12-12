@@ -739,6 +739,7 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
         <span class="kw">print</span>(<span class="str">"clean failed"</span>)
 
 <span class="kw">def</span> check_open_folder():
+    <span class="kw">print</span>(<span class="str">"***Start to check_open_folder***"</span>)
     <span class="kw">if</span> get_os_ver() == <span class="str">"Win10"</span>:
         <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"refresh_button"</span>)).similar(<span class="dig">0.70</span>)):
             <span class="skw">click</span>(Pattern(search_path(<span class="str">"refresh_button"</span>)).similar(<span class="dig">0.70</span>))
@@ -754,9 +755,13 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     <span class="kw">return</span> flag
 
 <span class="kw">def</span> check_max_window():
+    <span class="kw">print</span>(<span class="str">"***Start to check_max_window***"</span>)
     flag = <span class="dig">0</span>
     <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">3</span>):
-        <span class="skw">click</span>(Pattern(search_path(<span class="str">"refresh_button"</span>)).similar(<span class="dig">0.70</span>))
+        <span class="kw">if</span> get_os_ver() == <span class="str">"Win10"</span>:
+            <span class="skw">click</span>(Pattern(search_path(<span class="str">"refresh_button"</span>)).similar(<span class="dig">0.70</span>))
+        <span class="kw">else</span>:
+            <span class="skw">click</span>(Pattern(search_path(<span class="str">"refresh_button_7"</span>)).similar(<span class="dig">0.70</span>))
         <span class="skw">type</span>(Key.UP, KeyModifier.WIN)
         <span class="skw">wait</span>(<span class="dig">3</span>)
         <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"maxwindow_folder_icon"</span>)).similar(<span class="dig">0.70</span>)):

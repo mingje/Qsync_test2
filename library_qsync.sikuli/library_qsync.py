@@ -144,7 +144,7 @@ def open_qsync():
 
 def close_qsync():
     os.system("taskkill /f /im Qsync.exe")
-    wait(2)
+    wait(3)
     if check_qsync_live() == False:
         flag = 1
         print("Close Qsync success")

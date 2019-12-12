@@ -515,6 +515,7 @@ def check_sync_icon(path):
     open_folder_cmd(path)
     set_browser_sty()
     data_items = current_data_counter(path, "folders")
+    print("data_items= " + str(data_items))
     row_items = 11
     if data_items == check_icon_no(data_items, row_items):
         print("pass icon check")

@@ -587,6 +587,7 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     open_folder_cmd(path)
     set_browser_sty()
     data_items = current_data_counter(path, <span class="str">"folders"</span>)
+    <span class="kw">print</span>(<span class="str">"data_items= "</span> + str(data_items))
     row_items = <span class="dig">11</span>
     <span class="kw">if</span> data_items == check_icon_no(data_items, row_items):
         <span class="kw">print</span>(<span class="str">"pass icon check"</span>)

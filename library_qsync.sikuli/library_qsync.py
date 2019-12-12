@@ -315,7 +315,7 @@ def check_icon_no(data_items, row_items):
                 for j in c:
                     d.append(j)
                 print(len(d))
-                if exists(Pattern(search_path("down_end_button")).similar(0.90)):
+                if exists(Pattern(search_path("down_end_button")).similar(0.70)):
                     print("move to end")
                     break
                 else:

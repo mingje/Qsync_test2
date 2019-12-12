@@ -110,9 +110,9 @@ for i in range(200):
         else:
             send_mail(target_client["pc_name"])
             break
-            wait(600)
-            # wait(10)
-            close_qsync()       
+        wait(600)
+        # wait(10)
+        close_qsync()       
             wait(2)
     x = x + 1
     wait(600)

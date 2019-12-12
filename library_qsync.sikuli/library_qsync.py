@@ -322,8 +322,8 @@ def check_icon_no(data_items, row_items):
                     pass
             else:
                 print("number: " + str(len(b)))
+                break
     ss = len(b) + len(d)
-    
     if len(b) > data_items:
         print(ss)
     elif ss > data_items:

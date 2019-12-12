@@ -522,6 +522,10 @@ def check_sync_icon(path):
     else:
         print("fail icon check")        
         flag = 0
+    if get_os_ver() == "Win10":
+        click(Pattern(search_path("refresh_button")).similar(0.70))
+    else:
+        click(Pattern(search_path("refresh_button_7")).similar(0.70))    
     type(Key.F4, KeyModifier.ALT)
     return flag
 

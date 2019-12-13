@@ -84,14 +84,14 @@ for i in range(200):
             wait(600)
             jump_time = int(time.strftime("%H%M%S"))
             ui_result = check_main_sync()
-            if ui_result == 1 and jump_time > 220000:
-                close_qsync()       
-                wait(2)
+            if ui_result == 1 and jump_time > 220000:       
                 break
             elif ui_result == 0:
                 break
             else:
                 pass
+        close_qsync()
+        wait(2)
     elif 210000 < stop_time < 220000 and week_current() != "Sun":
         print("copy time is coming up, stop testing")
         path1 = "C:\\team_folder_data"
@@ -103,6 +103,7 @@ for i in range(200):
         print("Testing time, keep going")
         ui_result= check_main_sync()
         if ui_result == 1:
+            close_qsync_UI()
             check_share_folder()
             check_team_folder()
         elif ui_result == 2:

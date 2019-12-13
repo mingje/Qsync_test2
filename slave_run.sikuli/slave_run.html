@@ -157,13 +157,13 @@ x = <span class="dig">1</span>
             jump_time = int(time.strftime(<span class="str">"%H%M%S"</span>))
             ui_result = check_main_sync()
             <span class="kw">if</span> ui_result == <span class="dig">1</span> <span class="kw">and</span> jump_time &gt; <span class="dig">220000</span>:
-                close_qsync()
-                <span class="skw">wait</span>(<span class="dig">2</span>)
                 <span class="kw">break</span>
             <span class="kw">elif</span> ui_result == <span class="dig">0</span>:
                 <span class="kw">break</span>
             <span class="kw">else</span>:
                 <span class="kw">pass</span>
+        close_qsync()
+        <span class="skw">wait</span>(<span class="dig">2</span>)
     <span class="kw">elif</span> <span class="dig">210000</span> &lt; stop_time &lt; <span class="dig">220000</span> <span class="kw">and</span> week_current() != <span class="str">"Sun"</span>:
         <span class="kw">print</span>(<span class="str">"copy time is coming up, stop testing"</span>)
         path1 = <span class="str">"C:\\team_folder_data"</span>
@@ -175,6 +175,7 @@ x = <span class="dig">1</span>
         <span class="kw">print</span>(<span class="str">"Testing time, keep going"</span>)
         ui_result= check_main_sync()
         <span class="kw">if</span> ui_result == <span class="dig">1</span>:
+            close_qsync_UI()
             check_share_folder()
             check_team_folder()
         <span class="kw">elif</span> ui_result == <span class="dig">2</span>:

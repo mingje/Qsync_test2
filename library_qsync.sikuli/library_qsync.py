@@ -712,3 +712,15 @@ def check_qsync_live():
         return True
     else:
         return False
+
+def close_qsync_UI():
+    wait(1)
+    click(Pattern(search_path("close_button")).similar(0.70))
+    wait(2)
+    if exists(Pattern(search_path("qsync_logo")).similar(0.70)):
+        flag = 0
+    else:
+        print("Close Qsync UI success")
+        flag = 1
+    assert flag == 1, "Close Qsync UI fail"
+    wait(1)

@@ -1,0 +1,276 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>check.sikuli</h2> <a href="check.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span> *
+<span class="kw">from</span> library_qsync <span class="kw">import</span> *
+
+<span class="cmt"># counter_data</span>
+<span class="cmt"># counter_type = file or folder; result_line = dir_result_line</span>
+<span class="kw">def</span> output_counter_list(out_type, result_line):
+    <span class="kw">if</span> out_type == <span class="str">"folder"</span>:
+        data_space = result_line[-<span class="dig">2</span>].split(<span class="str">" "</span>)
+    <span class="kw">elif</span> out_type == <span class="str">"file"</span>:
+        data_space = result_line[-<span class="dig">3</span>].split(<span class="str">" "</span>)
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"gg"</span>)
+    no_list = []
+    <span class="kw">for</span> i <span class="kw">in</span> data_space:
+        <span class="kw">if</span> i != <span class="str">""</span>:
+            no_list.append(i)
+    <span class="kw">return</span> no_list
+
+<span class="cmt"># data_type = file, folder, size, total(file+folde),icon_total(file+folder-2), counter_type = single or all</span>
+<span class="cmt"># icon_total + single = icon check no</span>
+<span class="cmt"># current_data_counter</span>
+<span class="kw">def</span> counter_data(data_type, counter_type, path):
+    <span class="kw">if</span> counter_type == <span class="str">"single"</span>:
+        dir_cmd = <span class="str">"dir "</span> + path
+    <span class="kw">elif</span> counter_type == <span class="str">"all"</span>:
+        dir_cmd = <span class="str">"dir "</span> + path + <span class="str">" /s"</span>
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"Unknown counter_type"</span>)
+    dir_result = os.popen(dir_cmd).read()
+    <span class="kw">print</span>(dir_result)
+    dir_result_line = dir_result.split(<span class="str">"\n"</span>)
+    <span class="kw">if</span> data_type == <span class="str">"file"</span>:
+        file_no = int(output_counter_list(<span class="str">"file"</span>, dir_result_line)[<span class="dig">0</span>])
+        <span class="kw">return</span> file_no
+    <span class="kw">elif</span> data_type == <span class="str">"folder"</span>:
+        folder_no = int(output_counter_list(<span class="str">"folder"</span>, dir_result_line)[<span class="dig">0</span>])
+        <span class="kw">return</span> folder_no
+    <span class="kw">elif</span> data_type == <span class="str">"size"</span>:
+        file_size = output_counter_list(<span class="str">"file"</span>, dir_result_line)[<span class="dig">2</span>]
+        <span class="kw">return</span> file_size
+    <span class="kw">elif</span> data_type == <span class="str">"total"</span>:
+        file_no = int(output_counter_list(<span class="str">"file"</span>, dir_result_line)[<span class="dig">0</span>])
+        folder_no = int(output_counter_list(<span class="str">"folder"</span>, dir_result_line)[<span class="dig">0</span>])
+        total = folder_no + file_no
+        <span class="kw">return</span> total
+    <span class="kw">elif</span> data_type == <span class="str">"icon_total"</span>:
+        file_no = int(output_counter_list(<span class="str">"file"</span>, dir_result_line)[<span class="dig">0</span>])
+        folder_no = int(output_counter_list(<span class="str">"folder"</span>, dir_result_line)[<span class="dig">0</span>])
+        icon_total = folder_no + file_no -<span class="dig">2</span>
+        <span class="kw">return</span> icon_total
+    <span class="kw">else</span>:
+        <span class="kw">return</span> <span class="dig">0</span>
+
+counter_data(<span class="str">"folder"</span>, <span class="str">"all"</span>, <span class="str">"D:\\test"</span>)
+<span class="cmt"># data_type, counter_type, path</span>
+<span class="cmt"># check size &amp; total</span>
+<span class="kw">def</span> check_data_result(path1, path2):
+    path_from_total = counter_data(<span class="str">"total"</span>, <span class="str">"all"</span>, path1)
+    <span class="kw">print</span>(<span class="str">"Source total = "</span> + str(path_from_total))
+    path_from_size = counter_data(<span class="str">"size"</span>, <span class="str">"all"</span>, path1)
+    <span class="kw">print</span>(<span class="str">"Source size = "</span> + path_from_size)
+    path_to_total = counter_data(<span class="str">"total"</span>, <span class="str">"all"</span>, path2)
+    <span class="kw">print</span>(<span class="str">"Destination total = "</span> + str(path_to_total))
+    path_to_size = counter_data(<span class="str">"size"</span>, <span class="str">"all"</span>, path2)
+    <span class="kw">print</span>(<span class="str">"Destination size = "</span> + path_to_size)
+    <span class="kw">if</span> path_from_total == path_to_total <span class="kw">and</span> path_from_size == path_to_size:
+        <span class="kw">print</span>(<span class="str">"Copy data consistent"</span>)
+        <span class="kw">return</span> True
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"Copy data inconsistent"</span>)
+        <span class="kw">return</span> False
+
+<span class="cmt"># copy_data("D:\\test", "D:\\test2\\", "by_week")</span>
+<span class="kw">def</span> copy_data(path1, path2, check_type):
+    path_from = path1
+    <span class="kw">if</span> check_type == <span class="str">"by_week"</span>:
+        path_to = path2 + week_current()
+    <span class="kw">else</span>:
+        path_to = path2
+    dir_cmd = <span class="str">"dir "</span> + path2
+    <span class="kw">print</span>(dir_cmd)
+    copy_cmd = <span class="str">"XCOPY "</span> + path_from + <span class="str">" "</span> + path_to + <span class="str">"\ /I /E"</span>
+    <span class="kw">if</span> os.system(dir_cmd) == <span class="dig">0</span>:
+        os.system(copy_cmd)
+        <span class="kw">if</span> check_data_result(path1 = path_from, path2 = path_to) == <span class="dig">1</span>:
+            <span class="kw">print</span>(<span class="str">"Copy data success"</span>)
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"Copy data failed"</span>)
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"Folder not existed"</span>)
+
+<span class="kw">def</span> check_sync_icon(path):
+    <span class="kw">print</span>(path)
+    open_folder_cmd(path)
+    set_browser_sty()
+    data_items = counter_data(<span class="str">"icon_total"</span>, <span class="str">"single"</span>, path)
+    <span class="kw">print</span>(<span class="str">"Check items = "</span> + str(data_items))
+    row_items = <span class="dig">11</span>
+    <span class="kw">if</span> data_items == check_icon_no(data_items, row_items):
+        <span class="kw">print</span>(<span class="str">"pass icon check"</span>)
+        flag = <span class="dig">1</span>
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"fail icon check"</span>)
+        flag = <span class="dig">0</span>
+    <span class="kw">if</span> get_os_ver() == <span class="str">"Win10"</span>:
+        <span class="skw">click</span>(Pattern(search_path(<span class="str">"refresh_button"</span>)).similar(<span class="dig">0.70</span>))
+    <span class="kw">else</span>:
+        <span class="skw">click</span>(Pattern(search_path(<span class="str">"refresh_button_7"</span>)).similar(<span class="dig">0.70</span>))
+    <span class="skw">type</span>(Key.F4, KeyModifier.ALT)
+    <span class="kw">return</span> flag
+
+
+
+
+
+<span class="cmt"># old code</span>
+<span class="kw">def</span> counter_data(data_line, con_type):
+    data_space = data_line.split(<span class="str">" "</span>)
+    no_list = []
+    <span class="kw">for</span> i <span class="kw">in</span> data_space:
+        <span class="kw">if</span> i != <span class="str">""</span>:
+           no_list.append(i)
+    <span class="kw">if</span> con_type == <span class="str">"size"</span>:
+        <span class="kw">return</span> no_list[<span class="dig">2</span>]
+    <span class="kw">else</span>:
+        <span class="kw">return</span> no_list[<span class="dig">0</span>]
+<span class="cmt"># con_type = size, folders, total (current_data_counter("D:\\test","total"))</span>
+<span class="kw">def</span> current_data_counter(path, con_type):
+    <span class="kw">if</span> con_type == <span class="str">"folders"</span>:
+        dir_cmd = <span class="str">"dir "</span> + path
+    <span class="kw">else</span>:
+        dir_cmd = <span class="str">"dir "</span> + path + <span class="str">" /s"</span>
+    dir_result = os.popen(dir_cmd).read()
+    dir_result_line = dir_result.split(<span class="str">"\n"</span>)
+    files_no = dir_result_line[-<span class="dig">3</span>]
+    subfolders_no = dir_result_line[-<span class="dig">2</span>]
+    total_data_no = int(counter_data(files_no, <span class="str">"amount"</span>)) + int(counter_data(subfolders_no, <span class="str">"amount"</span>))
+    current_data_no = total_data_no - <span class="dig">2</span>
+    current_data_size = counter_data(files_no, <span class="str">"size"</span>)
+    current_data_size1 = current_data_size.split(<span class="str">','</span>)
+    <span class="kw">if</span> con_type == <span class="str">"size"</span>:
+        <span class="kw">return</span> current_data_size1[<span class="dig">0</span>]
+    <span class="kw">elif</span> con_type == <span class="str">"folders"</span>:
+        <span class="kw">return</span> current_data_no
+    <span class="kw">else</span>:
+        <span class="kw">return</span> total_data_no
+
+<span class="kw">def</span> check_copy_result(path1, path2):
+    path_from_amount = current_data_counter(path1, con_type = <span class="str">"amount"</span>)
+    <span class="kw">print</span>(path_from_amount)
+    path_from_size = current_data_counter(path1, con_type = <span class="str">"size"</span>)
+    <span class="kw">print</span>(path_from_size)
+    path_to_amount = current_data_counter(path2, con_type = <span class="str">"amount"</span>)
+    <span class="kw">print</span>(path_to_amount)
+    path_to_size = current_data_counter(path2, con_type = <span class="str">"size"</span>)
+    <span class="kw">print</span>(path_to_size)
+    <span class="kw">if</span> path_from_amount == path_to_amount <span class="kw">and</span> path_from_size == path_to_size:
+        <span class="kw">print</span>(<span class="str">"Copy data consistent"</span>)
+        <span class="kw">return</span> True
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"Copy data inconsistent"</span>)
+        <span class="kw">return</span> False
+
+<span class="cmt"># copy_data("D:\\test", "D:\\test2\\", "by_week")</span>
+<span class="kw">def</span> copy_data(path1, path2, check_type):
+    path_from = path1
+    <span class="kw">if</span> check_type == <span class="str">"by_week"</span>:
+        path_to = path2 + week_current()
+    <span class="kw">else</span>:
+        path_to = path2
+    dir_cmd = <span class="str">"dir "</span> + path2
+    <span class="kw">print</span>(dir_cmd)
+    copy_cmd = <span class="str">"XCOPY "</span> + path_from + <span class="str">" "</span> + path_to + <span class="str">"\ /I /E"</span>
+    <span class="kw">if</span> os.system(dir_cmd) == <span class="dig">0</span>:
+        os.system(copy_cmd)
+        <span class="kw">if</span> check_copy_result(path1 = path_from, path2 = path_to) == <span class="dig">1</span>:
+            <span class="kw">print</span>(<span class="str">"Copy data success"</span>)
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"Copy data failed"</span>)
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"Folder not existed"</span>)
+
+<span class="kw">def</span> check_sync_icon(path):
+    <span class="kw">print</span>(path)
+    open_folder_cmd(path)
+    set_browser_sty()
+    data_items = current_data_counter(path, <span class="str">"folders"</span>)
+    <span class="kw">print</span>(<span class="str">"data_items= "</span> + str(data_items))
+    row_items = <span class="dig">11</span>
+    <span class="kw">if</span> data_items == check_icon_no(data_items, row_items):
+        <span class="kw">print</span>(<span class="str">"pass icon check"</span>)
+        flag = <span class="dig">1</span>
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"fail icon check"</span>)
+        flag = <span class="dig">0</span>
+    <span class="kw">if</span> get_os_ver() == <span class="str">"Win10"</span>:
+        <span class="skw">click</span>(Pattern(search_path(<span class="str">"refresh_button"</span>)).similar(<span class="dig">0.70</span>))
+    <span class="kw">else</span>:
+        <span class="skw">click</span>(Pattern(search_path(<span class="str">"refresh_button_7"</span>)).similar(<span class="dig">0.70</span>))
+    <span class="skw">type</span>(Key.F4, KeyModifier.ALT)
+    <span class="kw">return</span> flag
+</pre>
+</body>
+</html>

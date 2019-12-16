@@ -421,38 +421,57 @@ def unmount_disk(disk):
         pass
     assert flag == 1, "Unmount failed"
     wait(1)
-    
-                       
-def counter_data(data_line, con_type):
-    data_space = data_line.split(" ")
+                    
+# counter_data
+# counter_type = file or folder; result_line = dir_result_line
+def output_counter_list(out_type, result_line):
+    if out_type == "folder":
+        data_space = result_line[-2].split(" ")
+    elif out_type == "file":
+        data_space = result_line[-3].split(" ")
+    else:
+        print("gg")
     no_list = []
     for i in data_space:
         if i != "":
-           no_list.append(i)
-    if con_type == "size":
-        return no_list[2]
-    else:
-        return no_list[0]
-# con_type = size, folders, total (current_data_counter("D:\\test","total"))
-def current_data_counter(path, con_type):
-    if con_type == "folders":
+            no_list.append(i)
+    return no_list
+
+
+# data_type = file, folder, size, total(file+folde),icon_total(file+folder-2), counter_type = single or all
+# icon_total + single = icon check no
+# current_data_counter
+def counter_data(data_type, counter_type, path):
+    if counter_type == "single":
         dir_cmd = "dir " + path
-    else:
+    elif counter_type == "all":
         dir_cmd = "dir " + path + " /s"
-    dir_result = os.popen(dir_cmd).read()
-    dir_result_line = dir_result.split("\n")
-    files_no = dir_result_line[-3]
-    subfolders_no = dir_result_line[-2]
-    total_data_no = int(counter_data(files_no, "amount")) + int(counter_data(subfolders_no, "amount"))
-    current_data_no = total_data_no - 2
-    current_data_size = counter_data(files_no, "size")
-    current_data_size1 = current_data_size.split(',')
-    if con_type == "size":
-        return current_data_size1[0]
-    elif con_type == "folders":
-        return current_data_no
     else:
-        return total_data_no
+        print("Unknown counter_type")
+    dir_result = os.popen(dir_cmd).read()
+    print(dir_result)
+    dir_result_line = dir_result.split("\n")
+    if data_type == "file":
+        file_no = int(output_counter_list("file", dir_result_line)[0])
+        return file_no
+    elif data_type == "folder":
+        folder_no = int(output_counter_list("folder", dir_result_line)[0])
+        return folder_no
+    elif data_type == "size":
+        file_size = output_counter_list("file", dir_result_line)[2]
+        return file_size
+    elif data_type == "total":
+        file_no = int(output_counter_list("file", dir_result_line)[0])
+        folder_no = int(output_counter_list("folder", dir_result_line)[0])
+        total = folder_no + file_no
+        return total
+    elif data_type == "icon_total":
+        file_no = int(output_counter_list("file", dir_result_line)[0])
+        folder_no = int(output_counter_list("folder", dir_result_line)[0])
+        icon_total = folder_no + file_no -2
+        return icon_total
+    else:
+        return 0
 
 # clean_remote_disk("w")
 def clean_remote_disk(disk):
@@ -462,7 +481,7 @@ def clean_remote_disk(disk):
     except:
         pass
     path = disk + ":\\"
-    if current_data_counter(path = path , con_type = "folders") == 0:
+    if counter_data("icon_total", "single", path) == 0:
         print("clean success")
     else:
         print("clean failed")
@@ -474,16 +493,16 @@ def week_current():
     week_current = localtime_space[0]
     return week_current
 
-def check_copy_result(path1, path2):
-    path_from_amount = current_data_counter(path1, con_type = "amount")
-    print(path_from_amount)
-    path_from_size = current_data_counter(path1, con_type = "size")
-    print(path_from_size)
-    path_to_amount = current_data_counter(path2, con_type = "amount")
-    print(path_to_amount)
-    path_to_size = current_data_counter(path2, con_type = "size")
-    print(path_to_size)
-    if path_from_amount == path_to_amount and path_from_size == path_to_size:
+def check_data_result(path1, path2):
+    path_from_total = counter_data("total", "all", path1)
+    print("Source total = " + str(path_from_total))
+    path_from_size = counter_data("size", "all", path1)
+    print("Source size = " + path_from_size)
+    path_to_total = counter_data("total", "all", path2)
+    print("Destination total = " + str(path_to_total))
+    path_to_size = counter_data("size", "all", path2)
+    print("Destination size = " + path_to_size)
+    if path_from_total == path_to_total and path_from_size == path_to_size:
         print("Copy data consistent")
         return True
     else:
@@ -502,7 +521,7 @@ def copy_data(path1, path2, check_type):
     copy_cmd = "XCOPY " + path_from + " " + path_to + "\ /I /E"
     if os.system(dir_cmd) == 0:
         os.system(copy_cmd)
-        if check_copy_result(path1 = path_from, path2 = path_to) == 1:
+        if check_data_result(path1 = path_from, path2 = path_to) == 1:
             print("Copy data success")
         else:
             print("Copy data failed")
@@ -513,8 +532,8 @@ def check_sync_icon(path):
     print(path)
     open_folder_cmd(path)
     set_browser_sty()
-    data_items = current_data_counter(path, "folders")
-    print("data_items= " + str(data_items))
+    data_items = counter_data("icon_total", "single", path)
+    print("Check items = " + str(data_items))
     row_items = 11
     if data_items == check_icon_no(data_items, row_items):
         print("pass icon check")
@@ -559,9 +578,9 @@ def check_team_folder():
             pass
         else:
             mount_disk(i["ip"],i["folder_name"],i["ac"],i["pwd"],"w") 
-            check_copy_result(path,"w:\\")
+            check_data_result(path,"w:\\")
             check_sync_icon(path = path)
-            if current_data_counter(path = path , con_type = "folders") == 0:
+            if counter_data("icon_total", "single", path) == 0:
                 print("Pass advanced icon check")
             else:   
                 mark_list = get_check_icon_list(path = path)
@@ -573,9 +592,9 @@ def check_share_folder():
     path = "C:\\Users\\" + get_pc_info("user_name") + "\\@Qsync_test"
     print(path)
     mount_disk(i["ip"],"@Qsync_test",i["ac"],i["pwd"],"w") 
-    check_copy_result(path,"w:\\")
+    check_data_result(path,"w:\\")
     check_sync_icon(path = path)
-    if current_data_counter(path = path , con_type = "folders") == 0:
+    if counter_data("icon_total", "single", path) == 0:
         print("Pass advanced icon check")
     else:   
         mark_list = get_check_icon_list(path = path)
@@ -665,7 +684,7 @@ def delete_folder(path):
     cmd = run_path() + "\\delete.bat " + path
     print(cmd)
     os.system(cmd)
-    if current_data_counter(path = path , con_type = "folders") == 0:
+    if counter_data("icon_total", "single", path) == 0:
         print("clean success")
     else:
         print("clean failed")

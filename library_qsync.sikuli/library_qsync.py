@@ -62,6 +62,8 @@ picture_path = delimiter.join(sys_path_split) + "\\screenshot\\"
 print(picture_path)
 
 def search_path(picture_name):
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     check_path = picture_path + picture_name + "\\"
     print(check_path)
     search_list = os.listdir(check_path)
@@ -87,6 +89,8 @@ def nas_detail(**kwargs):
     return nas
 
 def send_mail(test_pc):
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     gmail_user = 'stevenhsu@qnap.com'
     gmail_password = 'Qwer!23456' # your gmail password
     gmail_to = ['mingje1104@gmail.com', 'danielhuang@qnap.com', 'rexhchsu@qnap.com']
@@ -109,6 +113,8 @@ def send_mail(test_pc):
     print('Email sent!')
 
 def open_qsync():
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     flag = 0
     for i in range(3):
         os_bit = os.popen("echo %PROCESSOR_ARCHITECTURE%").read()
@@ -143,6 +149,8 @@ def open_qsync():
     assert flag == 1, "Open Qsync failed"
 
 def close_qsync():
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     os.system("taskkill /f /im Qsync.exe")
     wait(3)
     if check_qsync_live() == False:
@@ -158,6 +166,8 @@ def close_qsync():
 
 
 def remove_nas_profile():
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     click(Pattern(search_path("more_button")).similar(0.70))
     wait(2)
     click(Pattern(search_path("removeNAS_option")).similar(0.70))
@@ -178,6 +188,8 @@ def remove_nas_profile():
     
 # input path then get check list (get_check_icon_list(path = "D:\\test"))
 def get_check_icon_list(path):
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     path = path
     path_q = path + "\\.qsync"
     attrib_cmd = "attrib -s -h -r " + path + "\\*.* && del " + path + "\\*.* /q"
@@ -221,6 +233,8 @@ def get_check_icon_list(path):
 
 # get_pc_info(info_name = "pc_name" or "user_name")
 def get_pc_info(info_name):
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     info_name_list = []
     pc_info = os.popen("whoami").read()
     pc_info_list = pc_info.split("\\")
@@ -235,6 +249,8 @@ def get_pc_info(info_name):
 
 # open folder with win browser (open_folder("D:\\test"))
 def open_folder(folder_path):
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     wait(2)
     for j in range(3):
         wait(2)
@@ -262,6 +278,8 @@ def open_folder(folder_path):
     type(Key.UP, KeyModifier.WIN)
 
 def open_folder_cmd(folder_path):
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     for i in range(3):
         wait(2)
         if folder_path == "default":
@@ -285,6 +303,8 @@ def open_folder_cmd(folder_path):
 
 
 def check_icon_no(data_items, row_items):
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     """
     data_items = 110
     row_items = 11
@@ -334,6 +354,8 @@ def check_icon_no(data_items, row_items):
     return ss   
 
 def get_os_ver():
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     os_dir = os.popen("ver").read()
     print(os_dir)
     os_split = os_dir.split("[")
@@ -352,6 +374,8 @@ def get_os_ver():
         return "Unknown OS"
     
 def set_browser_sty():
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     if get_os_ver() == "Win10":
 
         check_region = Region(59,7,273,44)
@@ -399,6 +423,8 @@ def set_browser_sty():
         print("Failed")
 
 def mount_disk(ip, folder_name, username, password, disk):
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     mount_cmd = "net use " + disk + ": " + "\\\\" + ip + "\\" + folder_name + " /user:" + username + " " + password
     print(mount_cmd)
     os.system(mount_cmd)
@@ -412,6 +438,8 @@ def mount_disk(ip, folder_name, username, password, disk):
     wait(1)
 
 def unmount_disk(disk):
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     os.system("net use * /d /YES")
     dir_cmd = "dir " + disk + ":\\"
     flag = os.system(dir_cmd)
@@ -442,6 +470,8 @@ def output_counter_list(out_type, result_line):
 # icon_total + single = icon check no
 # current_data_counter
 def counter_data(data_type, counter_type, path):
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     if counter_type == "single":
         dir_cmd = "dir " + path
     elif counter_type == "all":
@@ -475,6 +505,8 @@ def counter_data(data_type, counter_type, path):
 
 # clean_remote_disk("w")
 def clean_remote_disk(disk):
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     clean_cmd = "rd /s/q " + disk + ":\\"
     try:
         os.system(clean_cmd)
@@ -494,6 +526,8 @@ def week_current():
     return week_current
 
 def check_data_result(path1, path2):
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     path_from_total = counter_data("total", "all", path1)
     print("Source total = " + str(path_from_total))
     path_from_size = counter_data("size", "all", path1)
@@ -511,6 +545,8 @@ def check_data_result(path1, path2):
 
 # copy_data("D:\\test", "D:\\test2\\", "by_week")
 def copy_data(path1, path2, check_type):   
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     path_from = path1
     if check_type == "by_week":
         path_to = path2 + week_current()
@@ -529,6 +565,8 @@ def copy_data(path1, path2, check_type):
         print("Folder not existed")
         
 def check_sync_icon(path):
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     print(path)
     open_folder_cmd(path)
     set_browser_sty()
@@ -549,6 +587,8 @@ def check_sync_icon(path):
     return flag
 
 def a(ran_switch, ran_no, *args):
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     if isinstance(args[0], list) == True:
         args = args[0]
     else:
@@ -570,6 +610,8 @@ def a(ran_switch, ran_no, *args):
     return flag
 
 def check_team_folder():
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     for i in AT_list:
         ew = i["folder_name"].split("_")
         qa = get_pc_info("pc_name")
@@ -588,6 +630,8 @@ def check_team_folder():
             unmount_disk("w")
             
 def check_share_folder():
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     i = AT_PC_S1
     path = "C:\\Users\\" + get_pc_info("user_name") + "\\@Qsync_test"
     print(path)
@@ -602,6 +646,8 @@ def check_share_folder():
     unmount_disk("w")
 
 def login_pair(ip, ac, pwd):
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     click(Pattern(search_path("host_field")).similar(0.70))
     wait(1)
     type(ip)
@@ -647,6 +693,8 @@ def login_pair(ip, ac, pwd):
 
 
 def check_main_sync():
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     flag = 0
     for i in range(10):
         wait(4)
@@ -681,15 +729,19 @@ def run_path():
 
 # delete_folder("D:\\test\\")
 def delete_folder(path):
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     cmd = run_path() + "\\delete.bat " + path
     print(cmd)
     os.system(cmd)
     if counter_data("icon_total", "single", path) == 0:
-        print("clean success")
+        print("Clean success")
     else:
-        print("clean failed")
+        print("Clean failed")
 
 def check_open_folder():
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     print("***Start to check_open_folder***")
     if get_os_ver() == "Win10":
         if exists(Pattern(search_path("refresh_button")).similar(0.70)):
@@ -706,7 +758,8 @@ def check_open_folder():
     return flag 
 
 def check_max_window():
-    print("***Start to check_max_window***")
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     flag = 0
     for i in range(3):
         if get_os_ver() == "Win10":
@@ -725,6 +778,8 @@ def check_max_window():
     return flag
 
 def check_qsync_live():
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     cmd = 'TASKLIST /FI "imagename eq Qsync.exe" /svc'
     tasklist_cmd = os.popen(cmd).read()
     if "Qsync" in tasklist_cmd:
@@ -733,6 +788,8 @@ def check_qsync_live():
         return False
 
 def close_qsync_UI():
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     wait(1)
     click(Pattern(search_path("close_button")).similar(0.70))
     wait(2)

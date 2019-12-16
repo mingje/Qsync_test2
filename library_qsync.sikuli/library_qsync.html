@@ -134,6 +134,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
 <span class="kw">print</span>(picture_path)
 
 <span class="kw">def</span> search_path(picture_name):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     check_path = picture_path + picture_name + <span class="str">"\\"</span>
     <span class="kw">print</span>(check_path)
     search_list = os.listdir(check_path)
@@ -159,6 +161,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     <span class="kw">return</span> nas
 
 <span class="kw">def</span> send_mail(test_pc):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     gmail_user = <span class="str">'stevenhsu@qnap.com'</span>
     gmail_password = <span class="str">'Qwer!23456'</span> <span class="cmt"># your gmail password</span>
     gmail_to = [<span class="str">'mingje1104@gmail.com'</span>, <span class="str">'danielhuang@qnap.com'</span>, <span class="str">'rexhchsu@qnap.com'</span>]
@@ -181,6 +185,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     <span class="kw">print</span>(<span class="str">'Email sent!'</span>)
 
 <span class="kw">def</span> open_qsync():
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     flag = <span class="dig">0</span>
     <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">3</span>):
         os_bit = os.popen(<span class="str">"echo %PROCESSOR_ARCHITECTURE%"</span>).read()
@@ -215,6 +221,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     <span class="kw">assert</span> flag == <span class="dig">1</span>, <span class="str">"Open Qsync failed"</span>
 
 <span class="kw">def</span> close_qsync():
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     os.system(<span class="str">"taskkill /f /im Qsync.exe"</span>)
     <span class="skw">wait</span>(<span class="dig">3</span>)
     <span class="kw">if</span> check_qsync_live() == False:
@@ -230,6 +238,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
 
 
 <span class="kw">def</span> remove_nas_profile():
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     <span class="skw">click</span>(Pattern(search_path(<span class="str">"more_button"</span>)).similar(<span class="dig">0.70</span>))
     <span class="skw">wait</span>(<span class="dig">2</span>)
     <span class="skw">click</span>(Pattern(search_path(<span class="str">"removeNAS_option"</span>)).similar(<span class="dig">0.70</span>))
@@ -250,6 +260,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
 
 <span class="cmt"># input path then get check list (get_check_icon_list(path = "D:\\test"))</span>
 <span class="kw">def</span> get_check_icon_list(path):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     path = path
     path_q = path + <span class="str">"\\.qsync"</span>
     attrib_cmd = <span class="str">"attrib -s -h -r "</span> + path + <span class="str">"\\*.* &amp;&amp; del "</span> + path + <span class="str">"\\*.* /q"</span>
@@ -293,6 +305,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
 
 <span class="cmt"># get_pc_info(info_name = "pc_name" or "user_name")</span>
 <span class="kw">def</span> get_pc_info(info_name):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     info_name_list = []
     pc_info = os.popen(<span class="str">"whoami"</span>).read()
     pc_info_list = pc_info.split(<span class="str">"\\"</span>)
@@ -307,6 +321,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
 
 <span class="cmt"># open folder with win browser (open_folder("D:\\test"))</span>
 <span class="kw">def</span> open_folder(folder_path):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     <span class="skw">wait</span>(<span class="dig">2</span>)
     <span class="kw">for</span> j <span class="kw">in</span> range(<span class="dig">3</span>):
         <span class="skw">wait</span>(<span class="dig">2</span>)
@@ -334,6 +350,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     <span class="skw">type</span>(Key.UP, KeyModifier.WIN)
 
 <span class="kw">def</span> open_folder_cmd(folder_path):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">3</span>):
         <span class="skw">wait</span>(<span class="dig">2</span>)
         <span class="kw">if</span> folder_path == <span class="str">"default"</span>:
@@ -357,6 +375,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
 
 
 <span class="kw">def</span> check_icon_no(data_items, row_items):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     <span class="str">"""
     data_items = 110
     row_items = 11
@@ -406,6 +426,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     <span class="kw">return</span> ss
 
 <span class="kw">def</span> get_os_ver():
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     os_dir = os.popen(<span class="str">"ver"</span>).read()
     <span class="kw">print</span>(os_dir)
     os_split = os_dir.split(<span class="str">"["</span>)
@@ -424,6 +446,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
         <span class="kw">return</span> <span class="str">"Unknown OS"</span>
 
 <span class="kw">def</span> set_browser_sty():
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     <span class="kw">if</span> get_os_ver() == <span class="str">"Win10"</span>:
 
         check_region = Region(<span class="dig">59</span>,<span class="dig">7</span>,<span class="dig">273</span>,<span class="dig">44</span>)
@@ -471,6 +495,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
         <span class="kw">print</span>(<span class="str">"Failed"</span>)
 
 <span class="kw">def</span> mount_disk(ip, folder_name, username, password, disk):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     mount_cmd = <span class="str">"net use "</span> + disk + <span class="str">": "</span> + <span class="str">"\\\\"</span> + ip + <span class="str">"\\"</span> + folder_name + <span class="str">" /user:"</span> + username + <span class="str">" "</span> + password
     <span class="kw">print</span>(mount_cmd)
     os.system(mount_cmd)
@@ -484,6 +510,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     <span class="skw">wait</span>(<span class="dig">1</span>)
 
 <span class="kw">def</span> unmount_disk(disk):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     os.system(<span class="str">"net use * /d /YES"</span>)
     dir_cmd = <span class="str">"dir "</span> + disk + <span class="str">":\\"</span>
     flag = os.system(dir_cmd)
@@ -514,6 +542,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
 <span class="cmt"># icon_total + single = icon check no</span>
 <span class="cmt"># current_data_counter</span>
 <span class="kw">def</span> counter_data(data_type, counter_type, path):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     <span class="kw">if</span> counter_type == <span class="str">"single"</span>:
         dir_cmd = <span class="str">"dir "</span> + path
     <span class="kw">elif</span> counter_type == <span class="str">"all"</span>:
@@ -547,6 +577,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
 
 <span class="cmt"># clean_remote_disk("w")</span>
 <span class="kw">def</span> clean_remote_disk(disk):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     clean_cmd = <span class="str">"rd /s/q "</span> + disk + <span class="str">":\\"</span>
     <span class="kw">try</span>:
         os.system(clean_cmd)
@@ -566,6 +598,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     <span class="kw">return</span> week_current
 
 <span class="kw">def</span> check_data_result(path1, path2):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     path_from_total = counter_data(<span class="str">"total"</span>, <span class="str">"all"</span>, path1)
     <span class="kw">print</span>(<span class="str">"Source total = "</span> + str(path_from_total))
     path_from_size = counter_data(<span class="str">"size"</span>, <span class="str">"all"</span>, path1)
@@ -583,6 +617,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
 
 <span class="cmt"># copy_data("D:\\test", "D:\\test2\\", "by_week")</span>
 <span class="kw">def</span> copy_data(path1, path2, check_type):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     path_from = path1
     <span class="kw">if</span> check_type == <span class="str">"by_week"</span>:
         path_to = path2 + week_current()
@@ -601,6 +637,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
         <span class="kw">print</span>(<span class="str">"Folder not existed"</span>)
 
 <span class="kw">def</span> check_sync_icon(path):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     <span class="kw">print</span>(path)
     open_folder_cmd(path)
     set_browser_sty()
@@ -621,6 +659,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     <span class="kw">return</span> flag
 
 <span class="kw">def</span> a(ran_switch, ran_no, *args):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     <span class="kw">if</span> isinstance(args[<span class="dig">0</span>], list) == True:
         args = args[<span class="dig">0</span>]
     <span class="kw">else</span>:
@@ -642,6 +682,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     <span class="kw">return</span> flag
 
 <span class="kw">def</span> check_team_folder():
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     <span class="kw">for</span> i <span class="kw">in</span> AT_list:
         ew = i[<span class="str">"folder_name"</span>].split(<span class="str">"_"</span>)
         qa = get_pc_info(<span class="str">"pc_name"</span>)
@@ -660,6 +702,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
             unmount_disk(<span class="str">"w"</span>)
 
 <span class="kw">def</span> check_share_folder():
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     i = AT_PC_S1
     path = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\@Qsync_test"</span>
     <span class="kw">print</span>(path)
@@ -674,6 +718,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     unmount_disk(<span class="str">"w"</span>)
 
 <span class="kw">def</span> login_pair(ip, ac, pwd):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     <span class="skw">click</span>(Pattern(search_path(<span class="str">"host_field"</span>)).similar(<span class="dig">0.70</span>))
     <span class="skw">wait</span>(<span class="dig">1</span>)
     <span class="skw">type</span>(ip)
@@ -719,6 +765,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
 
 
 <span class="kw">def</span> check_main_sync():
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     flag = <span class="dig">0</span>
     <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">10</span>):
         <span class="skw">wait</span>(<span class="dig">4</span>)
@@ -753,15 +801,19 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
 
 <span class="cmt"># delete_folder("D:\\test\\")</span>
 <span class="kw">def</span> delete_folder(path):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     cmd = run_path() + <span class="str">"\\delete.bat "</span> + path
     <span class="kw">print</span>(cmd)
     os.system(cmd)
     <span class="kw">if</span> counter_data(<span class="str">"icon_total"</span>, <span class="str">"single"</span>, path) == <span class="dig">0</span>:
-        <span class="kw">print</span>(<span class="str">"clean success"</span>)
+        <span class="kw">print</span>(<span class="str">"Clean success"</span>)
     <span class="kw">else</span>:
-        <span class="kw">print</span>(<span class="str">"clean failed"</span>)
+        <span class="kw">print</span>(<span class="str">"Clean failed"</span>)
 
 <span class="kw">def</span> check_open_folder():
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     <span class="kw">print</span>(<span class="str">"***Start to check_open_folder***"</span>)
     <span class="kw">if</span> get_os_ver() == <span class="str">"Win10"</span>:
         <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"refresh_button"</span>)).similar(<span class="dig">0.70</span>)):
@@ -778,7 +830,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     <span class="kw">return</span> flag
 
 <span class="kw">def</span> check_max_window():
-    <span class="kw">print</span>(<span class="str">"***Start to check_max_window***"</span>)
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     flag = <span class="dig">0</span>
     <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">3</span>):
         <span class="kw">if</span> get_os_ver() == <span class="str">"Win10"</span>:
@@ -797,6 +850,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     <span class="kw">return</span> flag
 
 <span class="kw">def</span> check_qsync_live():
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     cmd = <span class="str">'TASKLIST /FI "imagename eq Qsync.exe" /svc'</span>
     tasklist_cmd = os.popen(cmd).read()
     <span class="kw">if</span> <span class="str">"Qsync"</span> <span class="kw">in</span> tasklist_cmd:
@@ -805,6 +860,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
         <span class="kw">return</span> False
 
 <span class="kw">def</span> close_qsync_UI():
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     <span class="skw">wait</span>(<span class="dig">1</span>)
     <span class="skw">click</span>(Pattern(search_path(<span class="str">"close_button"</span>)).similar(<span class="dig">0.70</span>))
     <span class="skw">wait</span>(<span class="dig">2</span>)

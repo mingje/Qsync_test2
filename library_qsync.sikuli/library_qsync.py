@@ -62,8 +62,6 @@ picture_path = delimiter.join(sys_path_split) + "\\screenshot\\"
 print(picture_path)
 
 def search_path(picture_name):
-    fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
     check_path = picture_path + picture_name + "\\"
     print(check_path)
     search_list = os.listdir(check_path)
@@ -364,17 +362,14 @@ def get_os_ver():
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
     os_dir = os.popen("ver").read()
-    print(os_dir)
     os_split = os_dir.split("[")
-    print(os_split)
     os_split1 = os_split[1].split(" ")
-    print(os_split1)
     os_split2 = os_split1[1].split(".")
     if os_split2[0] == "10":
-        print("Win10")
+        print("OS is Win10")
         return "Win10"
     elif os_split2[0] == "6":
-        print("Win7")
+        print("OS is Win7")
         return "Win7"
     else:
         print("Unknown OS")

@@ -74,47 +74,17 @@
 <span class="kw">from</span> library_qsync <span class="kw">import</span> *
 
 
-<span class="kw">def</span> output_line_items():
-    line_list = []
+<span class="kw">def</span> counter_surplus_no(data_type, counter_type, path):
     <span class="kw">try</span>:
-        xregion = Region(<span class="dig">7</span>,<span class="dig">526</span>,<span class="dig">1247</span>,<span class="dig">127</span>)
-        icon_findline = xregion.findAll(Pattern(search_path(<span class="str">"syncdone_item_icon"</span>)).similar(<span class="dig">0.70</span>))
-        <span class="kw">for</span> j <span class="kw">in</span> icon_findline:
-            line_list.append(j)
+        surplus_no = counter_data(data_type, counter_type, path)
     <span class="kw">except</span>:
-        line_list = []
-    <span class="kw">print</span>(<span class="str">"current line icon: "</span> + str(len(line_list)))
-    <span class="kw">return</span>(len(line_list))
+        surplus_no = <span class="dig">0</span>
+    <span class="kw">return</span> surplus_no
 
-<span class="str">"""
-data_items = 110
-row_items = 11
-a = data_items / row_items
-b = a-1
-first = 33
-print(b)
-x = 0
-for i in range(b):
-    click_region = Region(1253,625,27,36)
-    click_region.click(Pattern(search_path("down_button")).similar(0.70))
-    v = output_line_items()
-    if x == 0:
-        gg = first
-    else:
-        gg = gg + v
-        
-    if v != row_items:
-        if gg &gt; data_items:
-            gg = gg - row_items
-            break
-    else:
-        pass
-    x = x + 1
-    print(gg)
-print("total:" + str(gg))
-"""</span>
-dir_cmd = <span class="str">"dir D:\\test"</span>
-dir_result = os.popen(dir_cmd).read()
+path1 = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\@Qsync_test\\.qsync"</span>
+path = <span class="str">"D:\\test"</span>
+
+<span class="kw">print</span>(counter_surplus_no(<span class="str">"total"</span>, <span class="str">"all"</span>, path1))
 </pre>
 </body>
 </html>

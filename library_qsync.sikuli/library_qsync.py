@@ -527,10 +527,18 @@ def week_current():
     week_current = localtime_space[0]
     return week_current
 
+def counter_surplus_no(data_type, counter_type, path):
+    try:
+        surplus_no = counter_data(data_type, counter_type, path)
+    except:
+        surplus_no = 0
+    return surplus_no
+
 def check_data_result(path1, path2):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
-    path_from_total = counter_data("total", "all", path1)
+    path_surplus = "C:\\Users\\" + get_pc_info("user_name") + "\\@Qsync_test\\.qsync" 
+    path_from_total = counter_data("total", "all", path1) - counter_surplus_no("total", "all", path_surplus)
     print("Source total = " + str(path_from_total))
     path_from_size = counter_data("size", "all", path1)
     print("Source size = " + path_from_size)

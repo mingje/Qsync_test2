@@ -551,7 +551,7 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     <span class="kw">else</span>:
         <span class="kw">print</span>(<span class="str">"Unknown counter_type"</span>)
     dir_result = os.popen(dir_cmd).read()
-    <span class="kw">print</span>(dir_result)
+    <span class="cmt"># print(dir_result)</span>
     dir_result_line = dir_result.split(<span class="str">"\n"</span>)
     <span class="kw">if</span> data_type == <span class="str">"file"</span>:
         file_no = int(output_counter_list(<span class="str">"file"</span>, dir_result_line)[<span class="dig">0</span>])
@@ -636,6 +636,104 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     <span class="kw">else</span>:
         <span class="kw">print</span>(<span class="str">"Folder not existed"</span>)
 
+<span class="kw">def</span> outut_page_items():
+    current_icon_list = []
+    <span class="kw">try</span>:
+        icon_findall = findAll(Pattern(search_path(<span class="str">"syncdone_item_icon"</span>)).similar(<span class="dig">0.70</span>))
+        <span class="kw">for</span> i <span class="kw">in</span> icon_findall:
+            current_icon_list.append(i)
+    <span class="kw">except</span>:
+        current_icon_list = []
+    <span class="kw">print</span>(<span class="str">"current page icon: "</span> + str(len(current_icon_list)))
+    <span class="kw">return</span> len(current_icon_list)
+
+<span class="kw">def</span> output_line_items():
+    line_list = []
+    <span class="kw">try</span>:
+        xregion = Region(<span class="dig">7</span>,<span class="dig">526</span>,<span class="dig">1247</span>,<span class="dig">127</span>)
+        icon_findline = xregion.findAll(Pattern(search_path(<span class="str">"syncdone_item_icon"</span>)).similar(<span class="dig">0.70</span>))
+        <span class="kw">for</span> j <span class="kw">in</span> icon_findline:
+            line_list.append(j)
+    <span class="kw">except</span>:
+        line_list = []
+    <span class="kw">print</span>(<span class="str">"current line icon: "</span> + str(len(line_list)))
+    <span class="kw">return</span>(len(line_list))
+
+<span class="kw">def</span> check_icon_result(data_items, row_items, page_item_no):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
+    <span class="kw">if</span> data_items == page_item_no:
+        <span class="kw">print</span>(<span class="str">"Icon check PASS: "</span> + str(page_item_no))
+        flag = <span class="dig">1</span>
+    <span class="kw">elif</span> data_items &lt; page_item_no:
+        <span class="kw">print</span>(<span class="str">"Icon check fail"</span>)
+        flag = <span class="dig">2</span>
+    <span class="kw">else</span>:
+        <span class="kw">if</span> page_item_no % row_items == <span class="dig">0</span> <span class="kw">and</span> data_items &gt; row_items * <span class="dig">3</span>:
+            flag = <span class="dig">0</span>
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"Icon check fail"</span>)
+            flag = <span class="dig">3</span>
+    <span class="kw">return</span> flag
+
+<span class="kw">def</span> down_icon_check(data_items, row_items ,page_item_no):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
+    quotient = data_items / row_items
+    remainder = data_items % row_items
+    exclude_no = page_item_no / row_items
+    <span class="kw">if</span> remainder == <span class="dig">0</span>:
+        down_time = quotient - exclude_no + <span class="dig">1</span>
+    <span class="kw">else</span>:
+        down_time = quotient - exclude_no + <span class="dig">2</span>
+    <span class="kw">print</span>(<span class="str">"Max down times is: "</span> + str(down_time))
+    result_icon = <span class="dig">0</span>
+    <span class="kw">for</span> i <span class="kw">in</span> range(down_time):
+        click_region = Region(<span class="dig">1253</span>,<span class="dig">625</span>,<span class="dig">27</span>,<span class="dig">36</span>)
+        click_region.<span class="skw">click</span>(Pattern(search_path(<span class="str">"down_button"</span>)).similar(<span class="dig">0.70</span>))
+        add_item_no = output_line_items()
+        result_icon = result_icon + add_item_no
+        <span class="kw">if</span> add_item_no != row_items:
+            <span class="kw">break</span>
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(result_icon)
+    total_no = page_item_no + result_icon
+    <span class="kw">if</span> total_no &gt; data_items:
+        total_final = total_no -<span class="dig">11</span>
+    <span class="kw">else</span>:
+        total_final = total_no
+    <span class="kw">print</span>(<span class="str">"first"</span> + str(page_item_no))
+    <span class="kw">print</span>(<span class="str">"add items: "</span> + str(result_icon))
+    <span class="kw">print</span>(<span class="str">"Total number: "</span> + str(total_no))
+    <span class="kw">print</span>(<span class="str">"Final total number: "</span> + str(total_final))
+    <span class="kw">return</span> total_final
+
+<span class="kw">def</span> check_icon_no_N(data_items, row_items):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
+    <span class="cmt"># get items at first page</span>
+    x = <span class="dig">0</span>
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">2</span>):
+        <span class="kw">if</span> x == <span class="dig">0</span>:
+            first_page_item_no = outut_page_items()
+            page_item_no = first_page_item_no
+            <span class="kw">print</span>(<span class="str">"First page icon no= "</span> + str(first_page_item_no))
+        <span class="kw">else</span>:
+            page_item_no = down_icon_check(data_items, row_items, first_page_item_no)
+        icon_result = check_icon_result(data_items, row_items , page_item_no)
+        <span class="kw">if</span> icon_result == <span class="dig">1</span>:
+            <span class="kw">print</span>(<span class="str">"End icon check: Result PASS"</span>)
+            flag = <span class="dig">1</span>
+            <span class="kw">break</span>
+        <span class="kw">elif</span> icon_result == <span class="dig">0</span>:
+            <span class="kw">print</span>(<span class="str">"Enter advanced check step"</span>)
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"End icon check: Result FAIL"</span>)
+            flag = <span class="dig">0</span>
+            <span class="kw">break</span>
+        x = x + <span class="dig">1</span>
+    <span class="kw">return</span> flag
+
 <span class="kw">def</span> check_sync_icon(path):
     fun_name = sys._getframe().f_code.co_name
     <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
@@ -645,12 +743,20 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     data_items = counter_data(<span class="str">"icon_total"</span>, <span class="str">"single"</span>, path)
     <span class="kw">print</span>(<span class="str">"Check items = "</span> + str(data_items))
     row_items = <span class="dig">11</span>
-    <span class="kw">if</span> data_items == check_icon_no(data_items, row_items):
+    <span class="kw">if</span> check_icon_no_N(data_items, row_items) == <span class="dig">1</span>:
         <span class="kw">print</span>(<span class="str">"pass icon check"</span>)
         flag = <span class="dig">1</span>
     <span class="kw">else</span>:
         <span class="kw">print</span>(<span class="str">"fail icon check"</span>)
         flag = <span class="dig">0</span>
+    <span class="str">"""
+    if data_items == check_icon_no(data_items, row_items):
+        print("pass icon check")
+        flag = 1
+    else:
+        print("fail icon check")        
+        flag = 0
+    """</span>
     <span class="kw">if</span> get_os_ver() == <span class="str">"Win10"</span>:
         <span class="skw">click</span>(Pattern(search_path(<span class="str">"refresh_button"</span>)).similar(<span class="dig">0.70</span>))
     <span class="kw">else</span>:

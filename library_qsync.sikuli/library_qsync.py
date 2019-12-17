@@ -479,7 +479,7 @@ def counter_data(data_type, counter_type, path):
     else:
         print("Unknown counter_type")
     dir_result = os.popen(dir_cmd).read()
-    print(dir_result)
+    # print(dir_result)
     dir_result_line = dir_result.split("\n")
     if data_type == "file":
         file_no = int(output_counter_list("file", dir_result_line)[0])
@@ -563,7 +563,105 @@ def copy_data(path1, path2, check_type):
             print("Copy data failed")
     else:
         print("Folder not existed")
-        
+
+def outut_page_items():
+    current_icon_list = []
+    try:
+        icon_findall = findAll(Pattern(search_path("syncdone_item_icon")).similar(0.70))
+        for i in icon_findall:
+            current_icon_list.append(i)
+    except:
+        current_icon_list = []
+    print("current page icon: " + str(len(current_icon_list)))
+    return len(current_icon_list)
+
+def output_line_items(): 
+    line_list = []
+    try:
+        xregion = Region(7,526,1247,127)
+        icon_findline = xregion.findAll(Pattern(search_path("syncdone_item_icon")).similar(0.70))
+        for j in icon_findline:
+            line_list.append(j)
+    except:
+        line_list = []
+    print("current line icon: " + str(len(line_list)))
+    return(len(line_list))
+
+def check_icon_result(data_items, row_items, page_item_no):
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
+    if data_items == page_item_no:
+        print("Icon check PASS: " + str(page_item_no))
+        flag = 1
+    elif data_items < page_item_no: 
+        print("Icon check fail")
+        flag = 2
+    else:
+        if page_item_no % row_items == 0 and data_items > row_items * 3:
+            flag = 0
+        else:
+            print("Icon check fail")
+            flag = 3
+    return flag
+
+def down_icon_check(data_items, row_items ,page_item_no):
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
+    quotient = data_items / row_items
+    remainder = data_items % row_items
+    exclude_no = page_item_no / row_items
+    if remainder == 0:
+        down_time = quotient - exclude_no + 1
+    else:
+        down_time = quotient - exclude_no + 2
+    print("Max down times is: " + str(down_time))
+    result_icon = 0
+    for i in range(down_time):
+        click_region = Region(1253,625,27,36)
+        click_region.click(Pattern(search_path("down_button")).similar(0.70))
+        add_item_no = output_line_items()
+        result_icon = result_icon + add_item_no
+        if add_item_no != row_items:
+            break
+        else:
+            print(result_icon)
+    total_no = page_item_no + result_icon
+    if total_no > data_items:
+        total_final = total_no -11
+    else:
+        total_final = total_no
+    print("first" + str(page_item_no))
+    print("add items: " + str(result_icon))
+    print("Total number: " + str(total_no))
+    print("Final total number: " + str(total_final))
+    return total_final
+
+def check_icon_no_N(data_items, row_items):
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
+    # get items at first page
+    x = 0
+    for i in range(2):
+        if x == 0:
+            first_page_item_no = outut_page_items()
+            page_item_no = first_page_item_no
+            print("First page icon no= " + str(first_page_item_no))
+        else:
+            page_item_no = down_icon_check(data_items, row_items, first_page_item_no)
+        icon_result = check_icon_result(data_items, row_items , page_item_no)
+        if icon_result == 1:
+            print("End icon check: Result PASS")
+            flag = 1
+            break
+        elif icon_result == 0:
+            print("Enter advanced check step")
+        else:
+            print("End icon check: Result FAIL")
+            flag = 0
+            break
+        x = x + 1
+    return flag
+
 def check_sync_icon(path):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
@@ -573,12 +671,20 @@ def check_sync_icon(path):
     data_items = counter_data("icon_total", "single", path)
     print("Check items = " + str(data_items))
     row_items = 11
+    if check_icon_no_N(data_items, row_items) == 1:
+        print("pass icon check")
+        flag = 1
+    else:
+        print("fail icon check")
+        flag = 0
+    """
     if data_items == check_icon_no(data_items, row_items):
         print("pass icon check")
         flag = 1
     else:
         print("fail icon check")        
         flag = 0
+    """
     if get_os_ver() == "Win10":
         click(Pattern(search_path("refresh_button")).similar(0.70))
     else:

@@ -1,0 +1,120 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>check_time.sikuli</h2> <a href="check_time.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span> *
+<span class="kw">from</span> library_qsync <span class="kw">import</span> *
+
+
+<span class="kw">def</span> output_line_items():
+    line_list = []
+    <span class="kw">try</span>:
+        xregion = Region(<span class="dig">7</span>,<span class="dig">526</span>,<span class="dig">1247</span>,<span class="dig">127</span>)
+        icon_findline = xregion.findAll(Pattern(search_path(<span class="str">"syncdone_item_icon"</span>)).similar(<span class="dig">0.70</span>))
+        <span class="kw">for</span> j <span class="kw">in</span> icon_findline:
+            line_list.append(j)
+    <span class="kw">except</span>:
+        line_list = []
+    <span class="kw">print</span>(<span class="str">"current line icon: "</span> + str(len(line_list)))
+    <span class="kw">return</span>(len(line_list))
+
+<span class="str">"""
+data_items = 110
+row_items = 11
+a = data_items / row_items
+b = a-1
+first = 33
+print(b)
+x = 0
+for i in range(b):
+    click_region = Region(1253,625,27,36)
+    click_region.click(Pattern(search_path("down_button")).similar(0.70))
+    v = output_line_items()
+    if x == 0:
+        gg = first
+    else:
+        gg = gg + v
+        
+    if v != row_items:
+        if gg &gt; data_items:
+            gg = gg - row_items
+            break
+    else:
+        pass
+    x = x + 1
+    print(gg)
+print("total:" + str(gg))
+"""</span>
+dir_cmd = <span class="str">"dir D:\\test"</span>
+dir_result = os.popen(dir_cmd).read()
+</pre>
+</body>
+</html>

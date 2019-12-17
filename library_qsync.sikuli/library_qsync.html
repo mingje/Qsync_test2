@@ -609,11 +609,12 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
 <span class="kw">def</span> check_data_result(path1, path2):
     fun_name = sys._getframe().f_code.co_name
     <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
-    path_surplus = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\@Qsync_test\\.qsync"</span>
+    path_surplus = path1 + <span class="str">"\\.qsync"</span>
     path_from_total = counter_data(<span class="str">"total"</span>, <span class="str">"all"</span>, path1) - counter_surplus_no(<span class="str">"total"</span>, <span class="str">"all"</span>, path_surplus)
     <span class="kw">print</span>(<span class="str">"Source total = "</span> + str(path_from_total))
     path_from_size = counter_data(<span class="str">"size"</span>, <span class="str">"all"</span>, path1)
     <span class="kw">print</span>(<span class="str">"Source size = "</span> + path_from_size)
+    path_surplus = path2 + <span class="str">"\\.qsync"</span>
     path_to_total = counter_data(<span class="str">"total"</span>, <span class="str">"all"</span>, path2)
     <span class="kw">print</span>(<span class="str">"Destination total = "</span> + str(path_to_total))
     path_to_size = counter_data(<span class="str">"size"</span>, <span class="str">"all"</span>, path2)

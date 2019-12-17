@@ -135,7 +135,7 @@ def open_qsync():
             click(Pattern(search_path("delete_button")).similar(0.70))
         else:
             print("No warning")
-        if "64" in os_bit:
+        if get_os_bit() == "64": 
             os.system('"C:\\Program Files (x86)\\QNAP\\Qsync\\Qsync.exe"')
         else:
             os.system('"C:\\Program Files\\QNAP\\Qsync\\Qsync.exe"')

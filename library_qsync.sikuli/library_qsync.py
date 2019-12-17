@@ -112,13 +112,20 @@ def send_mail(test_pc):
     server.quit()
     print('Email sent!')
 
+def get_os_bit():
+    os_bit = os.popen("echo %PROCESSOR_ARCHITECTURE%").read()
+    if "64" in os_bit: 
+        os_bit = "64" 
+    else:
+        os_bit = "32"
+    return os_bit
+
 def open_qsync():
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
     flag = 0
     for i in range(3):
-        os_bit = os.popen("echo %PROCESSOR_ARCHITECTURE%").read()
-        if "64" in os_bit: 
+        if get_os_bit() == "64": 
             qsync = "C:\Program Files (x86)\QNAP\Qsync\Qsync.exe"
         else:
             qsync = "C:\Program Files\QNAP\Qsync\Qsync.exe"
@@ -670,7 +677,10 @@ def check_sync_icon(path):
     set_browser_sty()
     data_items = counter_data("icon_total", "single", path)
     print("Check items = " + str(data_items))
-    row_items = 11
+    if get_os_bit() == "64":
+        row_items = 11
+    else:
+        row_items = 17
     if check_icon_no_N(data_items, row_items) == 1:
         print("pass icon check")
         flag = 1

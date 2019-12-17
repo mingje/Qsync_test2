@@ -184,13 +184,20 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     server.quit()
     <span class="kw">print</span>(<span class="str">'Email sent!'</span>)
 
+<span class="kw">def</span> get_os_bit():
+    os_bit = os.popen(<span class="str">"echo %PROCESSOR_ARCHITECTURE%"</span>).read()
+    <span class="kw">if</span> <span class="str">"64"</span> <span class="kw">in</span> os_bit:
+        os_bit = <span class="str">"64"</span>
+    <span class="kw">else</span>:
+        os_bit = <span class="str">"32"</span>
+    <span class="kw">return</span> os_bit
+
 <span class="kw">def</span> open_qsync():
     fun_name = sys._getframe().f_code.co_name
     <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     flag = <span class="dig">0</span>
     <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">3</span>):
-        os_bit = os.popen(<span class="str">"echo %PROCESSOR_ARCHITECTURE%"</span>).read()
-        <span class="kw">if</span> <span class="str">"64"</span> <span class="kw">in</span> os_bit:
+        <span class="kw">if</span> get_os_bit() == <span class="str">"64"</span>:
             qsync = <span class="str">"C:\Program Files (x86)\QNAP\Qsync\Qsync.exe"</span>
         <span class="kw">else</span>:
             qsync = <span class="str">"C:\Program Files\QNAP\Qsync\Qsync.exe"</span>
@@ -742,7 +749,10 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     set_browser_sty()
     data_items = counter_data(<span class="str">"icon_total"</span>, <span class="str">"single"</span>, path)
     <span class="kw">print</span>(<span class="str">"Check items = "</span> + str(data_items))
-    row_items = <span class="dig">11</span>
+    <span class="kw">if</span> get_os_bit() == <span class="str">"64"</span>:
+        row_items = <span class="dig">11</span>
+    <span class="kw">else</span>:
+        row_items = <span class="dig">17</span>
     <span class="kw">if</span> check_icon_no_N(data_items, row_items) == <span class="dig">1</span>:
         <span class="kw">print</span>(<span class="str">"pass icon check"</span>)
         flag = <span class="dig">1</span>

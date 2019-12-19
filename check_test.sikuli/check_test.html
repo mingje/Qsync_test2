@@ -197,6 +197,7 @@
 <span class="kw">def</span> check_icon_no_N(data_items, row_items):
 <span class="cmt"># get items at first page</span>
     x = <span class="dig">0</span>
+    flag = <span class="dig">0</span>
     <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">2</span>):
         <span class="kw">if</span> x == <span class="dig">0</span>:
             first_page_item_no = outut_page_items()
@@ -211,6 +212,7 @@
             <span class="kw">break</span>
         <span class="kw">elif</span> icon_result == <span class="dig">0</span>:
             <span class="kw">print</span>(<span class="str">"Enter advanced check step"</span>)
+            flag = <span class="dig">0</span>
         <span class="kw">else</span>:
             <span class="kw">print</span>(<span class="str">"End icon check: Result FAIL"</span>)
             flag = <span class="dig">0</span>
@@ -221,7 +223,7 @@
 data_items = <span class="dig">109</span>
 row_items = <span class="dig">11</span>
 
-<span class="kw">print</span>(check_icon_no_N(data_items, row_items))
+<span class="kw">print</span>(check_icon_no_N(<span class="dig">50</span>, <span class="dig">11</span>))
 
 
 

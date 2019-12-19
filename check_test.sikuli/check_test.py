@@ -125,6 +125,7 @@ def down_icon_check(data_items, row_items ,page_item_no):
 def check_icon_no_N(data_items, row_items):
 # get items at first page
     x = 0
+    flag = 0
     for i in range(2):
         if x == 0:
             first_page_item_no = outut_page_items()
@@ -139,6 +140,7 @@ def check_icon_no_N(data_items, row_items):
             break
         elif icon_result == 0:
             print("Enter advanced check step")
+            flag = 0
         else:
             print("End icon check: Result FAIL")
             flag = 0
@@ -149,7 +151,7 @@ def check_icon_no_N(data_items, row_items):
 data_items = 109
 row_items = 11
 
-print(check_icon_no_N(data_items, row_items))
+print(check_icon_no_N(50, 11))
 
 
 

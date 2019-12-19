@@ -22,12 +22,14 @@ print(target_client)
 
 target = nas_detail(lanip = nas_lanip, ac = nas_ac, pwd = nas_pwd)
 print(target)
+os_ver = get_os_ver()
+os_bit = get_os_bit()
 
 if reset_flag == "Y":
     # Remove nas
     close_qsync()
     wait(5)
-    open_qsync()
+    open_qsync(os_bit)
     wait(2)
     if exists(Pattern(search_path("host_field")).similar(0.70)):
         print("Already remove nas")
@@ -57,7 +59,7 @@ else:
 # login and pair sync folder
 unmount_disk("w")
 
-open_qsync()
+open_qsync(os_bit)
 wait(2)
 if exists(Pattern(search_path("host_field")).similar(0.70)):
     login_pair(ip=target["lanip"], ac=target["ac"] , pwd=target["pwd"])
@@ -72,7 +74,7 @@ wait(3)
 x = 1                         
 for i in range(200):
     print("Execute " + str(x) + " Times")
-    open_qsync()
+    open_qsync(os_bit)
     wait(20)
     stop_time = int(time.strftime("%H%M%S"))
     print("current_time is: " + str(stop_time))

@@ -94,12 +94,14 @@ target_client = eval(tar)
 
 target = nas_detail(lanip = nas_lanip, ac = nas_ac, pwd = nas_pwd)
 <span class="kw">print</span>(target)
+os_ver = get_os_ver()
+os_bit = get_os_bit()
 
 <span class="kw">if</span> reset_flag == <span class="str">"Y"</span>:
     <span class="cmt"># Remove nas</span>
     close_qsync()
     <span class="skw">wait</span>(<span class="dig">5</span>)
-    open_qsync()
+    open_qsync(os_bit)
     <span class="skw">wait</span>(<span class="dig">2</span>)
     <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"host_field"</span>)).similar(<span class="dig">0.70</span>)):
         <span class="kw">print</span>(<span class="str">"Already remove nas"</span>)
@@ -129,7 +131,7 @@ target = nas_detail(lanip = nas_lanip, ac = nas_ac, pwd = nas_pwd)
 <span class="cmt"># login and pair sync folder</span>
 unmount_disk(<span class="str">"w"</span>)
 
-open_qsync()
+open_qsync(os_bit)
 <span class="skw">wait</span>(<span class="dig">2</span>)
 <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"host_field"</span>)).similar(<span class="dig">0.70</span>)):
     login_pair(ip=target[<span class="str">"lanip"</span>], ac=target[<span class="str">"ac"</span>] , pwd=target[<span class="str">"pwd"</span>])
@@ -144,7 +146,7 @@ close_qsync()
 x = <span class="dig">1</span>
 <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">200</span>):
     <span class="kw">print</span>(<span class="str">"Execute "</span> + str(x) + <span class="str">" Times"</span>)
-    open_qsync()
+    open_qsync(os_bit)
     <span class="skw">wait</span>(<span class="dig">20</span>)
     stop_time = int(time.strftime(<span class="str">"%H%M%S"</span>))
     <span class="kw">print</span>(<span class="str">"current_time is: "</span> + str(stop_time))

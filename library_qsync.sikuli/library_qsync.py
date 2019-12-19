@@ -118,12 +118,12 @@ def get_os_bit():
         os_bit = "32"
     return os_bit
 
-def open_qsync():
+def open_qsync(os_bit):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
     flag = 0
     for i in range(3):
-        if get_os_bit() == "64": 
+        if os_bit == "64": 
             qsync = "C:\Program Files (x86)\QNAP\Qsync\Qsync.exe"
         else:
             qsync = "C:\Program Files\QNAP\Qsync\Qsync.exe"
@@ -133,7 +133,7 @@ def open_qsync():
             click(Pattern(search_path("delete_button")).similar(0.70))
         else:
             print("No warning")
-        if get_os_bit() == "64": 
+        if os_bit == "64": 
             os.system('"C:\\Program Files (x86)\\QNAP\\Qsync\\Qsync.exe"')
         else:
             os.system('"C:\\Program Files\\QNAP\\Qsync\\Qsync.exe"')
@@ -192,16 +192,16 @@ def remove_nas_profile():
     assert flag == 1, "Remove NAS failed"
     
 # input path then get check list (get_check_icon_list(path = "D:\\test"))
-def get_check_icon_list(path):
+def get_check_icon_list(path, os_ver):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
     path = path
     path_q = path + "\\.qsync"
     attrib_cmd = "attrib -s -h -r " + path + "\\*.* && del " + path + "\\*.* /q"
     dir_cmd = "dir " + path + " /ad /b /s >del.txt"
-    if get_os_ver() == "Win10":
+    if os_ver == "Win10":
         to_utf8 = 'PowerShell -Command "& {get-content del.txt -encoding default | set-content del_utf8.txt -encoding utf8}"'
-    elif get_os_ver() == "Win7":
+    elif os_ver == "Win7":
         to_utf8 = 'PowerShell -Command "& {get-content del.txt -encoding String | set-content del_utf8.txt -encoding utf8}"'
     else:
         print("Unknown OS")
@@ -295,12 +295,12 @@ def open_folder_cmd(folder_path):
         cmd = "explorer " + path
         os.system(cmd)  
         wait(3)
-        if check_open_folder() == 1:
+        if check_open_folder(os_ver) == 1:
             print("Open folder success")
             break
         else:
             print("Open folder fail")
-    if check_max_window() == 1:
+    if check_max_window(os_ver) == 1:
         print("Max window success")
     else:
         print("Max windows fail")
@@ -375,10 +375,10 @@ def get_os_ver():
         print("Unknown OS")
         return "Unknown OS"
     
-def set_browser_sty():
+def set_browser_sty(os_ver):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
-    if get_os_ver() == "Win10":
+    if os_ver == "Win10":
 
         check_region = Region(59,7,273,44)
         
@@ -399,7 +399,7 @@ def set_browser_sty():
         wait(1)
         type(Key.F5)
         wait(1)
-    elif get_os_ver() == "Win7":
+    elif os_ver == "Win7":
         type("v", KeyModifier.ALT)
         wait(2)
         type("r", KeyModifier.SHIFT)
@@ -678,15 +678,15 @@ def check_icon_no_N(data_items, row_items):
         x = x + 1
     return flag
 
-def check_sync_icon(path):
+def check_sync_icon(path, os_ver, os_bit):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
     print(path)
     open_folder_cmd(path)
-    set_browser_sty()
+    set_browser_sty(os_ver)
     data_items = counter_data("icon_total", "single", path)
     print("Check items = " + str(data_items))
-    if get_os_bit() == "64":
+    if os_bit == "64":
         row_items = 11
     else:
         row_items = 17
@@ -704,7 +704,7 @@ def check_sync_icon(path):
         print("fail icon check")        
         flag = 0
     """
-    if get_os_ver() == "Win10":
+    if os_ver == "Win10":
         click(Pattern(search_path("refresh_button")).similar(0.70))
     else:
         click(Pattern(search_path("refresh_button_7")).similar(0.70))    
@@ -729,7 +729,7 @@ def a(ran_switch, ran_no, *args):
         ran_no = 1
     for i in run_list:
         print(i)
-        flag = check_sync_icon(path = i)
+        flag = check_sync_icon(i, os_ver, os_bit)
         if flag != 1:
             break
     return flag
@@ -746,11 +746,11 @@ def check_team_folder():
         else:
             mount_disk(i["ip"],i["folder_name"],i["ac"],i["pwd"],"w") 
             check_data_result(path,"w:\\")
-            check_sync_icon(path = path)
+            check_sync_icon(path = path, os_ver = os_ver, os_bit = os_bit)
             if counter_data("icon_total", "single", path) == 0:
                 print("Pass advanced icon check")
             else:   
-                mark_list = get_check_icon_list(path = path)
+                mark_list = get_check_icon_list(path, os_ver)
                 a("Y", 2, mark_list)
             unmount_disk("w")
             
@@ -762,11 +762,11 @@ def check_share_folder():
     print(path)
     mount_disk(i["ip"],"@Qsync_test",i["ac"],i["pwd"],"w") 
     check_data_result(path,"w:\\")
-    check_sync_icon(path = path)
+    check_sync_icon(path = path, os_ver = os_ver, os_bit = os_bit)
     if counter_data("icon_total", "single", path) == 0:
         print("Pass advanced icon check")
     else:   
-        mark_list = get_check_icon_list(path = path)
+        mark_list = get_check_icon_list(path, os_ver)
         a("Y", 2, mark_list)
     unmount_disk("w")
 
@@ -864,11 +864,11 @@ def delete_folder(path):
     else:
         print("Clean failed")
 
-def check_open_folder():
+def check_open_folder(os_ver):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
     print("***Start to check_open_folder***")
-    if get_os_ver() == "Win10":
+    if os_ver == "Win10":
         if exists(Pattern(search_path("refresh_button")).similar(0.70)):
             click(Pattern(search_path("refresh_button")).similar(0.70))
             flag = 1
@@ -882,12 +882,12 @@ def check_open_folder():
             flag = 0
     return flag 
 
-def check_max_window():
+def check_max_window(os_ver):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
     flag = 0
     for i in range(3):
-        if get_os_ver() == "Win10":
+        if os_ver == "Win10":
             click(Pattern(search_path("refresh_button")).similar(0.70))
         else:
             click(Pattern(search_path("refresh_button_7")).similar(0.70))

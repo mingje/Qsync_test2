@@ -711,7 +711,7 @@ def check_sync_icon(path, os_ver, os_bit):
     type(Key.F4, KeyModifier.ALT)
     return flag
 
-def random_icon_check(ran_switch, ran_no, *args, os_ver, os_bit):
+def random_icon_check(ran_switch, ran_no, os_ver, os_bit, *args):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
     if isinstance(args[0], list) == True:

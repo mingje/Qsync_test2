@@ -25,7 +25,6 @@ print(target)
 os_ver = get_os_ver()
 os_bit = get_os_bit()
 
-b()
 
 if reset_flag == "Y":
     # Remove nas

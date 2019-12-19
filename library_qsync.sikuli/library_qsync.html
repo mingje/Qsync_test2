@@ -81,6 +81,7 @@
 <span class="kw">from</span> email.mime.text <span class="kw">import</span> MIMEText
 <span class="kw">from</span> email.mime.application <span class="kw">import</span> MIMEApplication
 
+<span class="cmt">################# Testing Info ###################</span>
 AT_VM_S2 = {
     <span class="str">"ip"</span>: <span class="str">"10.20.241.134"</span>,
     <span class="str">"folder_name"</span>: <span class="str">"share_test_desktop-kp8ovfb"</span>,
@@ -133,6 +134,13 @@ delimiter = <span class="str">"\\"</span>
 picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\\"</span>
 <span class="kw">print</span>(picture_path)
 
+<span class="kw">def</span> nas_detail(**kwargs):
+    nas = {}
+    nas[<span class="str">"lanip"</span>] = kwargs.get(<span class="str">"lanip"</span>)
+    nas[<span class="str">"ac"</span>] = kwargs.get(<span class="str">"ac"</span>)
+    nas[<span class="str">"pwd"</span>] = kwargs.get(<span class="str">"pwd"</span>)
+    <span class="kw">return</span> nas
+
 <span class="kw">def</span> search_path(picture_name):
     check_path = picture_path + picture_name + <span class="str">"\\"</span>
     <span class="kw">print</span>(check_path)
@@ -151,12 +159,116 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
             flag = final_path
     <span class="kw">return</span> flag
 
-<span class="kw">def</span> nas_detail(**kwargs):
-    nas = {}
-    nas[<span class="str">"lanip"</span>] = kwargs.get(<span class="str">"lanip"</span>)
-    nas[<span class="str">"ac"</span>] = kwargs.get(<span class="str">"ac"</span>)
-    nas[<span class="str">"pwd"</span>] = kwargs.get(<span class="str">"pwd"</span>)
-    <span class="kw">return</span> nas
+
+<span class="cmt">################# System related function ###################</span>
+<span class="kw">def</span> get_os_bit():
+    os_bit = os.popen(<span class="str">"echo %PROCESSOR_ARCHITECTURE%"</span>).read()
+    <span class="kw">if</span> <span class="str">"64"</span> <span class="kw">in</span> os_bit:
+        os_bit = <span class="str">"64"</span>
+    <span class="kw">else</span>:
+        os_bit = <span class="str">"32"</span>
+    <span class="kw">return</span> os_bit
+
+<span class="cmt"># get_pc_info(info_name = "pc_name" or "user_name")</span>
+<span class="kw">def</span> get_pc_info(info_name):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
+    info_name_list = []
+    pc_info = os.popen(<span class="str">"whoami"</span>).read()
+    pc_info_list = pc_info.split(<span class="str">"\\"</span>)
+    pc_name = pc_info_list[<span class="dig">0</span>]
+    user_name = pc_info_list[<span class="dig">1</span>]
+    user_name = user_name[<span class="dig">0</span>:-<span class="dig">1</span>]
+    <span class="kw">if</span> info_name == <span class="str">"pc_name"</span>:
+        <span class="kw">return</span> pc_name
+    <span class="kw">else</span>:
+        <span class="kw">return</span> user_name
+
+<span class="kw">def</span> get_os_ver():
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
+    os_dir = os.popen(<span class="str">"ver"</span>).read()
+    os_split = os_dir.split(<span class="str">"["</span>)
+    os_split1 = os_split[<span class="dig">1</span>].split(<span class="str">" "</span>)
+    os_split2 = os_split1[<span class="dig">1</span>].split(<span class="str">"."</span>)
+    <span class="kw">if</span> os_split2[<span class="dig">0</span>] == <span class="str">"10"</span>:
+        <span class="kw">print</span>(<span class="str">"OS is Win10"</span>)
+        <span class="kw">return</span> <span class="str">"Win10"</span>
+    <span class="kw">elif</span> os_split2[<span class="dig">0</span>] == <span class="str">"6"</span>:
+        <span class="kw">print</span>(<span class="str">"OS is Win7"</span>)
+        <span class="kw">return</span> <span class="str">"Win7"</span>
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"Unknown OS"</span>)
+        <span class="kw">return</span> <span class="str">"Unknown OS"</span>
+
+<span class="kw">def</span> week_current():
+    localtime = time.asctime( time.localtime(time.time()) )
+    <span class="kw">print</span> <span class="str">"Locatime:"</span>, localtime
+    localtime_space = localtime.split(<span class="str">" "</span>)
+    week_current = localtime_space[<span class="dig">0</span>]
+    <span class="kw">return</span> week_current
+
+<span class="kw">def</span> mount_disk(ip, folder_name, username, password, disk):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
+    mount_cmd = <span class="str">"net use "</span> + disk + <span class="str">": "</span> + <span class="str">"\\\\"</span> + ip + <span class="str">"\\"</span> + folder_name + <span class="str">" /user:"</span> + username + <span class="str">" "</span> + password
+    <span class="kw">print</span>(mount_cmd)
+    os.system(mount_cmd)
+    dir_cmd = <span class="str">"dir "</span> + disk + <span class="str">":\\"</span>
+    flag = os.system(dir_cmd)
+    <span class="kw">if</span> flag == <span class="dig">0</span>:
+        <span class="kw">print</span>(<span class="str">"Mount success"</span>)
+    <span class="kw">else</span>:
+        <span class="kw">pass</span>
+    <span class="kw">assert</span> flag == <span class="dig">0</span>, <span class="str">"Mount failed"</span>
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+
+<span class="kw">def</span> unmount_disk(disk):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
+    os.system(<span class="str">"net use * /d /YES"</span>)
+    dir_cmd = <span class="str">"dir "</span> + disk + <span class="str">":\\"</span>
+    flag = os.system(dir_cmd)
+    <span class="kw">if</span> flag == <span class="dig">1</span>:
+        <span class="kw">print</span>(<span class="str">"Unmount success"</span>)
+    <span class="kw">else</span>:
+        <span class="kw">pass</span>
+    <span class="kw">assert</span> flag == <span class="dig">1</span>, <span class="str">"Unmount failed"</span>
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+
+<span class="cmt"># clean_remote_disk("w")</span>
+<span class="kw">def</span> clean_remote_disk(disk):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
+    clean_cmd = <span class="str">"rd /s/q "</span> + disk + <span class="str">":\\"</span>
+    <span class="kw">try</span>:
+        os.system(clean_cmd)
+    <span class="kw">except</span>:
+        <span class="kw">pass</span>
+    path = disk + <span class="str">":\\"</span>
+    <span class="kw">if</span> counter_data(<span class="str">"icon_total"</span>, <span class="str">"single"</span>, path) == <span class="dig">0</span>:
+        <span class="kw">print</span>(<span class="str">"clean success"</span>)
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"clean failed"</span>)
+
+<span class="kw">def</span> run_path():
+    source_path =sys.path[<span class="dig">0</span>]
+    path_spl = source_path.split(<span class="str">"\\"</span>)
+    <span class="kw">del</span> path_spl[-<span class="dig">1</span>]
+    out_path = <span class="str">"\\"</span>.join(path_spl)
+    <span class="kw">return</span> out_path
+
+<span class="cmt"># delete_folder("D:\\test\\")</span>
+<span class="kw">def</span> delete_folder(path):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
+    cmd = run_path() + <span class="str">"\\delete.bat "</span> + path
+    <span class="kw">print</span>(cmd)
+    os.system(cmd)
+    <span class="kw">if</span> counter_data(<span class="str">"icon_total"</span>, <span class="str">"single"</span>, path) == <span class="dig">0</span>:
+        <span class="kw">print</span>(<span class="str">"Clean success"</span>)
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"Clean failed"</span>)
 
 <span class="kw">def</span> send_mail(test_pc):
     fun_name = sys._getframe().f_code.co_name
@@ -182,148 +294,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     server.quit()
     <span class="kw">print</span>(<span class="str">'Email sent!'</span>)
 
-<span class="kw">def</span> get_os_bit():
-    os_bit = os.popen(<span class="str">"echo %PROCESSOR_ARCHITECTURE%"</span>).read()
-    <span class="kw">if</span> <span class="str">"64"</span> <span class="kw">in</span> os_bit:
-        os_bit = <span class="str">"64"</span>
-    <span class="kw">else</span>:
-        os_bit = <span class="str">"32"</span>
-    <span class="kw">return</span> os_bit
 
-<span class="kw">def</span> open_qsync(os_bit):
-    fun_name = sys._getframe().f_code.co_name
-    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
-    flag = <span class="dig">0</span>
-    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">3</span>):
-        <span class="kw">if</span> os_bit == <span class="str">"64"</span>:
-            qsync = <span class="str">"C:\Program Files (x86)\QNAP\Qsync\Qsync.exe"</span>
-        <span class="kw">else</span>:
-            qsync = <span class="str">"C:\Program Files\QNAP\Qsync\Qsync.exe"</span>
-        openApp(qsync)
-        <span class="skw">wait</span>(<span class="dig">5</span>)
-        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"delete_button"</span>)).similar(<span class="dig">0.70</span>)):
-            <span class="skw">click</span>(Pattern(search_path(<span class="str">"delete_button"</span>)).similar(<span class="dig">0.70</span>))
-        <span class="kw">else</span>:
-            <span class="kw">print</span>(<span class="str">"No warning"</span>)
-        <span class="kw">if</span> os_bit == <span class="str">"64"</span>:
-            os.system(<span class="str">'"C:\\Program Files (x86)\\QNAP\\Qsync\\Qsync.exe"'</span>)
-        <span class="kw">else</span>:
-            os.system(<span class="str">'"C:\\Program Files\\QNAP\\Qsync\\Qsync.exe"'</span>)
-        <span class="skw">wait</span>(<span class="dig">5</span>)
-        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"minwindow_icon"</span>)).similar(<span class="dig">0.80</span>)):
-            <span class="skw">click</span>(Pattern(search_path(<span class="str">"minwindow_icon"</span>)).similar(<span class="dig">0.80</span>))
-        <span class="kw">elif</span> exists(Pattern(search_path(<span class="str">"maxwindow_icon"</span>)).similar(<span class="dig">0.70</span>)):
-            <span class="kw">print</span>(<span class="str">"Max Qsync window"</span>)
-        <span class="kw">else</span>:
-            <span class="kw">print</span>(<span class="str">"Max Qsync window failed"</span>)
-        <span class="skw">wait</span>(<span class="dig">5</span>)
-        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"qsync_logo"</span>)).similar(<span class="dig">0.70</span>)):
-            <span class="kw">print</span>(<span class="str">"Open Qsync success"</span>)
-            flag = <span class="dig">1</span>
-            <span class="kw">break</span>
-        <span class="kw">else</span>:
-            flag = <span class="dig">0</span>
-    <span class="kw">assert</span> flag == <span class="dig">1</span>, <span class="str">"Open Qsync failed"</span>
-
-<span class="kw">def</span> close_qsync():
-    fun_name = sys._getframe().f_code.co_name
-    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
-    os.system(<span class="str">"taskkill /f /im Qsync.exe"</span>)
-    <span class="skw">wait</span>(<span class="dig">3</span>)
-    <span class="kw">if</span> check_qsync_live() == False:
-        flag = <span class="dig">1</span>
-        <span class="kw">print</span>(<span class="str">"Close Qsync success"</span>)
-    <span class="kw">else</span>:
-        flag = <span class="dig">0</span>
-    <span class="kw">assert</span> flag == <span class="dig">1</span>, <span class="str">"Close Qsync failed"</span>
-    <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"qsync_logo"</span>)).similar(<span class="dig">0.70</span>)):
-        <span class="kw">print</span>(<span class="str">"Close Qsync fail_UI"</span>)
-    <span class="kw">else</span>:
-        <span class="kw">print</span>(<span class="str">"Close Qsync success_UI"</span>)
-
-
-<span class="kw">def</span> remove_nas_profile():
-    fun_name = sys._getframe().f_code.co_name
-    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
-    <span class="skw">click</span>(Pattern(search_path(<span class="str">"more_button"</span>)).similar(<span class="dig">0.70</span>))
-    <span class="skw">wait</span>(<span class="dig">2</span>)
-    <span class="skw">click</span>(Pattern(search_path(<span class="str">"removeNAS_option"</span>)).similar(<span class="dig">0.70</span>))
-    <span class="skw">wait</span>(<span class="dig">2</span>)
-    <span class="skw">click</span>(Pattern(search_path(<span class="str">"option_button"</span>)).similar(<span class="dig">0.70</span>))
-    <span class="skw">wait</span>(<span class="dig">1</span>)
-    <span class="skw">type</span>(Key.DOWN)
-    <span class="skw">wait</span>(<span class="dig">1</span>)
-    <span class="skw">type</span>(Key.ENTER)
-    <span class="skw">wait</span>(<span class="dig">5</span>)
-    waitVanish((Pattern(search_path(<span class="str">"pleasewait_string"</span>)).similar(<span class="dig">0.70</span>)),<span class="dig">600</span>)
-    <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"host_field"</span>)).similar(<span class="dig">0.70</span>)):
-        <span class="kw">print</span>(<span class="str">"Remove NAS success"</span>)
-        flag = <span class="dig">1</span>
-    <span class="kw">else</span>:
-        flag = <span class="dig">0</span>
-    <span class="kw">assert</span> flag == <span class="dig">1</span>, <span class="str">"Remove NAS failed"</span>
-
-<span class="cmt"># input path then get check list (get_check_icon_list(path = "D:\\test"))</span>
-<span class="kw">def</span> get_check_icon_list(path, os_ver):
-    fun_name = sys._getframe().f_code.co_name
-    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
-    path = path
-    path_q = path + <span class="str">"\\.qsync"</span>
-    attrib_cmd = <span class="str">"attrib -s -h -r "</span> + path + <span class="str">"\\*.* &amp;&amp; del "</span> + path + <span class="str">"\\*.* /q"</span>
-    dir_cmd = <span class="str">"dir "</span> + path + <span class="str">" /ad /b /s &gt;del.txt"</span>
-    <span class="kw">if</span> os_ver == <span class="str">"Win10"</span>:
-        to_utf8 = <span class="str">'PowerShell -Command "&amp; {get-content del.txt -encoding default | set-content del_utf8.txt -encoding utf8}"'</span>
-    <span class="kw">elif</span> os_ver == <span class="str">"Win7"</span>:
-        to_utf8 = <span class="str">'PowerShell -Command "&amp; {get-content del.txt -encoding String | set-content del_utf8.txt -encoding utf8}"'</span>
-    <span class="kw">else</span>:
-        <span class="kw">print</span>(<span class="str">"Unknown OS"</span>)
-    os.system(attrib_cmd)
-    os.system(dir_cmd)
-    <span class="kw">print</span>(to_utf8)
-    <span class="skw">wait</span>(<span class="dig">10</span>)
-    os.system(to_utf8)
-    <span class="cmt"># add mark to list</span>
-    <span class="kw">with</span> open(<span class="str">'del_utf8.txt'</span>, <span class="str">'r'</span>) <span class="kw">as</span> f:
-        path_list = f.read()
-        path_list = path_list[<span class="dig">3</span>:]
-        path_list_space = path_list.split(<span class="str">"\n"</span>)
-        switch_list = []
-        <span class="kw">for</span> i <span class="kw">in</span> path_list_space:
-            <span class="kw">if</span> i == path_q:
-                <span class="kw">pass</span>
-            <span class="kw">else</span>:
-                mark_string = <span class="str">'\"'</span> + i + <span class="str">'\"'</span>
-                switch_list.append(mark_string)
-    <span class="kw">del</span> switch_list[-<span class="dig">1</span>]
-    <span class="kw">print</span>(len(switch_list))
-    <span class="cmt"># get mark txt file</span>
-    <span class="kw">with</span> open(<span class="str">'del_utf8.txt'</span>, <span class="str">'w'</span>) <span class="kw">as</span> e:
-        <span class="kw">for</span> j <span class="kw">in</span> switch_list:
-            e.write(j)
-            e.write(<span class="str">'\n'</span>)
-    <span class="cmt"># get final list</span>
-    <span class="kw">with</span> open(<span class="str">'del_utf8.txt'</span>, <span class="str">'r'</span>) <span class="kw">as</span> g:
-        mark_data = g.read()
-        mark_list = mark_data.split(<span class="str">"\n"</span>)
-        <span class="kw">del</span> mark_list[-<span class="dig">1</span>]
-    <span class="kw">return</span> mark_list
-
-<span class="cmt"># get_pc_info(info_name = "pc_name" or "user_name")</span>
-<span class="kw">def</span> get_pc_info(info_name):
-    fun_name = sys._getframe().f_code.co_name
-    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
-    info_name_list = []
-    pc_info = os.popen(<span class="str">"whoami"</span>).read()
-    pc_info_list = pc_info.split(<span class="str">"\\"</span>)
-    pc_name = pc_info_list[<span class="dig">0</span>]
-    user_name = pc_info_list[<span class="dig">1</span>]
-    user_name = user_name[<span class="dig">0</span>:-<span class="dig">1</span>]
-    <span class="kw">if</span> info_name == <span class="str">"pc_name"</span>:
-        <span class="kw">return</span> pc_name
-    <span class="kw">else</span>:
-        <span class="kw">return</span> user_name
-
-
+<span class="cmt">################# Windows behavior function ###################</span>
 <span class="cmt"># open folder with win browser (open_folder("D:\\test"))</span>
 <span class="kw">def</span> open_folder(folder_path):
     fun_name = sys._getframe().f_code.co_name
@@ -378,6 +350,282 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
         <span class="kw">print</span>(<span class="str">"Max windows fail"</span>)
     <span class="skw">wait</span>(<span class="dig">1</span>)
 
+<span class="kw">def</span> set_browser_sty(os_ver):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
+    <span class="kw">if</span> os_ver == <span class="str">"Win10"</span>:
+
+        check_region = Region(<span class="dig">59</span>,<span class="dig">7</span>,<span class="dig">273</span>,<span class="dig">44</span>)
+
+        check_region.<span class="skw">click</span>(Pattern(search_path(<span class="str">"view_tab"</span>)).similar(<span class="dig">0.70</span>))
+        <span class="skw">wait</span>(<span class="dig">5</span>)
+        <span class="skw">click</span>(Pattern(search_path(<span class="str">"big_view_button"</span>)).similar(<span class="dig">0.70</span>))
+        <span class="skw">wait</span>(<span class="dig">5</span>)
+        <span class="skw">click</span>(Pattern(search_path(<span class="str">"browser_window_button"</span>)).similar(<span class="dig">0.70</span>))
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"show_browser_window"</span>)).similar(<span class="dig">0.90</span>)):
+            <span class="kw">print</span>(<span class="str">"browser window opened status"</span>)
+            <span class="skw">click</span>(Pattern(search_path(<span class="str">"show_browser_window"</span>)).similar(<span class="dig">0.90</span>))
+        <span class="kw">elif</span> exists(Pattern(search_path(<span class="str">"hide_browser_window"</span>)).similar(<span class="dig">0.90</span>)):
+            <span class="kw">print</span>(<span class="str">"browser window closed status"</span>)
+            <span class="skw">type</span>(Key.ENTER)
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"set browser failed"</span>)
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+        <span class="skw">type</span>(Key.F5)
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="kw">elif</span> os_ver == <span class="str">"Win7"</span>:
+        <span class="skw">type</span>(<span class="str">"v"</span>, KeyModifier.ALT)
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+        <span class="skw">type</span>(<span class="str">"r"</span>, KeyModifier.SHIFT)
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+        <span class="skw">type</span>(Key.ENTER)
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+        <span class="skw">click</span>(Pattern(search_path(<span class="str">"manager_button"</span>)).similar(<span class="dig">0.70</span>))
+        <span class="skw">wait</span>(<span class="dig">3</span>)
+        <span class="skw">click</span>(Pattern(search_path(<span class="str">"configuration_button"</span>)).similar(<span class="dig">0.70</span>))
+        <span class="skw">wait</span>(<span class="dig">3</span>)
+        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"show_browser_window_7"</span>)).similar(<span class="dig">0.90</span>)):
+            <span class="kw">print</span>(<span class="str">"browser window opened status"</span>)
+            <span class="skw">click</span>(Pattern(search_path(<span class="str">"show_browser_window_7"</span>)).similar(<span class="dig">0.90</span>))
+        <span class="kw">elif</span> exists(Pattern(search_path(<span class="str">"hide_browser_window_7"</span>)).similar(<span class="dig">0.90</span>)):
+            <span class="kw">print</span>(<span class="str">"browser window closed status"</span>)
+            <span class="skw">type</span>(Key.ENTER)
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"set browser failed"</span>)
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+        <span class="skw">type</span>(Key.F5)
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"Failed"</span>)
+
+<span class="kw">def</span> check_open_folder(os_ver):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
+    <span class="kw">print</span>(<span class="str">"***Start to check_open_folder***"</span>)
+    <span class="kw">if</span> os_ver == <span class="str">"Win10"</span>:
+        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"refresh_button"</span>)).similar(<span class="dig">0.70</span>)):
+            <span class="skw">click</span>(Pattern(search_path(<span class="str">"refresh_button"</span>)).similar(<span class="dig">0.70</span>))
+            flag = <span class="dig">1</span>
+        <span class="kw">else</span>:
+            flag = <span class="dig">0</span>
+    <span class="kw">else</span>:
+        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"refresh_button_7"</span>)).similar(<span class="dig">0.70</span>)):
+            <span class="skw">click</span>(Pattern(search_path(<span class="str">"refresh_button_7"</span>)).similar(<span class="dig">0.70</span>))
+            flag = <span class="dig">1</span>
+        <span class="kw">else</span>:
+            flag = <span class="dig">0</span>
+    <span class="kw">return</span> flag
+
+<span class="kw">def</span> check_max_window(os_ver):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
+    flag = <span class="dig">0</span>
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">3</span>):
+        <span class="kw">if</span> os_ver == <span class="str">"Win10"</span>:
+            <span class="skw">click</span>(Pattern(search_path(<span class="str">"refresh_button"</span>)).similar(<span class="dig">0.70</span>))
+        <span class="kw">else</span>:
+            <span class="skw">click</span>(Pattern(search_path(<span class="str">"refresh_button_7"</span>)).similar(<span class="dig">0.70</span>))
+        <span class="skw">type</span>(Key.UP, KeyModifier.WIN)
+        <span class="skw">wait</span>(<span class="dig">3</span>)
+        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"maxwindow_folder_icon"</span>)).similar(<span class="dig">0.70</span>)):
+            <span class="kw">print</span>(<span class="str">"Max window"</span>)
+            flag = <span class="dig">1</span>
+            <span class="kw">break</span>
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"Not max window"</span>)
+            flag = <span class="dig">0</span>
+    <span class="kw">return</span> flag
+
+
+<span class="cmt">################# Qsync opration function ###################</span>
+<span class="kw">def</span> open_qsync(os_bit):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
+    flag = <span class="dig">0</span>
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">3</span>):
+        <span class="kw">if</span> os_bit == <span class="str">"64"</span>:
+            qsync = <span class="str">"C:\Program Files (x86)\QNAP\Qsync\Qsync.exe"</span>
+        <span class="kw">else</span>:
+            qsync = <span class="str">"C:\Program Files\QNAP\Qsync\Qsync.exe"</span>
+        openApp(qsync)
+        <span class="skw">wait</span>(<span class="dig">5</span>)
+        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"delete_button"</span>)).similar(<span class="dig">0.70</span>)):
+            <span class="skw">click</span>(Pattern(search_path(<span class="str">"delete_button"</span>)).similar(<span class="dig">0.70</span>))
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"No warning"</span>)
+        <span class="kw">if</span> os_bit == <span class="str">"64"</span>:
+            os.system(<span class="str">'"C:\\Program Files (x86)\\QNAP\\Qsync\\Qsync.exe"'</span>)
+        <span class="kw">else</span>:
+            os.system(<span class="str">'"C:\\Program Files\\QNAP\\Qsync\\Qsync.exe"'</span>)
+        <span class="skw">wait</span>(<span class="dig">5</span>)
+        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"minwindow_icon"</span>)).similar(<span class="dig">0.80</span>)):
+            <span class="skw">click</span>(Pattern(search_path(<span class="str">"minwindow_icon"</span>)).similar(<span class="dig">0.80</span>))
+        <span class="kw">elif</span> exists(Pattern(search_path(<span class="str">"maxwindow_icon"</span>)).similar(<span class="dig">0.70</span>)):
+            <span class="kw">print</span>(<span class="str">"Max Qsync window"</span>)
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"Max Qsync window failed"</span>)
+        <span class="skw">wait</span>(<span class="dig">5</span>)
+        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"qsync_logo"</span>)).similar(<span class="dig">0.70</span>)):
+            <span class="kw">print</span>(<span class="str">"Open Qsync success"</span>)
+            flag = <span class="dig">1</span>
+            <span class="kw">break</span>
+        <span class="kw">else</span>:
+            flag = <span class="dig">0</span>
+    <span class="kw">assert</span> flag == <span class="dig">1</span>, <span class="str">"Open Qsync failed"</span>
+
+<span class="kw">def</span> close_qsync():
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
+    os.system(<span class="str">"taskkill /f /im Qsync.exe"</span>)
+    <span class="skw">wait</span>(<span class="dig">3</span>)
+    <span class="kw">if</span> check_qsync_live() == False:
+        flag = <span class="dig">1</span>
+        <span class="kw">print</span>(<span class="str">"Close Qsync success"</span>)
+    <span class="kw">else</span>:
+        flag = <span class="dig">0</span>
+    <span class="kw">assert</span> flag == <span class="dig">1</span>, <span class="str">"Close Qsync failed"</span>
+    <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"qsync_logo"</span>)).similar(<span class="dig">0.70</span>)):
+        <span class="kw">print</span>(<span class="str">"Close Qsync fail_UI"</span>)
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"Close Qsync success_UI"</span>)
+
+<span class="kw">def</span> remove_nas_profile():
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
+    <span class="skw">click</span>(Pattern(search_path(<span class="str">"more_button"</span>)).similar(<span class="dig">0.70</span>))
+    <span class="skw">wait</span>(<span class="dig">2</span>)
+    <span class="skw">click</span>(Pattern(search_path(<span class="str">"removeNAS_option"</span>)).similar(<span class="dig">0.70</span>))
+    <span class="skw">wait</span>(<span class="dig">2</span>)
+    <span class="skw">click</span>(Pattern(search_path(<span class="str">"option_button"</span>)).similar(<span class="dig">0.70</span>))
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.DOWN)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(<span class="dig">5</span>)
+    waitVanish((Pattern(search_path(<span class="str">"pleasewait_string"</span>)).similar(<span class="dig">0.70</span>)),<span class="dig">600</span>)
+    <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"host_field"</span>)).similar(<span class="dig">0.70</span>)):
+        <span class="kw">print</span>(<span class="str">"Remove NAS success"</span>)
+        flag = <span class="dig">1</span>
+    <span class="kw">else</span>:
+        flag = <span class="dig">0</span>
+    <span class="kw">assert</span> flag == <span class="dig">1</span>, <span class="str">"Remove NAS failed"</span>
+
+<span class="kw">def</span> login_pair(ip, ac, pwd):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
+    <span class="skw">click</span>(Pattern(search_path(<span class="str">"host_field"</span>)).similar(<span class="dig">0.70</span>))
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(ip)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(ac)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pwd)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish((Pattern(search_path(<span class="str">"pairing_string"</span>)).similar(<span class="dig">0.70</span>)),<span class="dig">120</span>)
+    <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"pairing_string"</span>)).similar(<span class="dig">0.70</span>)):
+        <span class="kw">print</span>(<span class="str">"over 2 mins.."</span>)
+    <span class="kw">elif</span> exists(Pattern(search_path(<span class="str">"loginfail_string"</span>)).similar(<span class="dig">0.70</span>)):
+        <span class="kw">print</span>(<span class="str">"login failed"</span>)
+    <span class="kw">elif</span> exists(Pattern(search_path(<span class="str">"qsyncpath_string"</span>)).similar(<span class="dig">0.70</span>)):
+        <span class="kw">print</span>(<span class="str">"login success"</span>)
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"unknown status"</span>)
+    <span class="skw">wait</span>(<span class="dig">5</span>)
+    <span class="skw">click</span>(Pattern(search_path(<span class="str">"addfolder_icon"</span>)).similar(<span class="dig">0.70</span>))
+    <span class="skw">wait</span>(<span class="dig">2</span>)
+    rregion = Region(<span class="dig">447</span>,<span class="dig">151</span>,<span class="dig">387</span>,<span class="dig">368</span>)
+    <span class="kw">if</span> rregion.exists(Pattern(search_path(<span class="str">"browsefolder_string"</span>)).similar(<span class="dig">0.70</span>)):
+        <span class="kw">print</span>(<span class="str">"open"</span>)
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"open Failed"</span>)
+    <span class="skw">type</span>(<span class="str">"M"</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">"@Qsync_test"</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(<span class="dig">3</span>)
+    <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"folder_exist_icon"</span>)).similar(<span class="dig">0.70</span>)):
+        <span class="skw">type</span>(Key.ENTER)
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+    <span class="kw">else</span>:
+        <span class="kw">pass</span>
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">click</span>(Pattern(search_path(<span class="str">"finish_button"</span>)).similar(<span class="dig">0.70</span>))
+
+<span class="kw">def</span> check_qsync_live():
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
+    cmd = <span class="str">'TASKLIST /FI "imagename eq Qsync.exe" /svc'</span>
+    tasklist_cmd = os.popen(cmd).read()
+    <span class="kw">if</span> <span class="str">"Qsync"</span> <span class="kw">in</span> tasklist_cmd:
+        <span class="kw">return</span> True
+    <span class="kw">else</span>:
+        <span class="kw">return</span> False
+
+<span class="kw">def</span> close_qsync_UI():
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">click</span>(Pattern(search_path(<span class="str">"close_button"</span>)).similar(<span class="dig">0.70</span>))
+    <span class="skw">wait</span>(<span class="dig">2</span>)
+    <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"qsync_logo"</span>)).similar(<span class="dig">0.70</span>)):
+        flag = <span class="dig">0</span>
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"Close Qsync UI success"</span>)
+        flag = <span class="dig">1</span>
+    <span class="kw">assert</span> flag == <span class="dig">1</span>, <span class="str">"Close Qsync UI fail"</span>
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+
+<span class="cmt">################# Data sync function ###################</span>
+<span class="cmt"># input path then get check list (get_check_icon_list(path = "D:\\test"))</span>
+<span class="kw">def</span> get_check_icon_list(path, os_ver):
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
+    path = path
+    path_q = path + <span class="str">"\\.qsync"</span>
+    attrib_cmd = <span class="str">"attrib -s -h -r "</span> + path + <span class="str">"\\*.* &amp;&amp; del "</span> + path + <span class="str">"\\*.* /q"</span>
+    dir_cmd = <span class="str">"dir "</span> + path + <span class="str">" /ad /b /s &gt;del.txt"</span>
+    <span class="kw">if</span> os_ver == <span class="str">"Win10"</span>:
+        to_utf8 = <span class="str">'PowerShell -Command "&amp; {get-content del.txt -encoding default | set-content del_utf8.txt -encoding utf8}"'</span>
+    <span class="kw">elif</span> os_ver == <span class="str">"Win7"</span>:
+        to_utf8 = <span class="str">'PowerShell -Command "&amp; {get-content del.txt -encoding String | set-content del_utf8.txt -encoding utf8}"'</span>
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"Unknown OS"</span>)
+    os.system(attrib_cmd)
+    os.system(dir_cmd)
+    <span class="kw">print</span>(to_utf8)
+    <span class="skw">wait</span>(<span class="dig">10</span>)
+    os.system(to_utf8)
+    <span class="cmt"># add mark to list</span>
+    <span class="kw">with</span> open(<span class="str">'del_utf8.txt'</span>, <span class="str">'r'</span>) <span class="kw">as</span> f:
+        path_list = f.read()
+        path_list = path_list[<span class="dig">3</span>:]
+        path_list_space = path_list.split(<span class="str">"\n"</span>)
+        switch_list = []
+        <span class="kw">for</span> i <span class="kw">in</span> path_list_space:
+            <span class="kw">if</span> i == path_q:
+                <span class="kw">pass</span>
+            <span class="kw">else</span>:
+                mark_string = <span class="str">'\"'</span> + i + <span class="str">'\"'</span>
+                switch_list.append(mark_string)
+    <span class="kw">del</span> switch_list[-<span class="dig">1</span>]
+    <span class="kw">print</span>(len(switch_list))
+    <span class="cmt"># get mark txt file</span>
+    <span class="kw">with</span> open(<span class="str">'del_utf8.txt'</span>, <span class="str">'w'</span>) <span class="kw">as</span> e:
+        <span class="kw">for</span> j <span class="kw">in</span> switch_list:
+            e.write(j)
+            e.write(<span class="str">'\n'</span>)
+    <span class="cmt"># get final list</span>
+    <span class="kw">with</span> open(<span class="str">'del_utf8.txt'</span>, <span class="str">'r'</span>) <span class="kw">as</span> g:
+        mark_data = g.read()
+        mark_list = mark_data.split(<span class="str">"\n"</span>)
+        <span class="kw">del</span> mark_list[-<span class="dig">1</span>]
+    <span class="kw">return</span> mark_list
 
 <span class="kw">def</span> check_icon_no(data_items, row_items):
     fun_name = sys._getframe().f_code.co_name
@@ -430,100 +678,6 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
         <span class="kw">print</span>(ss)
     <span class="kw">return</span> ss
 
-<span class="kw">def</span> get_os_ver():
-    fun_name = sys._getframe().f_code.co_name
-    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
-    os_dir = os.popen(<span class="str">"ver"</span>).read()
-    os_split = os_dir.split(<span class="str">"["</span>)
-    os_split1 = os_split[<span class="dig">1</span>].split(<span class="str">" "</span>)
-    os_split2 = os_split1[<span class="dig">1</span>].split(<span class="str">"."</span>)
-    <span class="kw">if</span> os_split2[<span class="dig">0</span>] == <span class="str">"10"</span>:
-        <span class="kw">print</span>(<span class="str">"OS is Win10"</span>)
-        <span class="kw">return</span> <span class="str">"Win10"</span>
-    <span class="kw">elif</span> os_split2[<span class="dig">0</span>] == <span class="str">"6"</span>:
-        <span class="kw">print</span>(<span class="str">"OS is Win7"</span>)
-        <span class="kw">return</span> <span class="str">"Win7"</span>
-    <span class="kw">else</span>:
-        <span class="kw">print</span>(<span class="str">"Unknown OS"</span>)
-        <span class="kw">return</span> <span class="str">"Unknown OS"</span>
-
-<span class="kw">def</span> set_browser_sty(os_ver):
-    fun_name = sys._getframe().f_code.co_name
-    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
-    <span class="kw">if</span> os_ver == <span class="str">"Win10"</span>:
-
-        check_region = Region(<span class="dig">59</span>,<span class="dig">7</span>,<span class="dig">273</span>,<span class="dig">44</span>)
-
-        check_region.<span class="skw">click</span>(Pattern(search_path(<span class="str">"view_tab"</span>)).similar(<span class="dig">0.70</span>))
-        <span class="skw">wait</span>(<span class="dig">5</span>)
-        <span class="skw">click</span>(Pattern(search_path(<span class="str">"big_view_button"</span>)).similar(<span class="dig">0.70</span>))
-        <span class="skw">wait</span>(<span class="dig">5</span>)
-        <span class="skw">click</span>(Pattern(search_path(<span class="str">"browser_window_button"</span>)).similar(<span class="dig">0.70</span>))
-        <span class="skw">wait</span>(<span class="dig">2</span>)
-        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"show_browser_window"</span>)).similar(<span class="dig">0.90</span>)):
-            <span class="kw">print</span>(<span class="str">"browser window opened status"</span>)
-            <span class="skw">click</span>(Pattern(search_path(<span class="str">"show_browser_window"</span>)).similar(<span class="dig">0.90</span>))
-        <span class="kw">elif</span> exists(Pattern(search_path(<span class="str">"hide_browser_window"</span>)).similar(<span class="dig">0.90</span>)):
-            <span class="kw">print</span>(<span class="str">"browser window closed status"</span>)
-            <span class="skw">type</span>(Key.ENTER)
-        <span class="kw">else</span>:
-            <span class="kw">print</span>(<span class="str">"set browser failed"</span>)
-        <span class="skw">wait</span>(<span class="dig">1</span>)
-        <span class="skw">type</span>(Key.F5)
-        <span class="skw">wait</span>(<span class="dig">1</span>)
-    <span class="kw">elif</span> os_ver == <span class="str">"Win7"</span>:
-        <span class="skw">type</span>(<span class="str">"v"</span>, KeyModifier.ALT)
-        <span class="skw">wait</span>(<span class="dig">2</span>)
-        <span class="skw">type</span>(<span class="str">"r"</span>, KeyModifier.SHIFT)
-        <span class="skw">wait</span>(<span class="dig">2</span>)
-        <span class="skw">type</span>(Key.ENTER)
-        <span class="skw">wait</span>(<span class="dig">2</span>)
-        <span class="skw">click</span>(Pattern(search_path(<span class="str">"manager_button"</span>)).similar(<span class="dig">0.70</span>))
-        <span class="skw">wait</span>(<span class="dig">3</span>)
-        <span class="skw">click</span>(Pattern(search_path(<span class="str">"configuration_button"</span>)).similar(<span class="dig">0.70</span>))
-        <span class="skw">wait</span>(<span class="dig">3</span>)
-        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"show_browser_window_7"</span>)).similar(<span class="dig">0.90</span>)):
-            <span class="kw">print</span>(<span class="str">"browser window opened status"</span>)
-            <span class="skw">click</span>(Pattern(search_path(<span class="str">"show_browser_window_7"</span>)).similar(<span class="dig">0.90</span>))
-        <span class="kw">elif</span> exists(Pattern(search_path(<span class="str">"hide_browser_window_7"</span>)).similar(<span class="dig">0.90</span>)):
-            <span class="kw">print</span>(<span class="str">"browser window closed status"</span>)
-            <span class="skw">type</span>(Key.ENTER)
-        <span class="kw">else</span>:
-            <span class="kw">print</span>(<span class="str">"set browser failed"</span>)
-        <span class="skw">wait</span>(<span class="dig">1</span>)
-        <span class="skw">type</span>(Key.F5)
-        <span class="skw">wait</span>(<span class="dig">1</span>)
-    <span class="kw">else</span>:
-        <span class="kw">print</span>(<span class="str">"Failed"</span>)
-
-<span class="kw">def</span> mount_disk(ip, folder_name, username, password, disk):
-    fun_name = sys._getframe().f_code.co_name
-    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
-    mount_cmd = <span class="str">"net use "</span> + disk + <span class="str">": "</span> + <span class="str">"\\\\"</span> + ip + <span class="str">"\\"</span> + folder_name + <span class="str">" /user:"</span> + username + <span class="str">" "</span> + password
-    <span class="kw">print</span>(mount_cmd)
-    os.system(mount_cmd)
-    dir_cmd = <span class="str">"dir "</span> + disk + <span class="str">":\\"</span>
-    flag = os.system(dir_cmd)
-    <span class="kw">if</span> flag == <span class="dig">0</span>:
-        <span class="kw">print</span>(<span class="str">"Mount success"</span>)
-    <span class="kw">else</span>:
-        <span class="kw">pass</span>
-    <span class="kw">assert</span> flag == <span class="dig">0</span>, <span class="str">"Mount failed"</span>
-    <span class="skw">wait</span>(<span class="dig">1</span>)
-
-<span class="kw">def</span> unmount_disk(disk):
-    fun_name = sys._getframe().f_code.co_name
-    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
-    os.system(<span class="str">"net use * /d /YES"</span>)
-    dir_cmd = <span class="str">"dir "</span> + disk + <span class="str">":\\"</span>
-    flag = os.system(dir_cmd)
-    <span class="kw">if</span> flag == <span class="dig">1</span>:
-        <span class="kw">print</span>(<span class="str">"Unmount success"</span>)
-    <span class="kw">else</span>:
-        <span class="kw">pass</span>
-    <span class="kw">assert</span> flag == <span class="dig">1</span>, <span class="str">"Unmount failed"</span>
-    <span class="skw">wait</span>(<span class="dig">1</span>)
-
 <span class="cmt"># counter_data</span>
 <span class="cmt"># counter_type = file or folder; result_line = dir_result_line</span>
 <span class="kw">def</span> output_counter_list(out_type, result_line):
@@ -538,7 +692,6 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
         <span class="kw">if</span> i != <span class="str">""</span>:
             no_list.append(i)
     <span class="kw">return</span> no_list
-
 
 <span class="cmt"># data_type = file, folder, size, total(file+folde),icon_total(file+folder-2), counter_type = single or all</span>
 <span class="cmt"># icon_total + single = icon check no</span>
@@ -576,28 +729,6 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
         <span class="kw">return</span> icon_total
     <span class="kw">else</span>:
         <span class="kw">return</span> <span class="dig">0</span>
-
-<span class="cmt"># clean_remote_disk("w")</span>
-<span class="kw">def</span> clean_remote_disk(disk):
-    fun_name = sys._getframe().f_code.co_name
-    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
-    clean_cmd = <span class="str">"rd /s/q "</span> + disk + <span class="str">":\\"</span>
-    <span class="kw">try</span>:
-        os.system(clean_cmd)
-    <span class="kw">except</span>:
-        <span class="kw">pass</span>
-    path = disk + <span class="str">":\\"</span>
-    <span class="kw">if</span> counter_data(<span class="str">"icon_total"</span>, <span class="str">"single"</span>, path) == <span class="dig">0</span>:
-        <span class="kw">print</span>(<span class="str">"clean success"</span>)
-    <span class="kw">else</span>:
-        <span class="kw">print</span>(<span class="str">"clean failed"</span>)
-
-<span class="kw">def</span> week_current():
-    localtime = time.asctime( time.localtime(time.time()) )
-    <span class="kw">print</span> <span class="str">"Locatime:"</span>, localtime
-    localtime_space = localtime.split(<span class="str">" "</span>)
-    week_current = localtime_space[<span class="dig">0</span>]
-    <span class="kw">return</span> week_current
 
 <span class="kw">def</span> counter_surplus_no(data_type, counter_type, path):
     <span class="kw">try</span>:
@@ -842,53 +973,6 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
         random_icon_check(<span class="str">"Y"</span>, <span class="dig">2</span>, os_ver, os_bit, mark_list)
     unmount_disk(<span class="str">"w"</span>)
 
-<span class="kw">def</span> login_pair(ip, ac, pwd):
-    fun_name = sys._getframe().f_code.co_name
-    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
-    <span class="skw">click</span>(Pattern(search_path(<span class="str">"host_field"</span>)).similar(<span class="dig">0.70</span>))
-    <span class="skw">wait</span>(<span class="dig">1</span>)
-    <span class="skw">type</span>(ip)
-    <span class="skw">wait</span>(<span class="dig">1</span>)
-    <span class="skw">type</span>(Key.TAB)
-    <span class="skw">type</span>(ac)
-    <span class="skw">wait</span>(<span class="dig">1</span>)
-    <span class="skw">type</span>(Key.TAB)
-    <span class="skw">type</span>(pwd)
-    <span class="skw">wait</span>(<span class="dig">1</span>)
-    <span class="skw">type</span>(Key.ENTER)
-    waitVanish((Pattern(search_path(<span class="str">"pairing_string"</span>)).similar(<span class="dig">0.70</span>)),<span class="dig">120</span>)
-    <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"pairing_string"</span>)).similar(<span class="dig">0.70</span>)):
-        <span class="kw">print</span>(<span class="str">"over 2 mins.."</span>)
-    <span class="kw">elif</span> exists(Pattern(search_path(<span class="str">"loginfail_string"</span>)).similar(<span class="dig">0.70</span>)):
-        <span class="kw">print</span>(<span class="str">"login failed"</span>)
-    <span class="kw">elif</span> exists(Pattern(search_path(<span class="str">"qsyncpath_string"</span>)).similar(<span class="dig">0.70</span>)):
-        <span class="kw">print</span>(<span class="str">"login success"</span>)
-    <span class="kw">else</span>:
-        <span class="kw">print</span>(<span class="str">"unknown status"</span>)
-    <span class="skw">wait</span>(<span class="dig">5</span>)
-    <span class="skw">click</span>(Pattern(search_path(<span class="str">"addfolder_icon"</span>)).similar(<span class="dig">0.70</span>))
-    <span class="skw">wait</span>(<span class="dig">2</span>)
-    rregion = Region(<span class="dig">447</span>,<span class="dig">151</span>,<span class="dig">387</span>,<span class="dig">368</span>)
-    <span class="kw">if</span> rregion.exists(Pattern(search_path(<span class="str">"browsefolder_string"</span>)).similar(<span class="dig">0.70</span>)):
-        <span class="kw">print</span>(<span class="str">"open"</span>)
-    <span class="kw">else</span>:
-        <span class="kw">print</span>(<span class="str">"open Failed"</span>)
-    <span class="skw">type</span>(<span class="str">"M"</span>)
-    <span class="skw">wait</span>(<span class="dig">1</span>)
-    <span class="skw">type</span>(<span class="str">"@Qsync_test"</span>)
-    <span class="skw">wait</span>(<span class="dig">1</span>)
-    <span class="skw">type</span>(Key.ENTER)
-    <span class="skw">wait</span>(<span class="dig">3</span>)
-    <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"folder_exist_icon"</span>)).similar(<span class="dig">0.70</span>)):
-        <span class="skw">type</span>(Key.ENTER)
-        <span class="skw">wait</span>(<span class="dig">2</span>)
-    <span class="kw">else</span>:
-        <span class="kw">pass</span>
-    <span class="skw">type</span>(Key.ENTER)
-    <span class="skw">wait</span>(<span class="dig">1</span>)
-    <span class="skw">click</span>(Pattern(search_path(<span class="str">"finish_button"</span>)).similar(<span class="dig">0.70</span>))
-
-
 <span class="kw">def</span> check_main_sync():
     fun_name = sys._getframe().f_code.co_name
     <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
@@ -916,87 +1000,6 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
         <span class="kw">else</span>:
             target_client = <span class="str">"unknown"</span>
     <span class="kw">return</span> target_client
-
-<span class="kw">def</span> run_path():
-    source_path =sys.path[<span class="dig">0</span>]
-    path_spl = source_path.split(<span class="str">"\\"</span>)
-    <span class="kw">del</span> path_spl[-<span class="dig">1</span>]
-    out_path = <span class="str">"\\"</span>.join(path_spl)
-    <span class="kw">return</span> out_path
-
-<span class="cmt"># delete_folder("D:\\test\\")</span>
-<span class="kw">def</span> delete_folder(path):
-    fun_name = sys._getframe().f_code.co_name
-    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
-    cmd = run_path() + <span class="str">"\\delete.bat "</span> + path
-    <span class="kw">print</span>(cmd)
-    os.system(cmd)
-    <span class="kw">if</span> counter_data(<span class="str">"icon_total"</span>, <span class="str">"single"</span>, path) == <span class="dig">0</span>:
-        <span class="kw">print</span>(<span class="str">"Clean success"</span>)
-    <span class="kw">else</span>:
-        <span class="kw">print</span>(<span class="str">"Clean failed"</span>)
-
-<span class="kw">def</span> check_open_folder(os_ver):
-    fun_name = sys._getframe().f_code.co_name
-    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
-    <span class="kw">print</span>(<span class="str">"***Start to check_open_folder***"</span>)
-    <span class="kw">if</span> os_ver == <span class="str">"Win10"</span>:
-        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"refresh_button"</span>)).similar(<span class="dig">0.70</span>)):
-            <span class="skw">click</span>(Pattern(search_path(<span class="str">"refresh_button"</span>)).similar(<span class="dig">0.70</span>))
-            flag = <span class="dig">1</span>
-        <span class="kw">else</span>:
-            flag = <span class="dig">0</span>
-    <span class="kw">else</span>:
-        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"refresh_button_7"</span>)).similar(<span class="dig">0.70</span>)):
-            <span class="skw">click</span>(Pattern(search_path(<span class="str">"refresh_button_7"</span>)).similar(<span class="dig">0.70</span>))
-            flag = <span class="dig">1</span>
-        <span class="kw">else</span>:
-            flag = <span class="dig">0</span>
-    <span class="kw">return</span> flag
-
-<span class="kw">def</span> check_max_window(os_ver):
-    fun_name = sys._getframe().f_code.co_name
-    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
-    flag = <span class="dig">0</span>
-    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">3</span>):
-        <span class="kw">if</span> os_ver == <span class="str">"Win10"</span>:
-            <span class="skw">click</span>(Pattern(search_path(<span class="str">"refresh_button"</span>)).similar(<span class="dig">0.70</span>))
-        <span class="kw">else</span>:
-            <span class="skw">click</span>(Pattern(search_path(<span class="str">"refresh_button_7"</span>)).similar(<span class="dig">0.70</span>))
-        <span class="skw">type</span>(Key.UP, KeyModifier.WIN)
-        <span class="skw">wait</span>(<span class="dig">3</span>)
-        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"maxwindow_folder_icon"</span>)).similar(<span class="dig">0.70</span>)):
-            <span class="kw">print</span>(<span class="str">"Max window"</span>)
-            flag = <span class="dig">1</span>
-            <span class="kw">break</span>
-        <span class="kw">else</span>:
-            <span class="kw">print</span>(<span class="str">"Not max window"</span>)
-            flag = <span class="dig">0</span>
-    <span class="kw">return</span> flag
-
-<span class="kw">def</span> check_qsync_live():
-    fun_name = sys._getframe().f_code.co_name
-    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
-    cmd = <span class="str">'TASKLIST /FI "imagename eq Qsync.exe" /svc'</span>
-    tasklist_cmd = os.popen(cmd).read()
-    <span class="kw">if</span> <span class="str">"Qsync"</span> <span class="kw">in</span> tasklist_cmd:
-        <span class="kw">return</span> True
-    <span class="kw">else</span>:
-        <span class="kw">return</span> False
-
-<span class="kw">def</span> close_qsync_UI():
-    fun_name = sys._getframe().f_code.co_name
-    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
-    <span class="skw">wait</span>(<span class="dig">1</span>)
-    <span class="skw">click</span>(Pattern(search_path(<span class="str">"close_button"</span>)).similar(<span class="dig">0.70</span>))
-    <span class="skw">wait</span>(<span class="dig">2</span>)
-    <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"qsync_logo"</span>)).similar(<span class="dig">0.70</span>)):
-        flag = <span class="dig">0</span>
-    <span class="kw">else</span>:
-        <span class="kw">print</span>(<span class="str">"Close Qsync UI success"</span>)
-        flag = <span class="dig">1</span>
-    <span class="kw">assert</span> flag == <span class="dig">1</span>, <span class="str">"Close Qsync UI fail"</span>
-    <span class="skw">wait</span>(<span class="dig">1</span>)
 </pre>
 </body>
 </html>

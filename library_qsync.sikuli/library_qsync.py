@@ -751,7 +751,7 @@ def check_team_folder(os_ver, os_bit):
                 print("Pass advanced icon check")
             else:   
                 mark_list = get_check_icon_list(path, os_ver)
-                random_icon_check("Y", 2, mark_list)
+                random_icon_check("Y", 2, os_ver, os_bit, mark_list)
             unmount_disk("w")
             
 def check_share_folder(os_ver, os_bit):
@@ -767,7 +767,7 @@ def check_share_folder(os_ver, os_bit):
         print("Pass advanced icon check")
     else:   
         mark_list = get_check_icon_list(path, os_ver)
-        random_icon_check("Y", 2, mark_list)
+        random_icon_check("Y", 2, os_ver, os_bit, mark_list)
     unmount_disk("w")
 
 def login_pair(ip, ac, pwd):

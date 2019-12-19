@@ -97,6 +97,8 @@ target = nas_detail(lanip = nas_lanip, ac = nas_ac, pwd = nas_pwd)
 os_ver = get_os_ver()
 os_bit = get_os_bit()
 
+b()
+
 <span class="kw">if</span> reset_flag == <span class="str">"Y"</span>:
     <span class="cmt"># Remove nas</span>
     close_qsync()
@@ -178,8 +180,8 @@ x = <span class="dig">1</span>
         ui_result= check_main_sync()
         <span class="kw">if</span> ui_result == <span class="dig">1</span>:
             close_qsync_UI()
-            check_share_folder()
-            check_team_folder()
+            check_share_folder(os_ver, os_bit)
+            check_team_folder(os_ver, os_bit)
         <span class="kw">elif</span> ui_result == <span class="dig">2</span>:
             <span class="kw">print</span>(<span class="str">"Still syncing..."</span>)
         <span class="kw">else</span>:

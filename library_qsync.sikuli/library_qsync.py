@@ -282,7 +282,7 @@ def open_folder(folder_path):
     wait(3)
     type(Key.UP, KeyModifier.WIN)
 
-def open_folder_cmd(folder_path):
+def open_folder_cmd(folder_path, os_ver):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
     for i in range(3):
@@ -682,7 +682,7 @@ def check_sync_icon(path, os_ver, os_bit):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
     print(path)
-    open_folder_cmd(path)
+    open_folder_cmd(path, os_ver)
     set_browser_sty(os_ver)
     data_items = counter_data("icon_total", "single", path)
     print("Check items = " + str(data_items))
@@ -711,7 +711,7 @@ def check_sync_icon(path, os_ver, os_bit):
     type(Key.F4, KeyModifier.ALT)
     return flag
 
-def a(ran_switch, ran_no, *args):
+def random_icon_check(ran_switch, ran_no, *args, os_ver, os_bit):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
     if isinstance(args[0], list) == True:
@@ -734,7 +734,7 @@ def a(ran_switch, ran_no, *args):
             break
     return flag
 
-def check_team_folder():
+def check_team_folder(os_ver, os_bit):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
     for i in AT_list:
@@ -751,10 +751,10 @@ def check_team_folder():
                 print("Pass advanced icon check")
             else:   
                 mark_list = get_check_icon_list(path, os_ver)
-                a("Y", 2, mark_list)
+                random_icon_check("Y", 2, mark_list)
             unmount_disk("w")
             
-def check_share_folder():
+def check_share_folder(os_ver, os_bit):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
     i = AT_PC_S1
@@ -767,7 +767,7 @@ def check_share_folder():
         print("Pass advanced icon check")
     else:   
         mark_list = get_check_icon_list(path, os_ver)
-        a("Y", 2, mark_list)
+        random_icon_check("Y", 2, mark_list)
     unmount_disk("w")
 
 def login_pair(ip, ac, pwd):
@@ -925,3 +925,4 @@ def close_qsync_UI():
         flag = 1
     assert flag == 1, "Close Qsync UI fail"
     wait(1)
+

@@ -25,6 +25,8 @@ print(target)
 os_ver = get_os_ver()
 os_bit = get_os_bit()
 
+b()
+
 if reset_flag == "Y":
     # Remove nas
     close_qsync()
@@ -106,8 +108,8 @@ for i in range(200):
         ui_result= check_main_sync()
         if ui_result == 1:
             close_qsync_UI()
-            check_share_folder()
-            check_team_folder()
+            check_share_folder(os_ver, os_bit)
+            check_team_folder(os_ver, os_bit)
         elif ui_result == 2:
             print("Still syncing...")
         else:

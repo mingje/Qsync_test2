@@ -72,19 +72,23 @@
 <pre class="sikuli-code">
 <span class="kw">from</span> sikuli <span class="kw">import</span> *
 <span class="kw">from</span> library_qsync <span class="kw">import</span> *
-
-
-<span class="kw">def</span> counter_surplus_no(data_type, counter_type, path):
-    <span class="kw">try</span>:
+<span class="str">"""
+def counter_surplus_no(data_type, counter_type, path):
+    try:
         surplus_no = counter_data(data_type, counter_type, path)
-    <span class="kw">except</span>:
-        surplus_no = <span class="dig">0</span>
-    <span class="kw">return</span> surplus_no
+    except:
+        surplus_no = 0
+    return surplus_no
 
-path1 = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\@Qsync_test\\.qsync"</span>
-path = <span class="str">"D:\\test"</span>
+path1 = "C:\\Users\\" + get_pc_info("user_name") + "\\@Qsync_test\\.qsync" 
+path = "D:\\test"
 
-<span class="kw">print</span>(counter_surplus_no(<span class="str">"total"</span>, <span class="str">"all"</span>, path1))
+print(counter_surplus_no("total", "all", path1))
+"""</span>
+
+<span class="kw">def</span> size_to_int(size):
+    size = size.replace(<span class="str">','</span>, <span class="str">''</span>)
+    <span class="kw">return</span> int(size)
 </pre>
 </body>
 </html>

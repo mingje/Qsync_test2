@@ -5,7 +5,7 @@ from library_qsync import *
 # Remove nas
 close_qsync()
 wait(5)
-open_qsync()
+open_qsync(os_bit)
 wait(2)
 if exists(Pattern(search_path("host_field")).similar(0.70)):
     print("Already remove nas")
@@ -52,9 +52,10 @@ nas_pwd = "dqvts453bt3"
 """
 target = nas_detail(lanip = nas_lanip, ac = nas_ac, pwd = nas_pwd)
 print(target)
-
+os_ver = get_os_ver()
+os_bit = get_os_bit()
  
-open_qsync()
+open_qsync(os_bit)
 wait(2)
 if exists(Pattern(search_path("host_field")).similar(0.70)):
     login_pair(ip=target["lanip"], ac=target["ac"] , pwd=target["pwd"])

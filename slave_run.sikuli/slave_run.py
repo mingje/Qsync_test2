@@ -37,7 +37,7 @@ if reset_flag == "Y":
     else:
         remove_nas_profile()
     close_qsync()
-    
+"""
     # delete sync folder
     current_user = os.popen("whoami").read()
     print(current_user)
@@ -54,6 +54,7 @@ if reset_flag == "Y":
         print("Clean up sync folder")
     except:
         pass
+"""
 else:
     print("Not reset")
 

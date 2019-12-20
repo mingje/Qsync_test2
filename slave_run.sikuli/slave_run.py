@@ -76,6 +76,7 @@ x = 1
 for i in range(200):
     print("Execute " + str(x) + " Times")
     open_qsync(os_bit)
+    print("!!!!!!Start to wait.....!!!!!!")
     wait(120)
     stop_time = int(time.strftime("%H%M%S"))
     print("current_time is: " + str(stop_time))

@@ -644,7 +644,8 @@ def counter_data(data_type, counter_type, path):
         return folder_no
     elif data_type == "size":
         file_size = output_counter_list("file", dir_result_line)[2]
-        return file_size
+        file_size_f = size_to_int(file_size)
+        return file_size_f
     elif data_type == "total":
         file_no = int(output_counter_list("file", dir_result_line)[0])
         folder_no = int(output_counter_list("folder", dir_result_line)[0])
@@ -665,19 +666,23 @@ def counter_surplus_no(data_type, counter_type, path):
         surplus_no = 0
     return surplus_no
 
+def size_to_int(size):
+    size = size.replace(',', '')
+    return int(size)
+
 def check_data_result(path1, path2):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
     path_surplus = path1 + "\\.qsync" 
     path_from_total = counter_data("total", "all", path1) - counter_surplus_no("total", "all", path_surplus)
     print("Source total = " + str(path_from_total))
-    path_from_size = counter_data("size", "all", path1)
-    print("Source size = " + path_from_size)
+    path_from_size = counter_data("size", "all", path1)- counter_surplus_no("size", "all", path_surplus)
+    print("Source size = " + str(path_from_size))
     path_surplus = path2 + "\\.qsync" 
     path_to_total = counter_data("total", "all", path2)
     print("Destination total = " + str(path_to_total))
     path_to_size = counter_data("size", "all", path2)
-    print("Destination size = " + path_to_size)
+    print("Destination size = " + str(path_to_size))
     if path_from_total == path_to_total and path_from_size == path_to_size:
         print("Copy data consistent")
         return True

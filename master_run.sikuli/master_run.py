@@ -63,3 +63,6 @@ if exists(Pattern(search_path("host_field")).similar(0.70)):
 else:
     print("Already login")
 
+open_folder_cmd("C:\\Users\\DQV\@Qsync_test", os_ver)
+wait(90)
+

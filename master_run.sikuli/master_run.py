@@ -64,5 +64,5 @@ else:
     print("Already login")
 
 open_folder_cmd("C:\\Users\\DQV\@Qsync_test", os_ver)
-wait(90)
+
 

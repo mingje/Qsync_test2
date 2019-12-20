@@ -148,7 +148,7 @@ x = <span class="dig">1</span>
 <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">200</span>):
     <span class="kw">print</span>(<span class="str">"Execute "</span> + str(x) + <span class="str">" Times"</span>)
     open_qsync(os_bit)
-    <span class="skw">wait</span>(<span class="dig">20</span>)
+    <span class="skw">wait</span>(<span class="dig">120</span>)
     stop_time = int(time.strftime(<span class="str">"%H%M%S"</span>))
     <span class="kw">print</span>(<span class="str">"current_time is: "</span> + str(stop_time))
     <span class="kw">if</span> <span class="dig">210000</span> &lt; stop_time &lt; <span class="dig">220000</span> <span class="kw">and</span> week_current() == <span class="str">"Sat"</span>:

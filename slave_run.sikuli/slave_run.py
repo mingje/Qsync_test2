@@ -76,7 +76,7 @@ x = 1
 for i in range(200):
     print("Execute " + str(x) + " Times")
     open_qsync(os_bit)
-    wait(20)
+    wait(120)
     stop_time = int(time.strftime("%H%M%S"))
     print("current_time is: " + str(stop_time))
     if 210000 < stop_time < 220000 and week_current() == "Sat":

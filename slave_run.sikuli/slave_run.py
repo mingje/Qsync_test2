@@ -105,9 +105,9 @@ for i in range(200):
         copy_flag = 0
         check_flag = 0
     x = x + 1
-    wait_time(5, 120)
+    wait_time(5, 20)
     close_qsync()
-    wait_time(5, 120)
+    wait_time(5, 20)
     # wait(10)
 
 

@@ -56,12 +56,12 @@ AT_list = [AT_VM_S1, AT_VM_S2, AT_VM_S3, AT_PC_S2]
 
 Mon = {
     "mark": "Mon",
-    "share_file": 2,
-    "share_folder": 4,
-    "share_size": 332568,
+    "share_file": 124,
+    "share_folder": 11,
+    "share_size": 11362,
     "team_file": 3,
-    "team_folder": 5,
-    "team_size": 2345
+    "team_folder": 8,
+    "team_size": 44
         }
 Tue = {
     "mark": "Tue",

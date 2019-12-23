@@ -776,13 +776,13 @@ def size_to_int(size):
 def check_data_result(path1, path2):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
-    target_week = target_week()
+    righrt_week = target_week()
     if path1 == "fixed_path_share": 
-        path_from_total = target_week["share_file"] + target_week["share_folder"]
-        path_from_size = target_week["share_size"]
+        path_from_total = right_week["share_file"] + right_week["share_folder"]
+        path_from_size = right_week["share_size"]
     elif path1 == "fixed_path_team":
-        path_from_total = target_week["team_file"] + target_week["team_folder"]
-        path_from_size = target_week["team_size"]
+        path_from_total = right_week["team_file"] + right_week["team_folder"]
+        path_from_size = right_week["team_size"]
     else:
         path_surplus = path1 + "\\.qsync" 
         path_from_total = counter_data("total", "all", path1) - counter_surplus_no("total", "all", path_surplus)
@@ -1048,7 +1048,6 @@ def target_client():
         else:
             target_client = "unknown"
     return target_client
-
 
 
 

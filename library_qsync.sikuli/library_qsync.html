@@ -848,13 +848,13 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
 <span class="kw">def</span> check_data_result(path1, path2):
     fun_name = sys._getframe().f_code.co_name
     <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
-    target_week = target_week()
+    righrt_week = target_week()
     <span class="kw">if</span> path1 == <span class="str">"fixed_path_share"</span>:
-        path_from_total = target_week[<span class="str">"share_file"</span>] + target_week[<span class="str">"share_folder"</span>]
-        path_from_size = target_week[<span class="str">"share_size"</span>]
+        path_from_total = right_week[<span class="str">"share_file"</span>] + right_week[<span class="str">"share_folder"</span>]
+        path_from_size = right_week[<span class="str">"share_size"</span>]
     <span class="kw">elif</span> path1 == <span class="str">"fixed_path_team"</span>:
-        path_from_total = target_week[<span class="str">"team_file"</span>] + target_week[<span class="str">"team_folder"</span>]
-        path_from_size = target_week[<span class="str">"team_size"</span>]
+        path_from_total = right_week[<span class="str">"team_file"</span>] + right_week[<span class="str">"team_folder"</span>]
+        path_from_size = right_week[<span class="str">"team_size"</span>]
     <span class="kw">else</span>:
         path_surplus = path1 + <span class="str">"\\.qsync"</span>
         path_from_total = counter_data(<span class="str">"total"</span>, <span class="str">"all"</span>, path1) - counter_surplus_no(<span class="str">"total"</span>, <span class="str">"all"</span>, path_surplus)

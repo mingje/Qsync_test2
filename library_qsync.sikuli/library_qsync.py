@@ -153,6 +153,8 @@ def search_path(picture_name):
     return flag
 
 def target_week():
+    fun_name = sys._getframe().f_code.co_name
+    print("***Start to " + fun_name + " ***")
     now_week = week_current()
     print(now_week)
     for i in week_list:
@@ -774,12 +776,11 @@ def size_to_int(size):
 def check_data_result(path1, path2):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
-    if path1 == "fixed_path_share":
-        target_week = target_week()   
+    target_week = target_week()
+    if path1 == "fixed_path_share": 
         path_from_total = target_week["share_file"] + target_week["share_folder"]
         path_from_size = target_week["share_size"]
     elif path1 == "fixed_path_team":
-        target_week = target_week()   
         path_from_total = target_week["team_file"] + target_week["team_folder"]
         path_from_size = target_week["team_size"]
     else:

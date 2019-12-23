@@ -225,6 +225,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     <span class="kw">return</span> flag
 
 <span class="kw">def</span> target_week():
+    fun_name = sys._getframe().f_code.co_name
+    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     now_week = week_current()
     <span class="kw">print</span>(now_week)
     <span class="kw">for</span> i <span class="kw">in</span> week_list:
@@ -846,12 +848,11 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
 <span class="kw">def</span> check_data_result(path1, path2):
     fun_name = sys._getframe().f_code.co_name
     <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
+    target_week = target_week()
     <span class="kw">if</span> path1 == <span class="str">"fixed_path_share"</span>:
-        target_week = target_week()
         path_from_total = target_week[<span class="str">"share_file"</span>] + target_week[<span class="str">"share_folder"</span>]
         path_from_size = target_week[<span class="str">"share_size"</span>]
     <span class="kw">elif</span> path1 == <span class="str">"fixed_path_team"</span>:
-        target_week = target_week()
         path_from_total = target_week[<span class="str">"team_file"</span>] + target_week[<span class="str">"team_folder"</span>]
         path_from_size = target_week[<span class="str">"team_size"</span>]
     <span class="kw">else</span>:

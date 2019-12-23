@@ -54,6 +54,71 @@ AT_VM_S1 = {
         }
 AT_list = [AT_VM_S1, AT_VM_S2, AT_VM_S3, AT_PC_S2]
 
+Mon = {
+    "mark": "Mon",
+    "share_file": 2,
+    "share_folder": 4,
+    "share_size": 332568,
+    "team_file": 3,
+    "team_folder": 5,
+    "team_size": 2345
+        }
+Tue = {
+    "mark": "Tue",
+    "share_file": 2,
+    "share_folder": 4,
+    "share_size": 332568,
+    "team_file": 3,
+    "team_folder": 5,
+    "team_size": 2345
+        }
+Wed = {
+    "mark": "Wed",   
+    "share_file": 2,
+    "share_folder": 4,
+    "share_size": 332568,
+    "team_file": 3,
+    "team_folder": 5,
+    "team_size": 2345
+        }
+Thu = {
+    "mark": "Thu", 
+    "share_file": 2,
+    "share_folder": 4,
+    "share_size": 332568,
+    "team_file": 3,
+    "team_folder": 5,
+    "team_size": 2345
+        }
+Fri = {
+    "mark": "Fri",
+    "share_file": 4,
+    "share_folder": 4,
+    "share_size": 332568,
+    "team_file": 3,
+    "team_folder": 5,
+    "team_size": 2345
+        }
+Sat = {
+    "mark": "Sat",
+    "share_file": -1,
+    "share_folder": -1,
+    "share_size": -1,
+    "team_file": -1,
+    "team_folder": -1,
+    "team_size": -1
+        }
+Sun =  {
+    "mark": "Sun",
+    "share_file": -1,
+    "share_folder": -1,
+    "share_size": -1,
+    "team_file": -1,
+    "team_folder": -1,
+    "team_size": -1
+        }
+week_list = [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
+
 sys_path = sys.path[0]
 sys_path_split = sys_path.split("\\")
 del sys_path_split[-1]
@@ -86,6 +151,16 @@ def search_path(picture_name):
             print("Not Found picture")
             flag = final_path
     return flag
+
+def target_week():
+    now_week = week_current()
+    print(now_week)
+    for i in week_list:
+        if i["mark"] == now_week:
+            return i
+            break
+        else:
+            pass
 
 
 ################# System related function ###################
@@ -147,8 +222,8 @@ def mount_disk(ip, folder_name, username, password, disk):
     if flag == 0:
         print("Mount success")
     else:
-        pass
-    assert flag == 0, "Mount failed"
+        print("Mount failed")
+    # assert flag == 0, "Mount failed"
     wait(1)
 
 def unmount_disk(disk):
@@ -221,6 +296,17 @@ def send_mail(test_pc):
     server.sendmail(gmail_user,gmail_to,msg.as_string())
     server.quit()
     print('Email sent!')
+
+def wait_time(loop, waittime):
+    x = 0
+    for i in range(loop):
+        if x == 0:
+            print("start to wait")
+        else:    
+            pass
+        wait(waittime)
+        print("Pass " + str(waittime) + " secs")
+        x = x + 1
 
     
 ################# Windows behavior function ###################
@@ -610,11 +696,12 @@ def check_icon_no(data_items, row_items):
 # counter_type = file or folder; result_line = dir_result_line
 def output_counter_list(out_type, result_line):
     if out_type == "folder":
-        data_space = result_line[-2].split(" ")
+        data_space = result_line[-2].split(" ")      
     elif out_type == "file":
         data_space = result_line[-3].split(" ")
     else:
         print("gg")
+    print("data_space" + str(data_space))
     no_list = []
     for i in data_space:
         if i != "":
@@ -636,25 +723,41 @@ def counter_data(data_type, counter_type, path):
     dir_result = os.popen(dir_cmd).read()
     # print(dir_result)
     dir_result_line = dir_result.split("\n")
+    print(dir_result_line)
     if data_type == "file":
-        file_no = int(output_counter_list("file", dir_result_line)[0])
+        try:
+            file_no = int(output_counter_list("file", dir_result_line)[0])
+        except:
+            file_no = -1
         return file_no
     elif data_type == "folder":
-        folder_no = int(output_counter_list("folder", dir_result_line)[0])
+        try:
+            folder_no = int(output_counter_list("folder", dir_result_line)[0])
+        except:
+            folder_no = -1
         return folder_no
     elif data_type == "size":
-        file_size = output_counter_list("file", dir_result_line)[2]
-        file_size_f = size_to_int(file_size)
+        try:
+            file_size = output_counter_list("file", dir_result_line)[2]
+            file_size_f = size_to_int(file_size)
+        except:
+            file_size_f = -1
         return file_size_f
     elif data_type == "total":
-        file_no = int(output_counter_list("file", dir_result_line)[0])
-        folder_no = int(output_counter_list("folder", dir_result_line)[0])
-        total = folder_no + file_no
+        try:
+            file_no = int(output_counter_list("file", dir_result_line)[0])
+            folder_no = int(output_counter_list("folder", dir_result_line)[0])
+            total = folder_no + file_no
+        except:
+            total = -1
         return total
     elif data_type == "icon_total":
-        file_no = int(output_counter_list("file", dir_result_line)[0])
-        folder_no = int(output_counter_list("folder", dir_result_line)[0])
-        icon_total = folder_no + file_no -2
+        try:
+            file_no = int(output_counter_list("file", dir_result_line)[0])
+            folder_no = int(output_counter_list("folder", dir_result_line)[0])
+            icon_total = folder_no + file_no -2
+        except:
+            icon_total = -1
         return icon_total
     else:
         return 0
@@ -673,16 +776,27 @@ def size_to_int(size):
 def check_data_result(path1, path2):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
-    path_surplus = path1 + "\\.qsync" 
-    path_from_total = counter_data("total", "all", path1) - counter_surplus_no("total", "all", path_surplus)
+    if path1 == "fixed_path_share":
+        target_week = target_week()   
+        path_from_total = target_week["share_file"] + target_week["share_folder"]
+        path_from_size = target_week["share_size"]
+    elif path1 == "fixed_path_team":
+        target_week = target_week()   
+        path_from_total = target_week["team_file"] + target_week["team_folder"]
+        path_from_size = target_week["team_size"]
+    else:
+        path_surplus = path1 + "\\.qsync" 
+        path_from_total = counter_data("total", "all", path1) - counter_surplus_no("total", "all", path_surplus)
+        path_from_size = counter_data("size", "all", path1)- counter_surplus_no("size", "all", path_surplus)
     print("Source total = " + str(path_from_total))
-    path_from_size = counter_data("size", "all", path1)- counter_surplus_no("size", "all", path_surplus)
-    print("Source size = " + str(path_from_size))
+    print("Source size = " + str(path_from_size))  
+    
     path_surplus = path2 + "\\.qsync" 
-    path_to_total = counter_data("total", "all", path2)
+    path_to_total = counter_data("total", "all", path2) - counter_surplus_no("total", "all", path_surplus)
     print("Destination total = " + str(path_to_total))
-    path_to_size = counter_data("size", "all", path2)
+    path_to_size = counter_data("size", "all", path2) - counter_surplus_no("size", "all", path_surplus)
     print("Destination size = " + str(path_to_size))
+
     if path_from_total == path_to_total and path_from_size == path_to_size:
         print("Copy data consistent")
         return True
@@ -873,38 +987,40 @@ def random_icon_check(ran_switch, ran_no, os_ver, os_bit, *args):
 def check_team_folder(os_ver, os_bit):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
+    week_info = week_current()
+    qa = get_pc_info("pc_name")
     for i in AT_list:
         ew = i["folder_name"].split("_")
-        qa = get_pc_info("pc_name")
-        path = "C:\\Users\\" + get_pc_info("user_name") + "\\Qsync\\" + i["folder_name"]
+        path = "C:\\Users\\" + get_pc_info("user_name") + "\\Qsync\\" + i["folder_name"] + "\\" + week_info
         if ew[-1] == qa:
             pass
         else:
-            mount_disk(i["ip"],i["folder_name"],i["ac"],i["pwd"],"w") 
-            check_data_result(path,"w:\\")
+            # mount_disk(i["ip"],i["folder_name"],i["ac"],i["pwd"],"w") 
+            check_data_result("fixed_path_team", path)
             check_sync_icon(path = path, os_ver = os_ver, os_bit = os_bit)
             if counter_data("icon_total", "single", path) == 0:
                 print("Pass advanced icon check")
             else:   
                 mark_list = get_check_icon_list(path, os_ver)
                 random_icon_check("Y", 2, os_ver, os_bit, mark_list)
-            unmount_disk("w")
+            # unmount_disk("w")
             
 def check_share_folder(os_ver, os_bit):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
     i = AT_PC_S1
-    path = "C:\\Users\\" + get_pc_info("user_name") + "\\@Qsync_test"
+    week_info = week_current()
+    path = "C:\\Users\\" + get_pc_info("user_name") + "\\@Qsync_test\\" + week_info 
     print(path)
-    mount_disk(i["ip"],"@Qsync_test",i["ac"],i["pwd"],"w") 
-    check_data_result(path,"w:\\")
+    # mount_disk(i["ip"],"@Qsync_test",i["ac"],i["pwd"],"w") 
+    check_data_result("fixed_path_share", path)
     check_sync_icon(path = path, os_ver = os_ver, os_bit = os_bit)
     if counter_data("icon_total", "single", path) == 0:
         print("Pass advanced icon check")
     else:   
         mark_list = get_check_icon_list(path, os_ver)
         random_icon_check("Y", 2, os_ver, os_bit, mark_list)
-    unmount_disk("w")
+    # unmount_disk("w")
 
 def check_main_sync():
     fun_name = sys._getframe().f_code.co_name
@@ -933,8 +1049,6 @@ def target_client():
         else:
             target_client = "unknown"
     return target_client
-
-
 
 
 

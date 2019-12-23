@@ -1,0 +1,189 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>correct_data.sikuli</h2> <a href="correct_data.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span> *
+<span class="kw">from</span> library_qsync <span class="kw">import</span> *
+<span class="str">"""
+Mon = {
+    "mark": "Mon",
+    "file": 2,
+    "folder": 4,
+    "size": 332568,
+        }
+Tue = {
+    "mark": "Tue",
+    "file": 2,
+    "folder": 4,
+    "size": 332568,
+        }
+Wed = {
+    "mark": "Wed",   
+    "file": 2,
+    "folder": 4,
+    "size": 332568,
+        }
+Thu = {
+    "mark": "Thu", 
+    "file": 2,
+    "folder": 4,
+    "size": 332568,
+        }
+Fri = {
+    "mark": "Fri",
+    "file": 4,
+    "folder": 4,
+    "size": 332568,
+        }
+Sat = {
+    "mark": "Sat",
+    "file": 4,
+    "folder": 4,
+    "size": 332568,
+        }
+Sun =  {
+    "mark": "Sun",
+    "file": 0,
+    "folder": 0,
+    "size": 0,
+        }
+week_list = [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
+def target_week():
+    now_week = week_current()
+    print(now_week)
+    for i in week_list:
+        if i["mark"] == now_week:
+            return i
+            break
+        else:
+            pass
+cu = target_week()
+print(cu["file"] + cu["folder"])
+"""</span>
+
+<span class="kw">def</span> wait_time(loop, waittime):
+    x = <span class="dig">0</span>
+    <span class="kw">for</span> i <span class="kw">in</span> range(loop):
+        <span class="kw">if</span> x == <span class="dig">0</span>:
+            <span class="kw">print</span>(<span class="str">"start to wait"</span>)
+        <span class="kw">else</span>:
+            <span class="kw">pass</span>
+        <span class="skw">wait</span>(waittime)
+        <span class="kw">print</span>(<span class="str">"Pass "</span> + str(waittime) + <span class="str">" secs"</span>)
+        x = x + <span class="dig">1</span>
+
+
+x = <span class="dig">1</span>
+delete_flag = <span class="dig">0</span>
+copy_flag = <span class="dig">0</span>
+check_flag = <span class="dig">0</span>
+week_current = <span class="str">"Mon"</span>
+<span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">5</span>):
+    <span class="kw">print</span>(<span class="str">"Execute "</span> + str(x) + <span class="str">" Times"</span>)
+    stop_time = <span class="dig">230700</span>
+    <span class="kw">print</span>(<span class="str">"current_time is: "</span> + str(stop_time))
+    <span class="kw">if</span> <span class="dig">0</span> &lt; stop_time &lt; <span class="dig">10000</span> <span class="kw">and</span> week_current == <span class="str">"Sat"</span>:
+        <span class="kw">print</span>(<span class="str">"delete time is coming up, stop testing"</span>)
+        <span class="kw">if</span> delete_flag == <span class="dig">0</span>:
+            <span class="kw">print</span>(<span class="str">"dele1"</span>)
+            delete_flag = delete_flag + <span class="dig">1</span>
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"Already deleted folder"</span>)
+    <span class="kw">elif</span> <span class="dig">0</span> &lt; stop_time &lt; <span class="dig">10000</span> <span class="kw">and</span> week_current != <span class="str">"Sun"</span>:
+        <span class="kw">print</span>(<span class="str">"copy time is coming up, stop testing"</span>)
+        <span class="kw">if</span> copy_flag == <span class="dig">0</span>:
+            <span class="kw">print</span>(<span class="str">"copy1"</span>)
+            copy_flag = copy_flag + <span class="dig">1</span>
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"Already copy data"</span>)
+    <span class="kw">elif</span> <span class="dig">230000</span> &lt; stop_time:
+        <span class="kw">print</span>(<span class="str">"Check time, start to check"</span>)
+        ui_result = <span class="dig">1</span>
+        <span class="kw">if</span> check_flag == <span class="dig">0</span>:
+            <span class="kw">if</span> ui_result == <span class="dig">1</span>:
+                <span class="kw">print</span>(<span class="str">"check1"</span>)
+                check_flag = check_flag + <span class="dig">1</span>
+            <span class="kw">elif</span> ui_result == <span class="dig">2</span>:
+                <span class="kw">print</span>(<span class="str">"Still syncing..."</span>)
+            <span class="kw">else</span>:
+                <span class="kw">print</span>(<span class="str">"break"</span>)
+                <span class="kw">break</span>
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"Already check data"</span>)
+    <span class="kw">else</span>:
+        delete_flag = <span class="dig">0</span>
+        copy_flag = <span class="dig">0</span>
+        check_flag = <span class="dig">0</span>
+    x = x + <span class="dig">1</span>
+    <span class="kw">print</span>(<span class="str">"wait"</span>)
+</pre>
+</body>
+</html>

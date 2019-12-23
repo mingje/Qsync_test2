@@ -73,15 +73,66 @@ wait(3)
 
  
 # Open and close Qsync
-x = 1                         
+x = 1
+delete_flag = 0
+copy_flag = 0
+check_flag = 0
 for i in range(200):
     print("Execute " + str(x) + " Times")
     open_qsync(os_bit)
-    print("!!!!!!Start to wait.....!!!!!!")
-    wait(120)
+    # print("!!!!!!Start to wait.....!!!!!!")
+    # wait(120)
     stop_time = int(time.strftime("%H%M%S"))
     print("current_time is: " + str(stop_time))
-    if 210000 < stop_time < 220000 and week_current() == "Sat":
+    if 0 < stop_time < 10000 and week_current() == "Sat":
+        print("delete time is coming up, stop testing")
+        if delete_flag == 0:
+            path = "C:\\Users\\" + get_pc_info("user_name") + "\\Qsync\\" + target_client["folder_name"] + "\\"
+            delete_folder(path)
+            delete_flag = delete_flag + 1
+        else:
+            print("Already deleted folder")
+    elif 0 < stop_time < 10000 and week_current() != "Sun":
+        print("copy time is coming up, stop testing")
+        if copy_flag == 0:
+            path1 = "C:\\team_folder_data"
+            path2 = "C:\\Users\\" + get_pc_info("user_name") + "\\Qsync\\" + target_client["folder_name"] + "\\"
+            copy_data(path1, path2, "by_week")
+            copy_flag = copy_flag + 1
+        else:
+            print("Already copy data")
+    elif 230000 < stop_time:
+        print("Check time, start to check")
+        ui_result= check_main_sync()
+        if check_flag == 0:
+            if ui_result == 1:
+                close_qsync_UI()
+                check_share_folder(os_ver, os_bit)
+                check_team_folder(os_ver, os_bit)
+                check_flag = check_flag + 1
+            elif ui_result == 2:
+                print("Still syncing...")
+            else:
+                send_mail(target_client["pc_name"])
+                break
+        else:
+            print("Already check data") 
+    else:
+        delete_flag = 0
+        copy_flag = 0
+        check_flag = 0
+    x = x + 1
+    wait_time(5, 120)
+    close_qsync()
+    wait_time(5, 120)
+    # wait(10)
+
+
+
+
+
+"""
+if 0 < stop_time < 10000 and week_current() == "Sat":
         print("delete time is coming up, stop testing")
         path = "C:\\Users\\" + get_pc_info("user_name") + "\\Qsync\\" + target_client["folder_name"] + "\\"
         delete_folder(path)
@@ -120,6 +171,4 @@ for i in range(200):
         # wait(10)
         close_qsync()       
         wait(2)
-    x = x + 1
-    wait(600)
-    # wait(10)
+"""

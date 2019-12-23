@@ -126,6 +126,71 @@ AT_VM_S1 = {
         }
 AT_list = [AT_VM_S1, AT_VM_S2, AT_VM_S3, AT_PC_S2]
 
+Mon = {
+    <span class="str">"mark"</span>: <span class="str">"Mon"</span>,
+    <span class="str">"share_file"</span>: <span class="dig">2</span>,
+    <span class="str">"share_folder"</span>: <span class="dig">4</span>,
+    <span class="str">"share_size"</span>: <span class="dig">332568</span>,
+    <span class="str">"team_file"</span>: <span class="dig">3</span>,
+    <span class="str">"team_folder"</span>: <span class="dig">5</span>,
+    <span class="str">"team_size"</span>: <span class="dig">2345</span>
+        }
+Tue = {
+    <span class="str">"mark"</span>: <span class="str">"Tue"</span>,
+    <span class="str">"share_file"</span>: <span class="dig">2</span>,
+    <span class="str">"share_folder"</span>: <span class="dig">4</span>,
+    <span class="str">"share_size"</span>: <span class="dig">332568</span>,
+    <span class="str">"team_file"</span>: <span class="dig">3</span>,
+    <span class="str">"team_folder"</span>: <span class="dig">5</span>,
+    <span class="str">"team_size"</span>: <span class="dig">2345</span>
+        }
+Wed = {
+    <span class="str">"mark"</span>: <span class="str">"Wed"</span>,
+    <span class="str">"share_file"</span>: <span class="dig">2</span>,
+    <span class="str">"share_folder"</span>: <span class="dig">4</span>,
+    <span class="str">"share_size"</span>: <span class="dig">332568</span>,
+    <span class="str">"team_file"</span>: <span class="dig">3</span>,
+    <span class="str">"team_folder"</span>: <span class="dig">5</span>,
+    <span class="str">"team_size"</span>: <span class="dig">2345</span>
+        }
+Thu = {
+    <span class="str">"mark"</span>: <span class="str">"Thu"</span>,
+    <span class="str">"share_file"</span>: <span class="dig">2</span>,
+    <span class="str">"share_folder"</span>: <span class="dig">4</span>,
+    <span class="str">"share_size"</span>: <span class="dig">332568</span>,
+    <span class="str">"team_file"</span>: <span class="dig">3</span>,
+    <span class="str">"team_folder"</span>: <span class="dig">5</span>,
+    <span class="str">"team_size"</span>: <span class="dig">2345</span>
+        }
+Fri = {
+    <span class="str">"mark"</span>: <span class="str">"Fri"</span>,
+    <span class="str">"share_file"</span>: <span class="dig">4</span>,
+    <span class="str">"share_folder"</span>: <span class="dig">4</span>,
+    <span class="str">"share_size"</span>: <span class="dig">332568</span>,
+    <span class="str">"team_file"</span>: <span class="dig">3</span>,
+    <span class="str">"team_folder"</span>: <span class="dig">5</span>,
+    <span class="str">"team_size"</span>: <span class="dig">2345</span>
+        }
+Sat = {
+    <span class="str">"mark"</span>: <span class="str">"Sat"</span>,
+    <span class="str">"share_file"</span>: -<span class="dig">1</span>,
+    <span class="str">"share_folder"</span>: -<span class="dig">1</span>,
+    <span class="str">"share_size"</span>: -<span class="dig">1</span>,
+    <span class="str">"team_file"</span>: -<span class="dig">1</span>,
+    <span class="str">"team_folder"</span>: -<span class="dig">1</span>,
+    <span class="str">"team_size"</span>: -<span class="dig">1</span>
+        }
+Sun =  {
+    <span class="str">"mark"</span>: <span class="str">"Sun"</span>,
+    <span class="str">"share_file"</span>: -<span class="dig">1</span>,
+    <span class="str">"share_folder"</span>: -<span class="dig">1</span>,
+    <span class="str">"share_size"</span>: -<span class="dig">1</span>,
+    <span class="str">"team_file"</span>: -<span class="dig">1</span>,
+    <span class="str">"team_folder"</span>: -<span class="dig">1</span>,
+    <span class="str">"team_size"</span>: -<span class="dig">1</span>
+        }
+week_list = [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
+
 sys_path = sys.path[<span class="dig">0</span>]
 sys_path_split = sys_path.split(<span class="str">"\\"</span>)
 <span class="kw">del</span> sys_path_split[-<span class="dig">1</span>]
@@ -158,6 +223,16 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
             <span class="kw">print</span>(<span class="str">"Not Found picture"</span>)
             flag = final_path
     <span class="kw">return</span> flag
+
+<span class="kw">def</span> target_week():
+    now_week = week_current()
+    <span class="kw">print</span>(now_week)
+    <span class="kw">for</span> i <span class="kw">in</span> week_list:
+        <span class="kw">if</span> i[<span class="str">"mark"</span>] == now_week:
+            <span class="kw">return</span> i
+            <span class="kw">break</span>
+        <span class="kw">else</span>:
+            <span class="kw">pass</span>
 
 
 <span class="cmt">################# System related function ###################</span>
@@ -219,8 +294,8 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     <span class="kw">if</span> flag == <span class="dig">0</span>:
         <span class="kw">print</span>(<span class="str">"Mount success"</span>)
     <span class="kw">else</span>:
-        <span class="kw">pass</span>
-    <span class="kw">assert</span> flag == <span class="dig">0</span>, <span class="str">"Mount failed"</span>
+        <span class="kw">print</span>(<span class="str">"Mount failed"</span>)
+    <span class="cmt"># assert flag == 0, "Mount failed"</span>
     <span class="skw">wait</span>(<span class="dig">1</span>)
 
 <span class="kw">def</span> unmount_disk(disk):
@@ -293,6 +368,17 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     server.sendmail(gmail_user,gmail_to,msg.as_string())
     server.quit()
     <span class="kw">print</span>(<span class="str">'Email sent!'</span>)
+
+<span class="kw">def</span> wait_time(loop, waittime):
+    x = <span class="dig">0</span>
+    <span class="kw">for</span> i <span class="kw">in</span> range(loop):
+        <span class="kw">if</span> x == <span class="dig">0</span>:
+            <span class="kw">print</span>(<span class="str">"start to wait"</span>)
+        <span class="kw">else</span>:
+            <span class="kw">pass</span>
+        <span class="skw">wait</span>(waittime)
+        <span class="kw">print</span>(<span class="str">"Pass "</span> + str(waittime) + <span class="str">" secs"</span>)
+        x = x + <span class="dig">1</span>
 
 
 <span class="cmt">################# Windows behavior function ###################</span>
@@ -687,6 +773,7 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
         data_space = result_line[-<span class="dig">3</span>].split(<span class="str">" "</span>)
     <span class="kw">else</span>:
         <span class="kw">print</span>(<span class="str">"gg"</span>)
+    <span class="kw">print</span>(<span class="str">"data_space"</span> + str(data_space))
     no_list = []
     <span class="kw">for</span> i <span class="kw">in</span> data_space:
         <span class="kw">if</span> i != <span class="str">""</span>:
@@ -708,25 +795,41 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     dir_result = os.popen(dir_cmd).read()
     <span class="cmt"># print(dir_result)</span>
     dir_result_line = dir_result.split(<span class="str">"\n"</span>)
+    <span class="kw">print</span>(dir_result_line)
     <span class="kw">if</span> data_type == <span class="str">"file"</span>:
-        file_no = int(output_counter_list(<span class="str">"file"</span>, dir_result_line)[<span class="dig">0</span>])
+        <span class="kw">try</span>:
+            file_no = int(output_counter_list(<span class="str">"file"</span>, dir_result_line)[<span class="dig">0</span>])
+        <span class="kw">except</span>:
+            file_no = -<span class="dig">1</span>
         <span class="kw">return</span> file_no
     <span class="kw">elif</span> data_type == <span class="str">"folder"</span>:
-        folder_no = int(output_counter_list(<span class="str">"folder"</span>, dir_result_line)[<span class="dig">0</span>])
+        <span class="kw">try</span>:
+            folder_no = int(output_counter_list(<span class="str">"folder"</span>, dir_result_line)[<span class="dig">0</span>])
+        <span class="kw">except</span>:
+            folder_no = -<span class="dig">1</span>
         <span class="kw">return</span> folder_no
     <span class="kw">elif</span> data_type == <span class="str">"size"</span>:
-        file_size = output_counter_list(<span class="str">"file"</span>, dir_result_line)[<span class="dig">2</span>]
-        file_size_f = size_to_int(file_size)
+        <span class="kw">try</span>:
+            file_size = output_counter_list(<span class="str">"file"</span>, dir_result_line)[<span class="dig">2</span>]
+            file_size_f = size_to_int(file_size)
+        <span class="kw">except</span>:
+            file_size_f = -<span class="dig">1</span>
         <span class="kw">return</span> file_size_f
     <span class="kw">elif</span> data_type == <span class="str">"total"</span>:
-        file_no = int(output_counter_list(<span class="str">"file"</span>, dir_result_line)[<span class="dig">0</span>])
-        folder_no = int(output_counter_list(<span class="str">"folder"</span>, dir_result_line)[<span class="dig">0</span>])
-        total = folder_no + file_no
+        <span class="kw">try</span>:
+            file_no = int(output_counter_list(<span class="str">"file"</span>, dir_result_line)[<span class="dig">0</span>])
+            folder_no = int(output_counter_list(<span class="str">"folder"</span>, dir_result_line)[<span class="dig">0</span>])
+            total = folder_no + file_no
+        <span class="kw">except</span>:
+            total = -<span class="dig">1</span>
         <span class="kw">return</span> total
     <span class="kw">elif</span> data_type == <span class="str">"icon_total"</span>:
-        file_no = int(output_counter_list(<span class="str">"file"</span>, dir_result_line)[<span class="dig">0</span>])
-        folder_no = int(output_counter_list(<span class="str">"folder"</span>, dir_result_line)[<span class="dig">0</span>])
-        icon_total = folder_no + file_no -<span class="dig">2</span>
+        <span class="kw">try</span>:
+            file_no = int(output_counter_list(<span class="str">"file"</span>, dir_result_line)[<span class="dig">0</span>])
+            folder_no = int(output_counter_list(<span class="str">"folder"</span>, dir_result_line)[<span class="dig">0</span>])
+            icon_total = folder_no + file_no -<span class="dig">2</span>
+        <span class="kw">except</span>:
+            icon_total = -<span class="dig">1</span>
         <span class="kw">return</span> icon_total
     <span class="kw">else</span>:
         <span class="kw">return</span> <span class="dig">0</span>
@@ -745,16 +848,27 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
 <span class="kw">def</span> check_data_result(path1, path2):
     fun_name = sys._getframe().f_code.co_name
     <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
-    path_surplus = path1 + <span class="str">"\\.qsync"</span>
-    path_from_total = counter_data(<span class="str">"total"</span>, <span class="str">"all"</span>, path1) - counter_surplus_no(<span class="str">"total"</span>, <span class="str">"all"</span>, path_surplus)
+    <span class="kw">if</span> path1 == <span class="str">"fixed_path_share"</span>:
+        target_week = target_week()
+        path_from_total = target_week[<span class="str">"share_file"</span>] + target_week[<span class="str">"share_folder"</span>]
+        path_from_size = target_week[<span class="str">"share_size"</span>]
+    <span class="kw">elif</span> path1 == <span class="str">"fixed_path_team"</span>:
+        target_week = target_week()
+        path_from_total = target_week[<span class="str">"team_file"</span>] + target_week[<span class="str">"team_folder"</span>]
+        path_from_size = target_week[<span class="str">"team_size"</span>]
+    <span class="kw">else</span>:
+        path_surplus = path1 + <span class="str">"\\.qsync"</span>
+        path_from_total = counter_data(<span class="str">"total"</span>, <span class="str">"all"</span>, path1) - counter_surplus_no(<span class="str">"total"</span>, <span class="str">"all"</span>, path_surplus)
+        path_from_size = counter_data(<span class="str">"size"</span>, <span class="str">"all"</span>, path1)- counter_surplus_no(<span class="str">"size"</span>, <span class="str">"all"</span>, path_surplus)
     <span class="kw">print</span>(<span class="str">"Source total = "</span> + str(path_from_total))
-    path_from_size = counter_data(<span class="str">"size"</span>, <span class="str">"all"</span>, path1)- counter_surplus_no(<span class="str">"size"</span>, <span class="str">"all"</span>, path_surplus)
     <span class="kw">print</span>(<span class="str">"Source size = "</span> + str(path_from_size))
+
     path_surplus = path2 + <span class="str">"\\.qsync"</span>
-    path_to_total = counter_data(<span class="str">"total"</span>, <span class="str">"all"</span>, path2)
+    path_to_total = counter_data(<span class="str">"total"</span>, <span class="str">"all"</span>, path2) - counter_surplus_no(<span class="str">"total"</span>, <span class="str">"all"</span>, path_surplus)
     <span class="kw">print</span>(<span class="str">"Destination total = "</span> + str(path_to_total))
-    path_to_size = counter_data(<span class="str">"size"</span>, <span class="str">"all"</span>, path2)
+    path_to_size = counter_data(<span class="str">"size"</span>, <span class="str">"all"</span>, path2) - counter_surplus_no(<span class="str">"size"</span>, <span class="str">"all"</span>, path_surplus)
     <span class="kw">print</span>(<span class="str">"Destination size = "</span> + str(path_to_size))
+
     <span class="kw">if</span> path_from_total == path_to_total <span class="kw">and</span> path_from_size == path_to_size:
         <span class="kw">print</span>(<span class="str">"Copy data consistent"</span>)
         <span class="kw">return</span> True
@@ -945,38 +1059,40 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
 <span class="kw">def</span> check_team_folder(os_ver, os_bit):
     fun_name = sys._getframe().f_code.co_name
     <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
+    week_info = week_current()
+    qa = get_pc_info(<span class="str">"pc_name"</span>)
     <span class="kw">for</span> i <span class="kw">in</span> AT_list:
         ew = i[<span class="str">"folder_name"</span>].split(<span class="str">"_"</span>)
-        qa = get_pc_info(<span class="str">"pc_name"</span>)
-        path = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\Qsync\\"</span> + i[<span class="str">"folder_name"</span>]
+        path = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\Qsync\\"</span> + i[<span class="str">"folder_name"</span>] + <span class="str">"\\"</span> + week_info
         <span class="kw">if</span> ew[-<span class="dig">1</span>] == qa:
             <span class="kw">pass</span>
         <span class="kw">else</span>:
-            mount_disk(i[<span class="str">"ip"</span>],i[<span class="str">"folder_name"</span>],i[<span class="str">"ac"</span>],i[<span class="str">"pwd"</span>],<span class="str">"w"</span>)
-            check_data_result(path,<span class="str">"w:\\"</span>)
+            <span class="cmt"># mount_disk(i["ip"],i["folder_name"],i["ac"],i["pwd"],"w") </span>
+            check_data_result(<span class="str">"fixed_path_team"</span>, path)
             check_sync_icon(path = path, os_ver = os_ver, os_bit = os_bit)
             <span class="kw">if</span> counter_data(<span class="str">"icon_total"</span>, <span class="str">"single"</span>, path) == <span class="dig">0</span>:
                 <span class="kw">print</span>(<span class="str">"Pass advanced icon check"</span>)
             <span class="kw">else</span>:
                 mark_list = get_check_icon_list(path, os_ver)
                 random_icon_check(<span class="str">"Y"</span>, <span class="dig">2</span>, os_ver, os_bit, mark_list)
-            unmount_disk(<span class="str">"w"</span>)
+            <span class="cmt"># unmount_disk("w")</span>
 
 <span class="kw">def</span> check_share_folder(os_ver, os_bit):
     fun_name = sys._getframe().f_code.co_name
     <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     i = AT_PC_S1
-    path = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\@Qsync_test"</span>
+    week_info = week_current()
+    path = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\@Qsync_test\\"</span> + week_info
     <span class="kw">print</span>(path)
-    mount_disk(i[<span class="str">"ip"</span>],<span class="str">"@Qsync_test"</span>,i[<span class="str">"ac"</span>],i[<span class="str">"pwd"</span>],<span class="str">"w"</span>)
-    check_data_result(path,<span class="str">"w:\\"</span>)
+    <span class="cmt"># mount_disk(i["ip"],"@Qsync_test",i["ac"],i["pwd"],"w") </span>
+    check_data_result(<span class="str">"fixed_path_share"</span>, path)
     check_sync_icon(path = path, os_ver = os_ver, os_bit = os_bit)
     <span class="kw">if</span> counter_data(<span class="str">"icon_total"</span>, <span class="str">"single"</span>, path) == <span class="dig">0</span>:
         <span class="kw">print</span>(<span class="str">"Pass advanced icon check"</span>)
     <span class="kw">else</span>:
         mark_list = get_check_icon_list(path, os_ver)
         random_icon_check(<span class="str">"Y"</span>, <span class="dig">2</span>, os_ver, os_bit, mark_list)
-    unmount_disk(<span class="str">"w"</span>)
+    <span class="cmt"># unmount_disk("w")</span>
 
 <span class="kw">def</span> check_main_sync():
     fun_name = sys._getframe().f_code.co_name

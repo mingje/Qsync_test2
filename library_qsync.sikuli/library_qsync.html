@@ -773,7 +773,6 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
         data_space = result_line[-<span class="dig">3</span>].split(<span class="str">" "</span>)
     <span class="kw">else</span>:
         <span class="kw">print</span>(<span class="str">"gg"</span>)
-    <span class="kw">print</span>(<span class="str">"data_space"</span> + str(data_space))
     no_list = []
     <span class="kw">for</span> i <span class="kw">in</span> data_space:
         <span class="kw">if</span> i != <span class="str">""</span>:
@@ -795,7 +794,6 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     dir_result = os.popen(dir_cmd).read()
     <span class="cmt"># print(dir_result)</span>
     dir_result_line = dir_result.split(<span class="str">"\n"</span>)
-    <span class="kw">print</span>(dir_result_line)
     <span class="kw">if</span> data_type == <span class="str">"file"</span>:
         <span class="kw">try</span>:
             file_no = int(output_counter_list(<span class="str">"file"</span>, dir_result_line)[<span class="dig">0</span>])

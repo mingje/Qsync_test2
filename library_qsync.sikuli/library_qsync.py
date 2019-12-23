@@ -701,7 +701,6 @@ def output_counter_list(out_type, result_line):
         data_space = result_line[-3].split(" ")
     else:
         print("gg")
-    print("data_space" + str(data_space))
     no_list = []
     for i in data_space:
         if i != "":
@@ -723,7 +722,6 @@ def counter_data(data_type, counter_type, path):
     dir_result = os.popen(dir_cmd).read()
     # print(dir_result)
     dir_result_line = dir_result.split("\n")
-    print(dir_result_line)
     if data_type == "file":
         try:
             file_no = int(output_counter_list("file", dir_result_line)[0])

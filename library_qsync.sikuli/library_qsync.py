@@ -990,7 +990,10 @@ def check_team_folder(os_ver, os_bit):
     qa = get_pc_info("pc_name")
     for i in AT_list:
         ew = i["folder_name"].split("_")
-        path = "C:\\Users\\" + get_pc_info("user_name") + "\\Qsync\\" + i["folder_name"] + "\\" + week_info
+        if week_info == "Sat" or week_info == "Sun":
+            path = "C:\\Users\\" + get_pc_info("user_name") + "\\Qsync\\" + i["folder_name"]
+        else:
+            path = "C:\\Users\\" + get_pc_info("user_name") + "\\Qsync\\" + i["folder_name"] + "\\" + week_info
         if ew[-1] == qa:
             pass
         else:
@@ -1012,7 +1015,10 @@ def check_share_folder(os_ver, os_bit):
     print("***Start to " + fun_name + " ***")
     i = AT_PC_S1
     week_info = week_current()
-    path = "C:\\Users\\" + get_pc_info("user_name") + "\\@Qsync_test\\" + week_info 
+    if week_info == "Sat" or week_info == "Sun":
+        path = "C:\\Users\\" + get_pc_info("user_name") + "\\@Qsync_test\\"
+    else:
+        path = "C:\\Users\\" + get_pc_info("user_name") + "\\@Qsync_test\\" + week_info 
     print(path)
     # mount_disk(i["ip"],"@Qsync_test",i["ac"],i["pwd"],"w") 
     check_data_result("fixed_path_share", path)

@@ -837,6 +837,10 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
 <span class="kw">def</span> counter_surplus_no(data_type, counter_type, path):
     <span class="kw">try</span>:
         surplus_no = counter_data(data_type, counter_type, path)
+        <span class="kw">if</span> surplus_no == -<span class="dig">1</span>:
+            surplus_no = <span class="dig">0</span>
+        <span class="kw">else</span>:
+            surplus_no = surplus_no
     <span class="kw">except</span>:
         surplus_no = <span class="dig">0</span>
     <span class="kw">return</span> surplus_no
@@ -1120,6 +1124,10 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
         <span class="kw">else</span>:
             target_client = <span class="str">"unknown"</span>
     <span class="kw">return</span> target_client
+
+path1 = <span class="str">"D:\\test"</span>
+path_surplus = path1 + <span class="str">"\\.qsync"</span>
+<span class="kw">print</span>(counter_surplus_no(<span class="str">"total"</span>, <span class="str">"all"</span>, path_surplus))
 </pre>
 </body>
 </html>

@@ -765,6 +765,10 @@ def counter_data(data_type, counter_type, path):
 def counter_surplus_no(data_type, counter_type, path):
     try:
         surplus_no = counter_data(data_type, counter_type, path)
+        if surplus_no == -1:
+            surplus_no = 0
+        else:
+            surplus_no = surplus_no
     except:
         surplus_no = 0
     return surplus_no
@@ -1049,5 +1053,6 @@ def target_client():
             target_client = "unknown"
     return target_client
 
-
-
+path1 = "D:\\test"
+path_surplus = path1 + "\\.qsync"
+print(counter_surplus_no("total", "all", path_surplus))

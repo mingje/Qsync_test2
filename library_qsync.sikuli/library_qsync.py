@@ -776,7 +776,7 @@ def size_to_int(size):
 def check_data_result(path1, path2):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
-    righrt_week = target_week()
+    right_week = target_week()
     if path1 == "fixed_path_share": 
         path_from_total = right_week["share_file"] + right_week["share_folder"]
         path_from_size = right_week["share_size"]

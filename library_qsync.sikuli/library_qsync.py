@@ -101,21 +101,21 @@ Fri = {
         }
 Sat = {
     "mark": "Sat",
-    "share_file": -1,
-    "share_folder": -1,
-    "share_size": -1,
-    "team_file": -1,
-    "team_folder": -1,
-    "team_size": -1
+    "share_file": 0,
+    "share_folder": 2,
+    "share_size": 0,
+    "team_file": 0,
+    "team_folder": 2,
+    "team_size": 0
         }
 Sun =  {
     "mark": "Sun",
-    "share_file": -1,
-    "share_folder": -1,
-    "share_size": -1,
-    "team_file": -1,
-    "team_folder": -1,
-    "team_size": -1
+    "share_file": 0,
+    "share_folder": 2,
+    "share_size": 0,
+    "team_file": 0,
+    "team_folder": 2,
+    "team_size": 0
         }
 week_list = [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
 

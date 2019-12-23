@@ -37,24 +37,7 @@ if reset_flag == "Y":
     else:
         remove_nas_profile()
     close_qsync()
-"""
-    # delete sync folder
-    current_user = os.popen("whoami").read()
-    print(current_user)
-    r = str(current_user)
-    rr = r.split("\\")
-    pc_name = rr[0]
-    ss = rr[1]
-    ss = ss[0:-1]
-    path_user = ss
-    dd = "rd /s/q C:\\Users\\" + path_user + "\\@Qsync_test\\"
-    print(dd)
-    try:
-        os.system(dd)
-        print("Clean up sync folder")
-    except:
-        pass
-"""
+
 else:
     print("Not reset")
 
@@ -171,4 +154,24 @@ if 0 < stop_time < 10000 and week_current() == "Sat":
         # wait(10)
         close_qsync()       
         wait(2)
+"""
+
+
+"""
+    # delete sync folder
+    current_user = os.popen("whoami").read()
+    print(current_user)
+    r = str(current_user)
+    rr = r.split("\\")
+    pc_name = rr[0]
+    ss = rr[1]
+    ss = ss[0:-1]
+    path_user = ss
+    dd = "rd /s/q C:\\Users\\" + path_user + "\\@Qsync_test\\"
+    print(dd)
+    try:
+        os.system(dd)
+        print("Clean up sync folder")
+    except:
+        pass
 """

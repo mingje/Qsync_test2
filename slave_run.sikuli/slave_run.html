@@ -109,24 +109,7 @@ os_bit = get_os_bit()
     <span class="kw">else</span>:
         remove_nas_profile()
     close_qsync()
-<span class="str">"""
-    # delete sync folder
-    current_user = os.popen("whoami").read()
-    print(current_user)
-    r = str(current_user)
-    rr = r.split("\\")
-    pc_name = rr[0]
-    ss = rr[1]
-    ss = ss[0:-1]
-    path_user = ss
-    dd = "rd /s/q C:\\Users\\" + path_user + "\\@Qsync_test\\"
-    print(dd)
-    try:
-        os.system(dd)
-        print("Clean up sync folder")
-    except:
-        pass
-"""</span>
+
 <span class="kw">else</span>:
     <span class="kw">print</span>(<span class="str">"Not reset"</span>)
 
@@ -243,6 +226,26 @@ if 0 &lt; stop_time &lt; 10000 and week_current() == "Sat":
         # wait(10)
         close_qsync()       
         wait(2)
+"""</span>
+
+
+<span class="str">"""
+    # delete sync folder
+    current_user = os.popen("whoami").read()
+    print(current_user)
+    r = str(current_user)
+    rr = r.split("\\")
+    pc_name = rr[0]
+    ss = rr[1]
+    ss = ss[0:-1]
+    path_user = ss
+    dd = "rd /s/q C:\\Users\\" + path_user + "\\@Qsync_test\\"
+    print(dd)
+    try:
+        os.system(dd)
+        print("Clean up sync folder")
+    except:
+        pass
 """</span>
 </pre>
 </body>

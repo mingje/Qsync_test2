@@ -75,7 +75,7 @@ for i in range(200):
             delete_flag = delete_flag + 1
         else:
             print("Already deleted folder")
-    elif 0 < stop_time < 10000 and week_current() != "Sun":
+    elif 150000 < stop_time < 160000 and week_current() != "Sun":
         print("copy time is coming up, stop testing")
         if copy_flag == 0:
             path1 = "C:\\team_folder_data"

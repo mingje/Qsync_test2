@@ -935,33 +935,29 @@ def check_sync_icon(path, os_ver, os_bit):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
     print(path)
-    open_folder_cmd(path, os_ver)
-    set_browser_sty(os_ver)
-    data_items = counter_data("icon_total", "single", path)
-    print("Check items = " + str(data_items))
-    if os_bit == "64":
-        row_items = 11
+    if counter_data("icon_total", "single", path) != -1:
+        open_folder_cmd(path, os_ver)
+        set_browser_sty(os_ver)
+        data_items = counter_data("icon_total", "single", path)
+        print("Check items = " + str(data_items))
+        if os_bit == "64":
+            row_items = 11
+        else:
+            row_items = 17
+        if check_icon_no_N(data_items, row_items) == 1:
+            print("pass icon check")
+            flag = 1
+        else:
+            print("fail icon check")
+            flag = 0
+        if os_ver == "Win10":
+            click(Pattern(search_path("refresh_button")).similar(0.70))
+        else:
+            click(Pattern(search_path("refresh_button_7")).similar(0.70))    
+        type(Key.F4, KeyModifier.ALT)
     else:
-        row_items = 17
-    if check_icon_no_N(data_items, row_items) == 1:
-        print("pass icon check")
+        print("pass icon check, no folder")
         flag = 1
-    else:
-        print("fail icon check")
-        flag = 0
-    """
-    if data_items == check_icon_no(data_items, row_items):
-        print("pass icon check")
-        flag = 1
-    else:
-        print("fail icon check")        
-        flag = 0
-    """
-    if os_ver == "Win10":
-        click(Pattern(search_path("refresh_button")).similar(0.70))
-    else:
-        click(Pattern(search_path("refresh_button_7")).similar(0.70))    
-    type(Key.F4, KeyModifier.ALT)
     return flag
 
 def random_icon_check(ran_switch, ran_no, os_ver, os_bit, *args):
@@ -1001,8 +997,11 @@ def check_team_folder(os_ver, os_bit):
             # mount_disk(i["ip"],i["folder_name"],i["ac"],i["pwd"],"w") 
             check_data_result("fixed_path_team", path)
             check_sync_icon(path = path, os_ver = os_ver, os_bit = os_bit)
-            if counter_data("icon_total", "single", path) == 0:
+            adv_flag = counter_data("icon_total", "single", path)
+            if adv_flag == 0:
                 print("Pass advanced icon check")
+            elif adv_flag == -1:
+                print("Pass advanced icon check, no folder")
             else:   
                 mark_list = get_check_icon_list(path, os_ver)
                 random_icon_check("Y", 2, os_ver, os_bit, mark_list)
@@ -1018,8 +1017,11 @@ def check_share_folder(os_ver, os_bit):
     # mount_disk(i["ip"],"@Qsync_test",i["ac"],i["pwd"],"w") 
     check_data_result("fixed_path_share", path)
     check_sync_icon(path = path, os_ver = os_ver, os_bit = os_bit)
-    if counter_data("icon_total", "single", path) == 0:
+    adv_flag = counter_data("icon_total", "single", path)
+    if adv_flag == 0:
         print("Pass advanced icon check")
+    elif adv_flag == -1:
+        print("Pass advanced icon check, no folder")
     else:   
         mark_list = get_check_icon_list(path, os_ver)
         random_icon_check("Y", 2, os_ver, os_bit, mark_list)

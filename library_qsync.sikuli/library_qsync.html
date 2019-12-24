@@ -1048,18 +1048,23 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     <span class="kw">else</span>:
         run_list = args
         ran_no = <span class="dig">1</span>
+    result_flag = <span class="dig">0</span>
     <span class="kw">for</span> i <span class="kw">in</span> run_list:
         <span class="kw">print</span>(i)
         flag = check_sync_icon(i, os_ver, os_bit)
         <span class="kw">if</span> flag != <span class="dig">1</span>:
+            result_flag = <span class="dig">0</span>
             <span class="kw">break</span>
-    <span class="kw">return</span> flag
+        <span class="kw">else</span>:
+            result_flag = <span class="dig">1</span>
+    <span class="kw">return</span> result_flag
 
 <span class="kw">def</span> check_team_folder(os_ver, os_bit):
     fun_name = sys._getframe().f_code.co_name
     <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     week_info = week_current()
     qa = get_pc_info(<span class="str">"pc_name"</span>)
+    check_flag = <span class="dig">0</span>
     <span class="kw">for</span> i <span class="kw">in</span> AT_list:
         ew = i[<span class="str">"folder_name"</span>].split(<span class="str">"_"</span>)
         <span class="kw">if</span> week_info == <span class="str">"Sat"</span> <span class="kw">or</span> week_info == <span class="str">"Sun"</span>:
@@ -1070,8 +1075,19 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
             <span class="kw">pass</span>
         <span class="kw">else</span>:
             <span class="cmt"># mount_disk(i["ip"],i["folder_name"],i["ac"],i["pwd"],"w") </span>
-            check_data_result(<span class="str">"fixed_path_team"</span>, path)
-            check_sync_icon(path = path, os_ver = os_ver, os_bit = os_bit)
+            <span class="kw">if</span> check_data_result(<span class="str">"fixed_path_team"</span>, path) == True:
+                <span class="kw">print</span>(<span class="str">"Data files, folders and size match"</span>)
+                check_flag = <span class="dig">1</span>
+            <span class="kw">else</span>:
+                <span class="kw">print</span>(<span class="str">"Data files, folders and size not match"</span>)
+                check_flag = <span class="dig">0</span>
+                <span class="kw">break</span>
+            <span class="kw">if</span> check_sync_icon(path = path, os_ver = os_ver, os_bit = os_bit) == <span class="dig">1</span>:
+                <span class="kw">print</span>(<span class="str">"Root folder icon check PASS"</span>)
+                check_flag = <span class="dig">1</span>
+            <span class="kw">else</span>:
+                <span class="kw">print</span>(<span class="str">"Root folder icon check FAIL"</span>)
+                check_flag = <span class="dig">0</span>
             adv_flag = counter_data(<span class="str">"icon_total"</span>, <span class="str">"single"</span>, path)
             <span class="kw">if</span> adv_flag == <span class="dig">0</span>:
                 <span class="kw">print</span>(<span class="str">"Pass advanced icon check"</span>)
@@ -1079,7 +1095,13 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
                 <span class="kw">print</span>(<span class="str">"Pass advanced icon check, no folder"</span>)
             <span class="kw">else</span>:
                 mark_list = get_check_icon_list(path, os_ver)
-                random_icon_check(<span class="str">"Y"</span>, <span class="dig">2</span>, os_ver, os_bit, mark_list)
+                <span class="kw">if</span> random_icon_check(<span class="str">"Y"</span>, <span class="dig">2</span>, os_ver, os_bit, mark_list) == <span class="dig">1</span>:
+                    <span class="kw">print</span>(<span class="str">"Advanced folder icon check PASS"</span>)
+                    check_flag = <span class="dig">1</span>
+                <span class="kw">else</span>:
+                    <span class="kw">print</span>(<span class="str">"Advanced folder icon check FAIL"</span>)
+                    check_flag = <span class="dig">0</span>
+                    <span class="kw">break</span>
             <span class="cmt"># unmount_disk("w")</span>
 
 <span class="kw">def</span> check_share_folder(os_ver, os_bit):
@@ -1087,23 +1109,44 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     i = AT_PC_S1
     week_info = week_current()
-    <span class="kw">if</span> week_info == <span class="str">"Sat"</span> <span class="kw">or</span> week_info == <span class="str">"Sun"</span>:
-        path = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\@Qsync_test\\"</span>
-    <span class="kw">else</span>:
-        path = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\@Qsync_test\\"</span> + week_info
-    <span class="kw">print</span>(path)
-    <span class="cmt"># mount_disk(i["ip"],"@Qsync_test",i["ac"],i["pwd"],"w") </span>
-    check_data_result(<span class="str">"fixed_path_share"</span>, path)
-    check_sync_icon(path = path, os_ver = os_ver, os_bit = os_bit)
-    adv_flag = counter_data(<span class="str">"icon_total"</span>, <span class="str">"single"</span>, path)
-    <span class="kw">if</span> adv_flag == <span class="dig">0</span>:
-        <span class="kw">print</span>(<span class="str">"Pass advanced icon check"</span>)
-    <span class="kw">elif</span> adv_flag == -<span class="dig">1</span>:
-        <span class="kw">print</span>(<span class="str">"Pass advanced icon check, no folder"</span>)
-    <span class="kw">else</span>:
-        mark_list = get_check_icon_list(path, os_ver)
-        random_icon_check(<span class="str">"Y"</span>, <span class="dig">2</span>, os_ver, os_bit, mark_list)
-    <span class="cmt"># unmount_disk("w")</span>
+    check_flag = <span class="dig">0</span>
+    <span class="kw">for</span> j <span class="kw">in</span> range(<span class="dig">1</span>):
+        <span class="kw">if</span> week_info == <span class="str">"Sat"</span> <span class="kw">or</span> week_info == <span class="str">"Sun"</span>:
+            path = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\@Qsync_test\\"</span>
+        <span class="kw">else</span>:
+            path = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\@Qsync_test\\"</span> + week_info
+        <span class="kw">print</span>(path)
+        <span class="cmt"># mount_disk(i["ip"],"@Qsync_test",i["ac"],i["pwd"],"w") </span>
+        <span class="kw">if</span> check_data_result(<span class="str">"fixed_path_share"</span>, path) == True:
+            <span class="kw">print</span>(<span class="str">"Data files, folders and size match"</span>)
+            check_flag = <span class="dig">1</span>
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"Data files, folders and size not match"</span>)
+            check_flag = <span class="dig">2</span>
+            <span class="kw">break</span>
+        <span class="kw">if</span> check_sync_icon(path = path, os_ver = os_ver, os_bit = os_bit) == <span class="dig">1</span>:
+            <span class="kw">print</span>(<span class="str">"Root folder icon check PASS"</span>)
+            check_flag = <span class="dig">1</span>
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"Root folder icon check FAIL"</span>)
+            check_flag = <span class="dig">3</span>
+            <span class="kw">break</span>
+        adv_flag = counter_data(<span class="str">"icon_total"</span>, <span class="str">"single"</span>, path)
+        <span class="kw">if</span> adv_flag == <span class="dig">0</span>:
+            <span class="kw">print</span>(<span class="str">"Skip advanced icon check"</span>)
+        <span class="kw">elif</span> adv_flag == -<span class="dig">1</span>:
+            <span class="kw">print</span>(<span class="str">"Skip advanced icon check, no folder"</span>)
+        <span class="kw">else</span>:
+            mark_list = get_check_icon_list(path, os_ver)
+            <span class="kw">if</span> random_icon_check(<span class="str">"Y"</span>, <span class="dig">2</span>, os_ver, os_bit, mark_list) == <span class="dig">1</span>:
+                <span class="kw">print</span>(<span class="str">"Advanced folder icon check PASS"</span>)
+                check_flag = <span class="dig">1</span>
+            <span class="kw">else</span>:
+                <span class="kw">print</span>(<span class="str">"Advanced folder icon check FAIL"</span>)
+                check_flag = <span class="dig">4</span>
+                <span class="kw">break</span>
+        <span class="cmt"># unmount_disk("w")</span>
+    <span class="kw">return</span> check_flag
 
 <span class="kw">def</span> check_main_sync():
     fun_name = sys._getframe().f_code.co_name

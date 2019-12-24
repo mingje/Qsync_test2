@@ -90,8 +90,12 @@ for i in range(200):
         if check_flag == 0:
             if ui_result == 1:
                 close_qsync_UI()
-                check_share_folder(os_ver, os_bit)
-                check_team_folder(os_ver, os_bit)
+                if check_share_folder(os_ver, os_bit)!= 1:
+                    send_mail(target_client["pc_name"])
+                    break
+                if check_team_folder(os_ver, os_bit) != 1:
+                    send_mail(target_client["pc_name"])
+                    break
                 check_flag = check_flag + 1
             elif ui_result == 2:
                 print("Still syncing...")

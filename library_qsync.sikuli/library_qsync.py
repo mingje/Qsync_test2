@@ -976,18 +976,23 @@ def random_icon_check(ran_switch, ran_no, os_ver, os_bit, *args):
     else:
         run_list = args 
         ran_no = 1
+    result_flag = 0
     for i in run_list:
         print(i)
         flag = check_sync_icon(i, os_ver, os_bit)
         if flag != 1:
+            result_flag = 0
             break
-    return flag
+        else:
+            result_flag = 1
+    return result_flag
 
 def check_team_folder(os_ver, os_bit):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
     week_info = week_current()
     qa = get_pc_info("pc_name")
+    check_flag = 0
     for i in AT_list:
         ew = i["folder_name"].split("_")
         if week_info == "Sat" or week_info == "Sun":
@@ -998,8 +1003,19 @@ def check_team_folder(os_ver, os_bit):
             pass
         else:
             # mount_disk(i["ip"],i["folder_name"],i["ac"],i["pwd"],"w") 
-            check_data_result("fixed_path_team", path)
-            check_sync_icon(path = path, os_ver = os_ver, os_bit = os_bit)
+            if check_data_result("fixed_path_team", path) == True:
+                print("Data files, folders and size match")
+                check_flag = 1
+            else:
+                print("Data files, folders and size not match")
+                check_flag = 0
+                break
+            if check_sync_icon(path = path, os_ver = os_ver, os_bit = os_bit) == 1:
+                print("Root folder icon check PASS")
+                check_flag = 1
+            else:
+                print("Root folder icon check FAIL")
+                check_flag = 0
             adv_flag = counter_data("icon_total", "single", path)
             if adv_flag == 0:
                 print("Pass advanced icon check")
@@ -1007,7 +1023,13 @@ def check_team_folder(os_ver, os_bit):
                 print("Pass advanced icon check, no folder")
             else:   
                 mark_list = get_check_icon_list(path, os_ver)
-                random_icon_check("Y", 2, os_ver, os_bit, mark_list)
+                if random_icon_check("Y", 2, os_ver, os_bit, mark_list) == 1:
+                    print("Advanced folder icon check PASS")
+                    check_flag = 1
+                else:
+                    print("Advanced folder icon check FAIL")
+                    check_flag = 0
+                    break
             # unmount_disk("w")
             
 def check_share_folder(os_ver, os_bit):
@@ -1015,23 +1037,44 @@ def check_share_folder(os_ver, os_bit):
     print("***Start to " + fun_name + " ***")
     i = AT_PC_S1
     week_info = week_current()
-    if week_info == "Sat" or week_info == "Sun":
-        path = "C:\\Users\\" + get_pc_info("user_name") + "\\@Qsync_test\\"
-    else:
-        path = "C:\\Users\\" + get_pc_info("user_name") + "\\@Qsync_test\\" + week_info 
-    print(path)
-    # mount_disk(i["ip"],"@Qsync_test",i["ac"],i["pwd"],"w") 
-    check_data_result("fixed_path_share", path)
-    check_sync_icon(path = path, os_ver = os_ver, os_bit = os_bit)
-    adv_flag = counter_data("icon_total", "single", path)
-    if adv_flag == 0:
-        print("Pass advanced icon check")
-    elif adv_flag == -1:
-        print("Pass advanced icon check, no folder")
-    else:   
-        mark_list = get_check_icon_list(path, os_ver)
-        random_icon_check("Y", 2, os_ver, os_bit, mark_list)
-    # unmount_disk("w")
+    check_flag = 0
+    for j in range(1):
+        if week_info == "Sat" or week_info == "Sun":
+            path = "C:\\Users\\" + get_pc_info("user_name") + "\\@Qsync_test\\"
+        else:
+            path = "C:\\Users\\" + get_pc_info("user_name") + "\\@Qsync_test\\" + week_info 
+        print(path)
+        # mount_disk(i["ip"],"@Qsync_test",i["ac"],i["pwd"],"w") 
+        if check_data_result("fixed_path_share", path) == True:
+            print("Data files, folders and size match")
+            check_flag = 1
+        else:
+            print("Data files, folders and size not match")
+            check_flag = 2
+            break
+        if check_sync_icon(path = path, os_ver = os_ver, os_bit = os_bit) == 1:
+            print("Root folder icon check PASS")
+            check_flag = 1
+        else:
+            print("Root folder icon check FAIL")
+            check_flag = 3
+            break
+        adv_flag = counter_data("icon_total", "single", path)
+        if adv_flag == 0:
+            print("Skip advanced icon check")
+        elif adv_flag == -1:
+            print("Skip advanced icon check, no folder")
+        else:   
+            mark_list = get_check_icon_list(path, os_ver)
+            if random_icon_check("Y", 2, os_ver, os_bit, mark_list) == 1:
+                print("Advanced folder icon check PASS")
+                check_flag = 1
+            else:
+                print("Advanced folder icon check FAIL")
+                check_flag = 4
+                break
+        # unmount_disk("w")
+    return check_flag
 
 def check_main_sync():
     fun_name = sys._getframe().f_code.co_name

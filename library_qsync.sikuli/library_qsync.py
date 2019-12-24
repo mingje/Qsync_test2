@@ -280,7 +280,7 @@ def send_mail(test_pc):
     print("***Start to " + fun_name + " ***")
     gmail_user = 'stevenhsu@qnap.com'
     gmail_password = 'Qwer!23456' # your gmail password
-    gmail_to = ['mingje1104@gmail.com', 'danielhuang@qnap.com', 'rexhchsu@qnap.com']
+    gmail_to = ['mingje1104@gmail.com']
     gmail_cc = ['stevenhsu@qnap.com']
     COMMASPACE = ', '
     #msg = MIMEText('content')

@@ -279,7 +279,7 @@ def send_mail(test_pc):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
     gmail_user = 'stevenhsu@qnap.com'
-    gmail_password = 'Qwer!23456' # your gmail password
+    gmail_password = 'Poiu)98765' # your gmail password
     gmail_to = ['mingje1104@gmail.com']
     gmail_cc = ['stevenhsu@qnap.com']
     COMMASPACE = ', '
@@ -289,6 +289,7 @@ def send_mail(test_pc):
     msg['From'] = "AT manager"
     msg['To'] = COMMASPACE.join(gmail_to)
     msg['cc'] = COMMASPACE.join(gmail_cc)
+    error_code = "\n0: check main sync UI Fail \n2: Data files, folders and size not match \n3: Root folder icon check FAIL \n4: Advanced folder icon check FAIL"
     part = MIMEText(test_pc + " error")
     msg.attach(part)
 

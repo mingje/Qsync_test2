@@ -351,7 +351,7 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     fun_name = sys._getframe().f_code.co_name
     <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
     gmail_user = <span class="str">'stevenhsu@qnap.com'</span>
-    gmail_password = <span class="str">'Qwer!23456'</span> <span class="cmt"># your gmail password</span>
+    gmail_password = <span class="str">'Poiu)98765'</span> <span class="cmt"># your gmail password</span>
     gmail_to = [<span class="str">'mingje1104@gmail.com'</span>]
     gmail_cc = [<span class="str">'stevenhsu@qnap.com'</span>]
     COMMASPACE = <span class="str">', '</span>
@@ -361,6 +361,7 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     msg[<span class="str">'From'</span>] = <span class="str">"AT manager"</span>
     msg[<span class="str">'To'</span>] = COMMASPACE.join(gmail_to)
     msg[<span class="str">'cc'</span>] = COMMASPACE.join(gmail_cc)
+    error_code = <span class="str">"\n0: check main sync UI Fail \n2: Data files, folders and size not match \n3: Root folder icon check FAIL \n4: Advanced folder icon check FAIL"</span>
     part = MIMEText(test_pc + <span class="str">" error"</span>)
     msg.attach(part)
 

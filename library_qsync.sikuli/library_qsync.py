@@ -1104,7 +1104,3 @@ def target_client():
         else:
             target_client = "unknown"
     return target_client
-
-path1 = "D:\\test"
-path_surplus = path1 + "\\.qsync"
-print(counter_surplus_no("total", "all", path_surplus))

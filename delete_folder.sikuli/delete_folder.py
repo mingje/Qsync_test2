@@ -1,11 +1,11 @@
 from sikuli import *
 from library_qsync import *
 
-print(run_path())
-"""
+
 # delete_folder("D:\\test\\")
-delete_folder("C:\\Users\\DQV\\@Qsync_test\\")
-"""
+path = "C:\\Users\\" + get_pc_info("user_name") + "\\@Qsync_test\\"
+delete_folder(path)
+
 """
 current_user = os.popen("whoami").read()
 print(current_user)

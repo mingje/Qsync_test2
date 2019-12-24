@@ -73,11 +73,11 @@
 <span class="kw">from</span> sikuli <span class="kw">import</span> *
 <span class="kw">from</span> library_qsync <span class="kw">import</span> *
 
-<span class="kw">print</span>(run_path())
-<span class="str">"""
-# delete_folder("D:\\test\\")
-delete_folder("C:\\Users\\DQV\\@Qsync_test\\")
-"""</span>
+
+<span class="cmt"># delete_folder("D:\\test\\")</span>
+path = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\@Qsync_test\\"</span>
+delete_folder(path)
+
 <span class="str">"""
 current_user = os.popen("whoami").read()
 print(current_user)

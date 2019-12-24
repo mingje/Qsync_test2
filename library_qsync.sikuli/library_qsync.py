@@ -290,7 +290,7 @@ def send_mail(test_pc):
     msg['To'] = COMMASPACE.join(gmail_to)
     msg['cc'] = COMMASPACE.join(gmail_cc)
     error_code = "\n0: check main sync UI Fail \n2: Data files, folders and size not match \n3: Root folder icon check FAIL \n4: Advanced folder icon check FAIL"
-    part = MIMEText(test_pc + " error")
+    part = MIMEText(test_pc + error_code)
     msg.attach(part)
 
     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)

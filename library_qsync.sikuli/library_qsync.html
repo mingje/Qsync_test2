@@ -362,7 +362,7 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     msg[<span class="str">'To'</span>] = COMMASPACE.join(gmail_to)
     msg[<span class="str">'cc'</span>] = COMMASPACE.join(gmail_cc)
     error_code = <span class="str">"\n0: check main sync UI Fail \n2: Data files, folders and size not match \n3: Root folder icon check FAIL \n4: Advanced folder icon check FAIL"</span>
-    part = MIMEText(test_pc + <span class="str">" error"</span>)
+    part = MIMEText(test_pc + error_code)
     msg.attach(part)
 
     server = smtplib.SMTP_SSL(<span class="str">'smtp.gmail.com'</span>, <span class="dig">465</span>)

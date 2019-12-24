@@ -1,3 +1,12 @@
+from sikuli import *
+from library_qsync import *
+
+print(run_path())
+"""
+# delete_folder("D:\\test\\")
+delete_folder("C:\\Users\\DQV\\@Qsync_test\\")
+"""
+"""
 current_user = os.popen("whoami").read()
 print(current_user)
 r = str(current_user)
@@ -15,6 +24,4 @@ try:
 except:
     pass
 
-"""
-os.system('"rd /s/q C:\Users\User\@Qsync_test"')
 """

@@ -56,48 +56,48 @@ AT_list = [AT_VM_S1, AT_VM_S2, AT_VM_S3, AT_PC_S2]
 
 Mon = {
     "mark": "Mon",
-    "share_file": 124,
-    "share_folder": 11,
-    "share_size": 11362,
-    "team_file": 3,
-    "team_folder": 8,
-    "team_size": 44
+    "share_file": 1903,
+    "share_folder": 614,
+    "share_size": 1143524890,
+    "team_file": 1903,
+    "team_folder": 614,
+    "team_size": 1143524890
         }
 Tue = {
     "mark": "Tue",
-    "share_file": 2,
-    "share_folder": 4,
-    "share_size": 332568,
-    "team_file": 3,
-    "team_folder": 5,
-    "team_size": 2345
+    "share_file": 1903,
+    "share_folder": 614,
+    "share_size": 1143524890,
+    "team_file": 1903,
+    "team_folder": 614,
+    "team_size": 1143524890
         }
 Wed = {
     "mark": "Wed",   
-    "share_file": 2,
-    "share_folder": 4,
-    "share_size": 332568,
-    "team_file": 3,
-    "team_folder": 5,
-    "team_size": 2345
+    "share_file": 1903,
+    "share_folder": 614,
+    "share_size": 1143524890,
+    "team_file": 1903,
+    "team_folder": 614,
+    "team_size": 1143524890
         }
 Thu = {
     "mark": "Thu", 
-    "share_file": 2,
-    "share_folder": 4,
-    "share_size": 332568,
-    "team_file": 3,
-    "team_folder": 5,
-    "team_size": 2345
+    "share_file": 1903,
+    "share_folder": 614,
+    "share_size": 1143524890,
+    "team_file": 1903,
+    "team_folder": 614,
+    "team_size": 1143524890
         }
 Fri = {
     "mark": "Fri",
-    "share_file": 4,
-    "share_folder": 4,
-    "share_size": 332568,
-    "team_file": 3,
-    "team_folder": 5,
-    "team_size": 2345
+    "share_file": 1903,
+    "share_folder": 614,
+    "share_size": 1143524890,
+    "team_file": 1903,
+    "team_folder": 614,
+    "team_size": 1143524890
         }
 Sat = {
     "mark": "Sat",

@@ -52,7 +52,7 @@ AT_VM_S1 = {
     "ac": "dqv",
     "pwd": "swqa"
         }
-AT_list = [AT_VM_S1, AT_VM_S2, AT_VM_S3, AT_PC_S2]
+AT_list = [AT_VM_S2, AT_PC_S2]
 
 Mon = {
     "mark": "Mon",

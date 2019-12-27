@@ -169,7 +169,7 @@ check_flag = <span class="dig">0</span>
                     <span class="kw">break</span>
                 out_flag = check_team_folder(os_ver, os_bit)
                 <span class="kw">if</span> out_flag != <span class="dig">1</span>:
-                    target_client[<span class="str">"pc_name"</span>] + <span class="str">" error: "</span> + str(out_flag)
+                    msg = target_client[<span class="str">"pc_name"</span>] + <span class="str">" error: "</span> + str(out_flag)
                     send_mail(msg)
                     <span class="kw">break</span>
                 check_flag = check_flag + <span class="dig">1</span>
@@ -186,9 +186,9 @@ check_flag = <span class="dig">0</span>
         copy_flag = <span class="dig">0</span>
         check_flag = <span class="dig">0</span>
     x = x + <span class="dig">1</span>
-    wait_time(<span class="dig">5</span>, <span class="dig">20</span>)
+    wait_time(<span class="dig">5</span>, <span class="dig">120</span>)
     close_qsync()
-    wait_time(<span class="dig">5</span>, <span class="dig">20</span>)
+    wait_time(<span class="dig">5</span>, <span class="dig">120</span>)
     <span class="cmt"># wait(10)</span>
 
 

@@ -97,7 +97,7 @@ for i in range(200):
                     break
                 out_flag = check_team_folder(os_ver, os_bit)
                 if out_flag != 1:
-                    target_client["pc_name"] + " error: " + str(out_flag)
+                    msg = target_client["pc_name"] + " error: " + str(out_flag)
                     send_mail(msg)
                     break
                 check_flag = check_flag + 1
@@ -114,9 +114,9 @@ for i in range(200):
         copy_flag = 0
         check_flag = 0
     x = x + 1
-    wait_time(5, 20)
+    wait_time(5, 120)
     close_qsync()
-    wait_time(5, 20)
+    wait_time(5, 120)
     # wait(10)
 
 

@@ -819,7 +819,7 @@ def copy_data(path1, path2, check_type):
         path_to = path2
     dir_cmd = "dir " + path2
     print(dir_cmd)
-    copy_cmd = "XCOPY " + path_from + " " + path_to + "\ /I /E"
+    copy_cmd = "XCOPY " + path_from + " " + path_to + "\ /I /E /Y"
     if os.system(dir_cmd) == 0:
         os.system(copy_cmd)
         if check_data_result(path1 = path_from, path2 = path_to) == 1:
@@ -1032,7 +1032,8 @@ def check_team_folder(os_ver, os_bit):
                     check_flag = 0
                     break
             # unmount_disk("w")
-            
+    return check_flag
+
 def check_share_folder(os_ver, os_bit):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")

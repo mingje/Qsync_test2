@@ -891,7 +891,7 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
         path_to = path2
     dir_cmd = <span class="str">"dir "</span> + path2
     <span class="kw">print</span>(dir_cmd)
-    copy_cmd = <span class="str">"XCOPY "</span> + path_from + <span class="str">" "</span> + path_to + <span class="str">"\ /I /E"</span>
+    copy_cmd = <span class="str">"XCOPY "</span> + path_from + <span class="str">" "</span> + path_to + <span class="str">"\ /I /E /Y"</span>
     <span class="kw">if</span> os.system(dir_cmd) == <span class="dig">0</span>:
         os.system(copy_cmd)
         <span class="kw">if</span> check_data_result(path1 = path_from, path2 = path_to) == <span class="dig">1</span>:
@@ -1104,6 +1104,7 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
                     check_flag = <span class="dig">0</span>
                     <span class="kw">break</span>
             <span class="cmt"># unmount_disk("w")</span>
+    <span class="kw">return</span> check_flag
 
 <span class="kw">def</span> check_share_folder(os_ver, os_bit):
     fun_name = sys._getframe().f_code.co_name

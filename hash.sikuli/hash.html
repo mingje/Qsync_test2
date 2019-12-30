@@ -70,28 +70,77 @@
 <h2>hash.sikuli</h2> <a href="hash.zip">(Download this script)</a>
 </div>
 <pre class="sikuli-code">
-cmd = <span class="str">"D:\\fciv.exe -r D:\\m1"</span>
-oo_cmd = os.popen(cmd).read()
-<span class="cmt">#print(oo_cmd)</span>
-a = oo_cmd.split(<span class="str">"\n"</span>)
-<span class="kw">print</span>(a)
-che_list = []
-start_flag = <span class="dig">0</span>
-<span class="kw">for</span> i <span class="kw">in</span> a:
-    <span class="cmt"># print(i,a.index(i))</span>
-    <span class="kw">if</span> <span class="str">"Start Time"</span> <span class="kw">in</span> i:
-        add_flag = a.index(i)
-        start_flag = <span class="dig">1</span>
-        <span class="kw">print</span>(<span class="str">"start_flag:"</span> + str(start_flag))
-    <span class="kw">elif</span> <span class="str">"End Time"</span> <span class="kw">in</span> i:
-        <span class="kw">break</span>
-    <span class="kw">elif</span> start_flag == <span class="dig">1</span> <span class="kw">and</span> a.index(i) &gt; add_flag:
-        <span class="kw">if</span> i != <span class="str">""</span>:
-            i = i.split(<span class="str">" "</span>)
-            che_list.append(i[<span class="dig">0</span>])
+<span class="kw">from</span> sikuli <span class="kw">import</span> *
+<span class="kw">from</span> library_qsync <span class="kw">import</span> *
+
+<span class="kw">def</span> exist_check(file):
+    cmd = <span class="str">"IF EXIST "</span> + file + <span class="str">" (ECHO True) ELSE (ECHO False)"</span>
+    echo = os.popen(cmd).read()
+    e = echo.split(<span class="str">"\n"</span>)
+    <span class="kw">return</span> e[<span class="dig">0</span>]
+
+path_from = <span class="str">"C:\\sikuli\\checksum.txt"</span>
+path_to = <span class="str">"D:\\m"</span>
+path_done = path_to + <span class="str">"\\checksum.txt"</span>
+copy_cmd = <span class="str">"XCOPY "</span> + path_from + <span class="str">" "</span> + path_to + <span class="str">"\ /I /E /Y"</span>
+<span class="kw">if</span> exist_check(path_to) == <span class="str">"True"</span> <span class="kw">and</span> exist_check(path_from) == <span class="str">"True"</span>:
+    exist_flag = <span class="dig">1</span>
+    os.system(copy_cmd)
+    <span class="kw">if</span> exist_check(path_done) == <span class="str">"True"</span>:
+        flag = <span class="dig">1</span>
+        <span class="kw">print</span>(<span class="str">"Copy data success"</span>)
     <span class="kw">else</span>:
-        <span class="kw">print</span>(<span class="str">"pass"</span>)
-<span class="kw">print</span>(che_list)
+        flag = <span class="dig">0</span>
+    <span class="kw">assert</span> flag == <span class="dig">1</span>, <span class="str">"Copy data failed"</span>
+<span class="kw">else</span>:
+    exist_flag = <span class="dig">0</span>
+    <span class="kw">print</span>(<span class="str">"Folder not existed"</span>)
+<span class="kw">assert</span> exist_flag == <span class="dig">1</span>, <span class="str">"Source or destination not exist"</span>
+<span class="str">"""
+print(os.getcwd())
+a = os.getcwd() + "\\" + "che.txt"
+print(a)
+"""</span>
+<span class="str">"""
+cmd = "D:\\fciv.exe -r D:\\m1"
+oo_cmd = os.popen(cmd).read()
+#print(oo_cmd)
+a = oo_cmd.split("\n")
+print(a)
+che_list = []
+start_flag = 0
+for i in a:
+    # print(i,a.index(i))
+    if "Start Time" in i:      
+        add_flag = a.index(i)
+        start_flag = 1
+        print("start_flag:" + str(start_flag))
+    elif "End Time" in i:
+        break
+    elif start_flag == 1 and a.index(i) &gt; add_flag:
+        if i != "":
+            i = i.split(" ")
+            che_list.append(i[0])
+    else:
+        print("pass")
+print(che_list)
+with open('checksum.txt', 'w') as e:
+    for j in che_list:
+        e.write(j)
+        e.write('\n')
+with open('checksum.txt', 'r') as g:
+    mark_data = g.read()
+    mark_list = mark_data.split("\n")
+    del mark_list[-1]
+print(mark_list)
+
+if che_list == mark_list:
+    print("f")
+else:
+    print("n")
+"""</span>
+
+
 <span class="cmt">#index = vowels.index('e')</span>
 <span class="cmt">#print('The index of e:', index)</span>
 

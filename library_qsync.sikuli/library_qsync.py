@@ -1130,7 +1130,7 @@ def copy_file(from_path, to_path, file):
     assert exist_flag == 1, "Source or destination not exist"
 
 def output_checksum_list(data_path):
-    cmd = "C:\\fciv.exe -r " + data_path
+    cmd = "C:\\fciv\\fciv.exe -r " + data_path
     che_cmd = os.popen(cmd).read()
     output_line = che_cmd.split("\n")
     che_list = []

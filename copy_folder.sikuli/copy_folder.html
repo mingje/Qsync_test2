@@ -71,6 +71,8 @@
 </div>
 <pre class="sikuli-code">
 <span class="kw">import</span> time
+<span class="kw">from</span> sikuli <span class="kw">import</span> *
+<span class="kw">from</span> library_qsync <span class="kw">import</span> *
 
 localtime = time.asctime( time.localtime(time.time()) )
 <span class="kw">print</span> <span class="str">"本地时间为 :"</span>, localtime
@@ -85,9 +87,10 @@ ss = rr[<span class="dig">1</span>]
 ss = ss[<span class="dig">0</span>:-<span class="dig">1</span>]
 <span class="kw">print</span>(ss)
 path_user = ss
-copy_path = <span class="str">"dir C:\\Users\\"</span> + path_user + <span class="str">"\\@Qsync_test\\"</span> + week_current
-<span class="kw">print</span>(copy_path)
-dd = <span class="str">"XCOPY C:\\PC1_test_files"</span> + <span class="str">" C:\\Users\\"</span> + path_user + <span class="str">"\\@Qsync_test\\"</span> + week_current + <span class="str">"\ /I /E"</span>
+copy_path = <span class="str">"C:\\Users\\"</span> + path_user + <span class="str">"\\@Qsync_test\\"</span> + week_current
+copy_path_cmd = <span class="str">"dir "</span> + copy_path
+<span class="kw">print</span>(copy_path_cmd)
+dd = <span class="str">"XCOPY C:\\PC1_test_files"</span> + <span class="str">" C:\\Users\\"</span> + path_user + <span class="str">"\\@Qsync_test\\"</span> + week_current + <span class="str">"\ /I /E /Y"</span>
 <span class="kw">print</span>(dd)
 <span class="kw">print</span>(os.system(copy_path))
 <span class="kw">if</span> os.system(copy_path) == <span class="dig">1</span>:
@@ -95,6 +98,14 @@ dd = <span class="str">"XCOPY C:\\PC1_test_files"</span> + <span class="str">" C
     <span class="kw">print</span>(<span class="str">"copy folder"</span>)
 <span class="kw">else</span>:
     <span class="kw">print</span>(<span class="str">"Folder already existed"</span>)
+
+<span class="cmt"># output checkksum file</span>
+output_checksum_file(copy_path)
+week_info = week_current()
+file = <span class="str">"checksum_"</span> + week_info + <span class="str">".txt"</span>
+from_path = os.getcwd() + <span class="str">"\\"</span> + file
+to_path = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\@Qsync_test\\"</span>
+copy_file(from_path, to_path, file)
 </pre>
 </body>
 </html>

@@ -76,70 +76,94 @@
 <span class="kw">def</span> exist_check(file):
     cmd = <span class="str">"IF EXIST "</span> + file + <span class="str">" (ECHO True) ELSE (ECHO False)"</span>
     echo = os.popen(cmd).read()
-    e = echo.split(<span class="str">"\n"</span>)
-    <span class="kw">return</span> e[<span class="dig">0</span>]
+    echo_result = echo.split(<span class="str">"\n"</span>)
+    <span class="kw">return</span> echo_result[<span class="dig">0</span>]
 
-path_from = <span class="str">"C:\\sikuli\\checksum.txt"</span>
-path_to = <span class="str">"D:\\m"</span>
-path_done = path_to + <span class="str">"\\checksum.txt"</span>
-copy_cmd = <span class="str">"XCOPY "</span> + path_from + <span class="str">" "</span> + path_to + <span class="str">"\ /I /E /Y"</span>
-<span class="kw">if</span> exist_check(path_to) == <span class="str">"True"</span> <span class="kw">and</span> exist_check(path_from) == <span class="str">"True"</span>:
-    exist_flag = <span class="dig">1</span>
-    os.system(copy_cmd)
-    <span class="kw">if</span> exist_check(path_done) == <span class="str">"True"</span>:
-        flag = <span class="dig">1</span>
-        <span class="kw">print</span>(<span class="str">"Copy data success"</span>)
+<span class="kw">def</span> copy_file(from_path, to_path, file):
+    path_done = to_path + file
+    copy_cmd = <span class="str">"XCOPY "</span> + from_path + <span class="str">" "</span> + to_path + <span class="str">" /I /E /Y"</span>
+    <span class="kw">if</span> exist_check(to_path) == <span class="str">"True"</span> <span class="kw">and</span> exist_check(from_path) == <span class="str">"True"</span>:
+        exist_flag = <span class="dig">1</span>
+        os.system(copy_cmd)
+        <span class="kw">if</span> exist_check(path_done) == <span class="str">"True"</span>:
+            flag = <span class="dig">1</span>
+            <span class="kw">print</span>(<span class="str">"Copy data success"</span>)
+        <span class="kw">else</span>:
+            flag = <span class="dig">0</span>
+        <span class="kw">assert</span> flag == <span class="dig">1</span>, <span class="str">"Copy data failed"</span>
     <span class="kw">else</span>:
-        flag = <span class="dig">0</span>
-    <span class="kw">assert</span> flag == <span class="dig">1</span>, <span class="str">"Copy data failed"</span>
-<span class="kw">else</span>:
-    exist_flag = <span class="dig">0</span>
-    <span class="kw">print</span>(<span class="str">"Folder not existed"</span>)
-<span class="kw">assert</span> exist_flag == <span class="dig">1</span>, <span class="str">"Source or destination not exist"</span>
+        exist_flag = <span class="dig">0</span>
+        <span class="kw">print</span>(<span class="str">"Folder not existed"</span>)
+    <span class="kw">assert</span> exist_flag == <span class="dig">1</span>, <span class="str">"Source or destination not exist"</span>
 <span class="str">"""
 print(os.getcwd())
 a = os.getcwd() + "\\" + "che.txt"
 print(a)
 """</span>
+
+<span class="kw">def</span> output_checksum_list(data_path):
+    cmd = <span class="str">"D:\\fciv.exe -r "</span> + data_path
+    che_cmd = os.popen(cmd).read()
+    output_line = che_cmd.split(<span class="str">"\n"</span>)
+    che_list = []
+    start_flag = <span class="dig">0</span>
+    <span class="kw">for</span> i <span class="kw">in</span> output_line:
+        <span class="cmt"># print(i,a.index(i))</span>
+        <span class="kw">if</span> <span class="str">"Start Time"</span> <span class="kw">in</span> i:
+            add_flag = output_line.index(i)
+            start_flag = <span class="dig">1</span>
+            <span class="kw">print</span>(<span class="str">"start_flag:"</span> + str(start_flag))
+        <span class="kw">elif</span> <span class="str">"End Time"</span> <span class="kw">in</span> i:
+            <span class="kw">break</span>
+        <span class="kw">elif</span> start_flag == <span class="dig">1</span> <span class="kw">and</span> output_line.index(i) &gt; add_flag:
+            <span class="kw">if</span> i != <span class="str">""</span>:
+                i = i.split(<span class="str">" "</span>)
+                che_list.append(i[<span class="dig">0</span>])
+        <span class="kw">else</span>:
+            <span class="kw">pass</span>
+    <span class="kw">return</span> che_list
+
+<span class="kw">def</span> output_checksum_file(data_path):
+    check_list = output_checksum_list(data_path)
+    week_info = week_current()
+    checksum_file = <span class="str">"checksum_"</span> + week_info + <span class="str">".txt"</span>
+    <span class="kw">with</span> open(checksum_file, <span class="str">'w'</span>) <span class="kw">as</span> e:
+        <span class="kw">for</span> j <span class="kw">in</span> check_list:
+            e.write(j)
+            e.write(<span class="str">'\n'</span>)
+
+<span class="kw">def</span> output_checksum_list_from_file(checksum_path):
+    checksum_path = to_path + file
+    <span class="kw">with</span> open(checksum_path, <span class="str">'r'</span>) <span class="kw">as</span> g:
+        mark_data = g.read()
+        mark_list = mark_data.split(<span class="str">"\n"</span>)
+        <span class="kw">del</span> mark_list[-<span class="dig">1</span>]
+    <span class="kw">return</span> mark_list
 <span class="str">"""
-cmd = "D:\\fciv.exe -r D:\\m1"
-oo_cmd = os.popen(cmd).read()
-#print(oo_cmd)
-a = oo_cmd.split("\n")
-print(a)
-che_list = []
-start_flag = 0
-for i in a:
-    # print(i,a.index(i))
-    if "Start Time" in i:      
-        add_flag = a.index(i)
-        start_flag = 1
-        print("start_flag:" + str(start_flag))
-    elif "End Time" in i:
-        break
-    elif start_flag == 1 and a.index(i) &gt; add_flag:
-        if i != "":
-            i = i.split(" ")
-            che_list.append(i[0])
-    else:
-        print("pass")
-print(che_list)
-with open('checksum.txt', 'w') as e:
-    for j in che_list:
-        e.write(j)
-        e.write('\n')
-with open('checksum.txt', 'r') as g:
-    mark_data = g.read()
-    mark_list = mark_data.split("\n")
-    del mark_list[-1]
-print(mark_list)
-
-if che_list == mark_list:
-    print("f")
-else:
-    print("n")
+output_checksum_file("D:\\m")
+week_info = week_current()
+file = "checksum_" + week_info + ".txt"
+from_path = os.getcwd() + "\\" + file
+to_path = "C:\\Users\\" + get_pc_info("user_name") + "\\@Qsync_test\\"
+copy_file(from_path, to_path, file)
+checksum_path = to_path + file
+data_path = to_path + week_info
 """</span>
-
+<span class="kw">def</span> check_checksum(checksum_path, data_path):
+    source_list = output_checksum_list_from_file(checksum_path)
+    compare_list = output_checksum_list(data_path)
+    <span class="kw">if</span> source_list == compare_list:
+        flag = <span class="dig">1</span>
+        <span class="kw">print</span>(<span class="str">"Checksum check PASS"</span>)
+    <span class="kw">else</span>:
+        flag = <span class="dig">0</span>
+        <span class="kw">print</span>(<span class="str">"Checksum check FAIL"</span>)
+    <span class="kw">return</span> flag
+path_user = <span class="str">"user"</span>
+week_current = <span class="str">"Mon"</span>
+copy_path = <span class="str">"C:\\Users\\"</span> + path_user + <span class="str">"\\@Qsync_test\\"</span> + week_current
+copy_path_cmd = <span class="str">"dir "</span> + copy_path
+<span class="kw">print</span>(copy_path_cmd)
 
 <span class="cmt">#index = vowels.index('e')</span>
 <span class="cmt">#print('The index of e:', index)</span>

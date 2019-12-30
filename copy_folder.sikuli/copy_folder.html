@@ -96,23 +96,20 @@ copy_path_cmd = <span class="str">"dir "</span> + copy_path
 <span class="kw">print</span>(copy_path_cmd)
 dd = <span class="str">"XCOPY C:\\PC1_test_files"</span> + <span class="str">" C:\\Users\\"</span> + path_user + <span class="str">"\\@Qsync_test\\"</span> + week_info + <span class="str">"\ /I /E /Y"</span>
 <span class="kw">print</span>(dd)
-<span class="str">"""
-print(os.system(copy_path))
-if os.system(copy_path) == 1:
+
+<span class="kw">print</span>(os.system(copy_path))
+<span class="kw">if</span> os.system(copy_path) == <span class="dig">1</span>:
     os.system(dd)
-    print("copy folder")
-else:
-    print("Folder already existed")
-"""</span>
+    <span class="kw">print</span>(<span class="str">"copy folder"</span>)
+<span class="kw">else</span>:
+    <span class="kw">print</span>(<span class="str">"Folder already existed"</span>)
+
 <span class="cmt"># output checkksum file</span>
 output_checksum_file(copy_path)
 week_info = week_current()
 file = <span class="str">"checksum_"</span> + week_info + <span class="str">".txt"</span>
 from_path = os.getcwd() + <span class="str">"\\"</span> + file
-<span class="kw">print</span>(from_path)
 to_path = path
-<span class="kw">print</span>(to_path)
-<span class="kw">print</span>(<span class="str">"start to....."</span>)
 copy_file(from_path, to_path, file)
 </pre>
 </body>

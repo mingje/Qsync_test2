@@ -24,17 +24,21 @@ copy_path_cmd = "dir " + copy_path
 print(copy_path_cmd)
 dd = "XCOPY C:\\PC1_test_files" + " C:\\Users\\" + path_user + "\\@Qsync_test\\" + week_info + "\ /I /E /Y"
 print(dd)
+"""
 print(os.system(copy_path))
 if os.system(copy_path) == 1:
     os.system(dd)
     print("copy folder")
 else:
     print("Folder already existed")
-    
+"""
 # output checkksum file
 output_checksum_file(copy_path)
 week_info = week_current()
 file = "checksum_" + week_info + ".txt"
 from_path = os.getcwd() + "\\" + file
+print(from_path)
 to_path = path
+print(to_path)
+print("start to.....")
 copy_file(from_path, to_path, file)

@@ -9,7 +9,7 @@ def exist_check(file):
 
 def copy_file(from_path, to_path, file):
     path_done = to_path + file
-    copy_cmd = "XCOPY " + from_path + " " + to_path + " /I /E /Y"
+    copy_cmd = "COPY " + from_path + " " + to_path + " /Y"
     print(copy_cmd)
     if exist_check(to_path) == "True" and exist_check(from_path) == "True":
         exist_flag = 1

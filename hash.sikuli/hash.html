@@ -81,7 +81,7 @@
 
 <span class="kw">def</span> copy_file(from_path, to_path, file):
     path_done = to_path + file
-    copy_cmd = <span class="str">"XCOPY "</span> + from_path + <span class="str">" "</span> + to_path + <span class="str">" /I /E /Y"</span>
+    copy_cmd = <span class="str">"COPY "</span> + from_path + <span class="str">" "</span> + to_path + <span class="str">" /Y"</span>
     <span class="kw">print</span>(copy_cmd)
     <span class="kw">if</span> exist_check(to_path) == <span class="str">"True"</span> <span class="kw">and</span> exist_check(from_path) == <span class="str">"True"</span>:
         exist_flag = <span class="dig">1</span>

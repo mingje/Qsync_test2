@@ -32,10 +32,11 @@ if os.system(copy_path) == 1:
 else:
     print("Folder already existed")
 
-# output checkksum file
+# output checksum.txt file
 output_checksum_file(copy_path)
 week_info = week_current()
 file = "checksum_" + week_info + ".txt"
 from_path = os.getcwd() + "\\" + file
 to_path = path
+# copy .txt file to share folder
 copy_file(from_path, to_path, file)

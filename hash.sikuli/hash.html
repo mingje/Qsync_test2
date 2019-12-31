@@ -134,7 +134,9 @@ print(a)
             e.write(<span class="str">'\n'</span>)
 
 <span class="kw">def</span> output_checksum_list_from_file(checksum_path):
-    checksum_path = to_path + file
+    week_info = week_current()
+    file = <span class="str">"checksum_"</span> + week_info + <span class="str">".txt"</span>
+    checksum_path = checksum_path + file
     <span class="kw">with</span> open(checksum_path, <span class="str">'r'</span>) <span class="kw">as</span> g:
         mark_data = g.read()
         mark_list = mark_data.split(<span class="str">"\n"</span>)
@@ -160,12 +162,67 @@ data_path = to_path + week_info
         flag = <span class="dig">0</span>
         <span class="kw">print</span>(<span class="str">"Checksum check FAIL"</span>)
     <span class="kw">return</span> flag
-path_user = <span class="str">"user"</span>
-week_current = <span class="str">"Mon"</span>
-copy_path = <span class="str">"C:\\Users\\"</span> + path_user + <span class="str">"\\@Qsync_test\\"</span> + week_current
-copy_path_cmd = <span class="str">"dir "</span> + copy_path
-<span class="kw">print</span>(copy_path_cmd)
 
+<span class="kw">def</span> check_checksum_share():
+    week_info = week_current()
+    <span class="kw">if</span> week_info == <span class="str">"Sat"</span> <span class="kw">or</span> week_info == <span class="str">"Sun"</span>:
+        <span class="kw">print</span>(<span class="str">"Skip Checksum_share"</span>)
+        check_flag = <span class="dig">1</span>
+    <span class="kw">else</span>:
+        checksum_path = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\@Qsync_test\\"</span>
+        <span class="kw">print</span>(checksum_path)
+        data_path = checksum_path + week_info
+        <span class="kw">if</span> check_checksum(checksum_path, data_path) == <span class="dig">1</span>:
+            <span class="kw">print</span>(<span class="str">"Checksum_share match"</span>)
+            check_flag = <span class="dig">1</span>
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"Checksum_share not match"</span>)
+            check_flag = <span class="dig">0</span>
+    <span class="kw">return</span> check_flag
+
+<span class="kw">def</span> check_checksum_team():
+    week_info = <span class="str">"Sun"</span>
+    qa = get_pc_info(<span class="str">"pc_name"</span>)
+    check_flag = <span class="dig">0</span>
+    <span class="kw">for</span> i <span class="kw">in</span> AT_list:
+        ew = i[<span class="str">"folder_name"</span>].split(<span class="str">"_"</span>)
+        <span class="kw">if</span> week_info == <span class="str">"Sat"</span> <span class="kw">or</span> week_info == <span class="str">"Sun"</span>:
+            <span class="kw">print</span>(<span class="str">"Skip Checksum_share: "</span> + i[<span class="str">"folder_name"</span>])
+            check_flag = <span class="dig">1</span>
+            <span class="kw">break</span>
+        <span class="kw">else</span>:
+            checksum_path = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\Qsync\\"</span> + i[<span class="str">"folder_name"</span>] + <span class="str">"\\"</span>
+            data_path = checksum_path + week_info
+        <span class="kw">if</span> ew[-<span class="dig">1</span>] == qa:
+            <span class="kw">pass</span>
+        <span class="kw">else</span>:
+            <span class="kw">if</span> check_checksum(checksum_path, data_path) == <span class="dig">1</span>:
+                <span class="kw">print</span>(<span class="str">"Checksum_team PASS: "</span> + i[<span class="str">"folder_name"</span>])
+                check_flag = <span class="dig">1</span>
+            <span class="kw">else</span>:
+                <span class="kw">print</span>(<span class="str">"Checksum_team FAIL: "</span> + i[<span class="str">"folder_name"</span>])
+                check_flag = <span class="dig">0</span>
+                <span class="kw">break</span>
+    <span class="kw">return</span> check_flag
+AT_VM_S2 = {
+    <span class="str">"ip"</span>: <span class="str">"10.20.241.135"</span>,
+    <span class="str">"folder_name"</span>: <span class="str">"share_test_dqv-pc1"</span>,
+    <span class="str">"pc_name"</span>: <span class="str">"dqv-pc1"</span>,
+    <span class="str">"ac"</span>: <span class="str">"dqv"</span>,
+    <span class="str">"pwd"</span>: <span class="str">"swqa"</span>
+        }
+AT_PC_S2 = {
+    <span class="str">"ip"</span>: <span class="str">"10.20.241.135"</span>,
+    <span class="str">"folder_name"</span>: <span class="str">"share_test_desktop-u1af6o9"</span>,
+    <span class="str">"pc_name"</span>: <span class="str">"desktop-u1af6o9"</span>,
+    <span class="str">"ac"</span>: <span class="str">"dqv"</span>,
+    <span class="str">"pwd"</span>: <span class="str">"swqa"</span>
+        }
+AT_list = [AT_VM_S2, AT_PC_S2]
+
+error_code = <span class="str">"\n0: check main sync UI Fail \n1: Checksum check FAIL \n"</span> + <span class="str">"2: Data files, folders and size not match \n"</span> \
+        + <span class="str">"3: Root folder icon check FAIL \n4: Advanced folder icon check FAIL"</span>
+<span class="kw">print</span>(error_code)
 <span class="cmt">#index = vowels.index('e')</span>
 <span class="cmt">#print('The index of e:', index)</span>
 

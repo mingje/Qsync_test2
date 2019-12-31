@@ -289,7 +289,8 @@ def send_mail(test_pc):
     msg['From'] = "AT manager"
     msg['To'] = COMMASPACE.join(gmail_to)
     msg['cc'] = COMMASPACE.join(gmail_cc)
-    error_code = "\n0: check main sync UI Fail \n2: Data files, folders and size not match \n3: Root folder icon check FAIL \n4: Advanced folder icon check FAIL"
+    error_code = "\n0: Check main sync UI Fail \n1: Checksum check FAIL \n" + "2: Data files, folders and size not match \n" \
+        + "3: Root folder icon check FAIL \n4: Advanced folder icon check FAIL"
     part = MIMEText(test_pc + error_code)
     msg.attach(part)
 
@@ -1162,7 +1163,9 @@ def output_checksum_file(data_path):
             e.write('\n')
 
 def output_checksum_list_from_file(checksum_path):
-    checksum_path = to_path + file
+    week_info = week_current()
+    file = "checksum_" + week_info + ".txt"
+    checksum_path = checksum_path
     with open(checksum_path, 'r') as g:
         mark_data = g.read()
         mark_list = mark_data.split("\n")
@@ -1179,3 +1182,45 @@ def check_checksum(checksum_path, data_path):
         flag = 0
         print("Checksum check FAIL")
     return flag
+
+def check_checksum_share():
+    week_info = week_current()
+    if week_info == "Sat" or week_info == "Sun":
+        print("Skip Checksum_share")
+        check_flag = 1
+    else:
+        checksum_path = "C:\\Users\\" + get_pc_info("user_name") + "\\@Qsync_test\\"  
+        print(checksum_path)
+        data_path = checksum_path + week_info
+        if check_checksum(checksum_path, data_path) == 1:
+            print("Checksum_share match")
+            check_flag = 1
+        else:
+            print("Checksum_share not match")
+            check_flag = 0
+    return check_flag
+
+def check_checksum_team():
+    week_info = "Sun"
+    qa = get_pc_info("pc_name")
+    check_flag = 0
+    for i in AT_list:
+        ew = i["folder_name"].split("_")
+        if week_info == "Sat" or week_info == "Sun":
+            print("Skip Checksum_share: " + i["folder_name"])
+            check_flag = 1
+            break
+        else:
+            checksum_path = "C:\\Users\\" + get_pc_info("user_name") + "\\Qsync\\" + i["folder_name"] + "\\"
+            data_path = checksum_path + week_info
+        if ew[-1] == qa:
+            pass
+        else:
+            if check_checksum(checksum_path, data_path) == 1:
+                print("Checksum_team PASS: " + i["folder_name"])
+                check_flag = 1
+            else:
+                print("Checksum_team FAIL: " + i["folder_name"])
+                check_flag = 0
+                break
+    return check_flag

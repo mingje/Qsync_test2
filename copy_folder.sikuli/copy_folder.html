@@ -104,12 +104,13 @@ dd = <span class="str">"XCOPY C:\\PC1_test_files"</span> + <span class="str">" C
 <span class="kw">else</span>:
     <span class="kw">print</span>(<span class="str">"Folder already existed"</span>)
 
-<span class="cmt"># output checkksum file</span>
+<span class="cmt"># output checksum.txt file</span>
 output_checksum_file(copy_path)
 week_info = week_current()
 file = <span class="str">"checksum_"</span> + week_info + <span class="str">".txt"</span>
 from_path = os.getcwd() + <span class="str">"\\"</span> + file
 to_path = path
+<span class="cmt"># copy .txt file to share folder</span>
 copy_file(from_path, to_path, file)
 </pre>
 </body>

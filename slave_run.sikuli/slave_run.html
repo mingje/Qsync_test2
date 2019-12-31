@@ -153,6 +153,14 @@ check_flag = <span class="dig">0</span>
             path1 = <span class="str">"C:\\team_folder_data"</span>
             path2 = <span class="str">"C:\\Users\\"</span> + get_pc_info(<span class="str">"user_name"</span>) + <span class="str">"\\Qsync\\"</span> + target_client[<span class="str">"folder_name"</span>] + <span class="str">"\\"</span>
             copy_data(path1, path2, <span class="str">"by_week"</span>)
+            week_info = week_current()
+            copy_path = path2 + week_info
+            output_checksum_file(copy_path)
+            file = <span class="str">"checksum_"</span> + week_info + <span class="str">".txt"</span>
+            from_path = os.getcwd() + <span class="str">"\\"</span> + file
+            to_path = path2
+            <span class="cmt"># copy .txt file to share folder</span>
+            copy_file(from_path, to_path, file)
             copy_flag = copy_flag + <span class="dig">1</span>
         <span class="kw">else</span>:
             <span class="kw">print</span>(<span class="str">"Already copy data"</span>)
@@ -170,6 +178,18 @@ check_flag = <span class="dig">0</span>
                 out_flag = check_team_folder(os_ver, os_bit)
                 <span class="kw">if</span> out_flag != <span class="dig">1</span>:
                     msg = target_client[<span class="str">"pc_name"</span>] + <span class="str">" error: "</span> + str(out_flag)
+                    send_mail(msg)
+                    <span class="kw">break</span>
+                out_flag = check_checksum_share()
+                <span class="kw">if</span> out_flag != <span class="dig">1</span>:
+                    error_flag = <span class="dig">1</span>
+                    msg = target_client[<span class="str">"pc_name"</span>] + <span class="str">" error: "</span> + str(error_flag)
+                    send_mail(msg)
+                    <span class="kw">break</span>
+                out_flag = check_checksum_team()
+                <span class="kw">if</span> out_flag != <span class="dig">1</span>:
+                    error_flag = <span class="dig">1</span>
+                    msg = target_client[<span class="str">"pc_name"</span>] + <span class="str">" error: "</span> + str(error_flag)
                     send_mail(msg)
                     <span class="kw">break</span>
                 check_flag = check_flag + <span class="dig">1</span>

@@ -81,6 +81,14 @@ for i in range(200):
             path1 = "C:\\team_folder_data"
             path2 = "C:\\Users\\" + get_pc_info("user_name") + "\\Qsync\\" + target_client["folder_name"] + "\\"
             copy_data(path1, path2, "by_week")
+            week_info = week_current()
+            copy_path = path2 + week_info
+            output_checksum_file(copy_path)
+            file = "checksum_" + week_info + ".txt"
+            from_path = os.getcwd() + "\\" + file
+            to_path = path2
+            # copy .txt file to share folder
+            copy_file(from_path, to_path, file)
             copy_flag = copy_flag + 1
         else:
             print("Already copy data")
@@ -98,6 +106,18 @@ for i in range(200):
                 out_flag = check_team_folder(os_ver, os_bit)
                 if out_flag != 1:
                     msg = target_client["pc_name"] + " error: " + str(out_flag)
+                    send_mail(msg)
+                    break
+                out_flag = check_checksum_share()
+                if out_flag != 1:
+                    error_flag = 1
+                    msg = target_client["pc_name"] + " error: " + str(error_flag)
+                    send_mail(msg)
+                    break
+                out_flag = check_checksum_team()
+                if out_flag != 1:
+                    error_flag = 1
+                    msg = target_client["pc_name"] + " error: " + str(error_flag)
                     send_mail(msg)
                     break
                 check_flag = check_flag + 1

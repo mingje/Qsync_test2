@@ -1192,6 +1192,7 @@ def check_checksum_share():
         checksum_path = "C:\\Users\\" + get_pc_info("user_name") + "\\@Qsync_test\\"  
         print(checksum_path)
         data_path = checksum_path + week_info
+        print(data_path)
         if check_checksum(checksum_path, data_path) == 1:
             print("Checksum_share match")
             check_flag = 1
@@ -1201,7 +1202,7 @@ def check_checksum_share():
     return check_flag
 
 def check_checksum_team():
-    week_info = "Sun"
+    week_info = week_current()
     qa = get_pc_info("pc_name")
     check_flag = 0
     for i in AT_list:

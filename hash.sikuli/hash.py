@@ -132,24 +132,29 @@ def check_checksum_team():
                 check_flag = 0
                 break
     return check_flag
-AT_VM_S2 = {
-    "ip": "10.20.241.135",
-    "folder_name": "share_test_dqv-pc1",
-    "pc_name": "dqv-pc1",
-    "ac": "dqv",
-    "pwd": "swqa"
-        }
-AT_PC_S2 = {
-    "ip": "10.20.241.135",
-    "folder_name": "share_test_desktop-u1af6o9",
-    "pc_name": "desktop-u1af6o9",
-    "ac": "dqv",
-    "pwd": "swqa"
-        }
-AT_list = [AT_VM_S2, AT_PC_S2]
 
-error_code = "\n0: check main sync UI Fail \n1: Checksum check FAIL \n" + "2: Data files, folders and size not match \n" \
-        + "3: Root folder icon check FAIL \n4: Advanced folder icon check FAIL"
-print(error_code)
-#index = vowels.index('e')
-#print('The index of e:', index)
+if exists(Pattern("1577781171111.png").similar(0.80)):
+    hover(Pattern("1577781171111.png").similar(0.80))
+elif exists(Pattern("1577781435845.png").similar(0.80)):
+    hover(Pattern("1577781435845.png").similar(0.80))
+else:
+    print("not find")
+if exists("1577781080437.png"):
+    click("1577781080437.png")
+    wait(2)
+    if exists(Pattern("1577781171111.png").similar(0.80)):
+        hover(Pattern("1577781171111.png").similar(0.80))
+    elif exists(Pattern("1577781435845.png").similar(0.80)):
+        hover(Pattern("1577781435845.png").similar(0.80))
+    else:
+        print("not find")
+else:
+    print("not find2")
+    
+"""    
+hover("1577781171111.png")
+
+hover("1577781324468.png")
+hover("1577781435845.png")
+
+"""

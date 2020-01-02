@@ -1165,8 +1165,8 @@ def output_checksum_file(data_path):
 def output_checksum_list_from_file(checksum_path):
     week_info = week_current()
     file = "checksum_" + week_info + ".txt"
-    checksum_path = checksum_path
-    with open(checksum_path, 'r') as g:
+    checksum_file_path = checksum_path + file
+    with open(checksum_file_path, 'r') as g:
         mark_data = g.read()
         mark_list = mark_data.split("\n")
         del mark_list[-1]

@@ -204,28 +204,32 @@ data_path = to_path + week_info
                 check_flag = <span class="dig">0</span>
                 <span class="kw">break</span>
     <span class="kw">return</span> check_flag
-AT_VM_S2 = {
-    <span class="str">"ip"</span>: <span class="str">"10.20.241.135"</span>,
-    <span class="str">"folder_name"</span>: <span class="str">"share_test_dqv-pc1"</span>,
-    <span class="str">"pc_name"</span>: <span class="str">"dqv-pc1"</span>,
-    <span class="str">"ac"</span>: <span class="str">"dqv"</span>,
-    <span class="str">"pwd"</span>: <span class="str">"swqa"</span>
-        }
-AT_PC_S2 = {
-    <span class="str">"ip"</span>: <span class="str">"10.20.241.135"</span>,
-    <span class="str">"folder_name"</span>: <span class="str">"share_test_desktop-u1af6o9"</span>,
-    <span class="str">"pc_name"</span>: <span class="str">"desktop-u1af6o9"</span>,
-    <span class="str">"ac"</span>: <span class="str">"dqv"</span>,
-    <span class="str">"pwd"</span>: <span class="str">"swqa"</span>
-        }
-AT_list = [AT_VM_S2, AT_PC_S2]
 
-error_code = <span class="str">"\n0: check main sync UI Fail \n1: Checksum check FAIL \n"</span> + <span class="str">"2: Data files, folders and size not match \n"</span> \
-        + <span class="str">"3: Root folder icon check FAIL \n4: Advanced folder icon check FAIL"</span>
-<span class="kw">print</span>(error_code)
-<span class="cmt">#index = vowels.index('e')</span>
-<span class="cmt">#print('The index of e:', index)</span>
+<span class="kw">if</span> exists(Pattern(<img src="1577781171111.png" />).similar(<span class="dig">0.80</span>)):
+    hover(Pattern(<img src="1577781171111.png" />).similar(<span class="dig">0.80</span>))
+<span class="kw">elif</span> exists(Pattern(<img src="1577781435845.png" />).similar(<span class="dig">0.80</span>)):
+    hover(Pattern(<img src="1577781435845.png" />).similar(<span class="dig">0.80</span>))
+<span class="kw">else</span>:
+    <span class="kw">print</span>(<span class="str">"not find"</span>)
+<span class="kw">if</span> exists(<img src="1577781080437.png" />):
+    <span class="skw">click</span>(<img src="1577781080437.png" />)
+    <span class="skw">wait</span>(<span class="dig">2</span>)
+    <span class="kw">if</span> exists(Pattern(<img src="1577781171111.png" />).similar(<span class="dig">0.80</span>)):
+        hover(Pattern(<img src="1577781171111.png" />).similar(<span class="dig">0.80</span>))
+    <span class="kw">elif</span> exists(Pattern(<img src="1577781435845.png" />).similar(<span class="dig">0.80</span>)):
+        hover(Pattern(<img src="1577781435845.png" />).similar(<span class="dig">0.80</span>))
+    <span class="kw">else</span>:
+        <span class="kw">print</span>(<span class="str">"not find"</span>)
+<span class="kw">else</span>:
+    <span class="kw">print</span>(<span class="str">"not find2"</span>)
 
+<span class="str">"""    
+hover("1577781171111.png")
+
+hover("1577781324468.png")
+hover("1577781435845.png")
+
+"""</span>
 </pre>
 </body>
 </html>

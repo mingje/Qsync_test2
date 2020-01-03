@@ -136,6 +136,13 @@ for i in range(200):
     x = x + 1
     wait_time(5, 120)
     close_qsync()
+    if x != 0 and x % 10 == 0:
+        try:
+            clean_trayicon()
+        except:
+            print("Not clean tray icon")
+     else:
+         pass
     wait_time(5, 120)
     # wait(10)
 

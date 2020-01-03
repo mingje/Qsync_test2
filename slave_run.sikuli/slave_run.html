@@ -208,74 +208,8 @@ check_flag = <span class="dig">0</span>
     x = x + <span class="dig">1</span>
     wait_time(<span class="dig">5</span>, <span class="dig">120</span>)
     close_qsync()
-    wait_time(<span class="dig">5</span>, <span class="dig">120</span>)
-    <span class="cmt"># wait(10)</span>
-
-
-
-
-
-<span class="str">"""
-if 0 &lt; stop_time &lt; 10000 and week_current() == "Sat":
-        print("delete time is coming up, stop testing")
-        path = "C:\\Users\\" + get_pc_info("user_name") + "\\Qsync\\" + target_client["folder_name"] + "\\"
-        delete_folder(path)
-        for i in range(10):
-            wait(600)
-            jump_time = int(time.strftime("%H%M%S"))
-            ui_result = check_main_sync()
-            if ui_result == 1 and jump_time &gt; 220000:       
-                break
-            elif ui_result == 0:
-                break
-            else:
-                pass
-        close_qsync()
-        wait(2)
-    elif 210000 &lt; stop_time &lt; 220000 and week_current() != "Sun":
-        print("copy time is coming up, stop testing")
-        path1 = "C:\\team_folder_data"
-        path2 = "C:\\Users\\" + get_pc_info("user_name") + "\\Qsync\\" + target_client["folder_name"] + "\\"
-        copy_data(path1, path2, "by_week")
-        close_qsync()       
-        wait(2)
-    else:
-        print("Testing time, keep going")
-        ui_result= check_main_sync()
-        if ui_result == 1:
-            close_qsync_UI()
-            check_share_folder(os_ver, os_bit)
-            check_team_folder(os_ver, os_bit)
-        elif ui_result == 2:
-            print("Still syncing...")
-        else:
-            send_mail(target_client["pc_name"])
-            break
-        wait(600)
-        # wait(10)
-        close_qsync()       
-        wait(2)
-"""</span>
-
-
-<span class="str">"""
-    # delete sync folder
-    current_user = os.popen("whoami").read()
-    print(current_user)
-    r = str(current_user)
-    rr = r.split("\\")
-    pc_name = rr[0]
-    ss = rr[1]
-    ss = ss[0:-1]
-    path_user = ss
-    dd = "rd /s/q C:\\Users\\" + path_user + "\\@Qsync_test\\"
-    print(dd)
-    try:
-        os.system(dd)
-        print("Clean up sync folder")
-    except:
-        pass
-"""</span>
-</pre>
-</body>
-</html>
+    <span class="kw">if</span> x != <span class="dig">0</span> <span class="kw">and</span> x % <span class="dig">10</span> == <span class="dig">0</span>:
+        <span class="kw">try</span>:
+            clean_trayicon()
+        <span class="kw">except</span>:
+            <span class="kw">print</span>(<span class="str">"Not clean tray icon"</span>)

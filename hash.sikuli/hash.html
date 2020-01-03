@@ -205,23 +205,33 @@ data_path = to_path + week_info
                 <span class="kw">break</span>
     <span class="kw">return</span> check_flag
 
-<span class="kw">if</span> exists(Pattern(<img src="1577781171111.png" />).similar(<span class="dig">0.80</span>)):
-    hover(Pattern(<img src="1577781171111.png" />).similar(<span class="dig">0.80</span>))
-<span class="kw">elif</span> exists(Pattern(<img src="1577781435845.png" />).similar(<span class="dig">0.80</span>)):
-    hover(Pattern(<img src="1577781435845.png" />).similar(<span class="dig">0.80</span>))
-<span class="kw">else</span>:
-    <span class="kw">print</span>(<span class="str">"not find"</span>)
-<span class="kw">if</span> exists(<img src="1577781080437.png" />):
-    <span class="skw">click</span>(<img src="1577781080437.png" />)
-    <span class="skw">wait</span>(<span class="dig">2</span>)
-    <span class="kw">if</span> exists(Pattern(<img src="1577781171111.png" />).similar(<span class="dig">0.80</span>)):
-        hover(Pattern(<img src="1577781171111.png" />).similar(<span class="dig">0.80</span>))
-    <span class="kw">elif</span> exists(Pattern(<img src="1577781435845.png" />).similar(<span class="dig">0.80</span>)):
-        hover(Pattern(<img src="1577781435845.png" />).similar(<span class="dig">0.80</span>))
+<span class="kw">def</span> hover_trayicon():
+    flag = <span class="dig">0</span>
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">10</span>):
+        <span class="kw">if</span> exists(Pattern(<img src="1577781171111.png" />).similar(<span class="dig">0.90</span>)):
+            hover(Pattern(<img src="1577781171111.png" />).similar(<span class="dig">0.90</span>))
+            <span class="kw">print</span>(<span class="str">"Find check tray icon"</span>)
+            flag = <span class="dig">1</span>
+        <span class="kw">elif</span> exists(Pattern(<img src="1577781435845.png" />).similar(<span class="dig">0.90</span>)):
+            hover(Pattern(<img src="1577781435845.png" />).similar(<span class="dig">0.90</span>))
+            <span class="kw">print</span>(<span class="str">"Find spinning tray icon"</span>)
+            flag = <span class="dig">1</span>
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"not find tray icon"</span>)
+            flag = <span class="dig">0</span>
+            <span class="kw">break</span>
+    <span class="kw">return</span> flag
+
+<span class="kw">def</span> clean_trayicon():
+    <span class="kw">if</span> hover_trayicon() == <span class="dig">1</span>:
+        <span class="kw">pass</span>
     <span class="kw">else</span>:
-        <span class="kw">print</span>(<span class="str">"not find"</span>)
-<span class="kw">else</span>:
-    <span class="kw">print</span>(<span class="str">"not find2"</span>)
+        <span class="kw">if</span> exists(<img src="1577781080437.png" />):
+            <span class="skw">click</span>(<img src="1577781080437.png" />)
+            <span class="skw">wait</span>(<span class="dig">5</span>)
+            hover_trayicon()
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"not find extend tray icon"</span>)
 
 <span class="str">"""    
 hover("1577781171111.png")

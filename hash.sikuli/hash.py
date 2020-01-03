@@ -133,23 +133,33 @@ def check_checksum_team():
                 break
     return check_flag
 
-if exists(Pattern("1577781171111.png").similar(0.80)):
-    hover(Pattern("1577781171111.png").similar(0.80))
-elif exists(Pattern("1577781435845.png").similar(0.80)):
-    hover(Pattern("1577781435845.png").similar(0.80))
-else:
-    print("not find")
-if exists("1577781080437.png"):
-    click("1577781080437.png")
-    wait(2)
-    if exists(Pattern("1577781171111.png").similar(0.80)):
-        hover(Pattern("1577781171111.png").similar(0.80))
-    elif exists(Pattern("1577781435845.png").similar(0.80)):
-        hover(Pattern("1577781435845.png").similar(0.80))
+def hover_trayicon():
+    flag = 0
+    for i in range(10):
+        if exists(Pattern("1577781171111.png").similar(0.90)):
+            hover(Pattern("1577781171111.png").similar(0.90))
+            print("Find check tray icon")
+            flag = 1
+        elif exists(Pattern("1577781435845.png").similar(0.90)):
+            hover(Pattern("1577781435845.png").similar(0.90))
+            print("Find spinning tray icon")
+            flag = 1
+        else:
+            print("not find tray icon")
+            flag = 0
+            break
+    return flag
+
+def clean_trayicon():
+    if hover_trayicon() == 1:
+        pass
     else:
-        print("not find")
-else:
-    print("not find2")
+        if exists("1577781080437.png"):
+            click("1577781080437.png")
+            wait(5)
+            hover_trayicon() 
+        else:
+            print("not find extend tray icon")
     
 """    
 hover("1577781171111.png")

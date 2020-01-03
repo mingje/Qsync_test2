@@ -533,6 +533,34 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
             flag = <span class="dig">0</span>
     <span class="kw">return</span> flag
 
+<span class="kw">def</span> hover_trayicon():
+    flag = <span class="dig">0</span>
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">10</span>):
+        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"check_trayicon"</span>)).similar(<span class="dig">0.90</span>)):
+            hover(Pattern(search_path(<span class="str">"check_trayicon"</span>)).similar(<span class="dig">0.90</span>))
+            <span class="kw">print</span>(<span class="str">"Find check tray icon"</span>)
+            flag = <span class="dig">1</span>
+        <span class="kw">elif</span> exists(Pattern(search_path(<span class="str">"spinning_trayicon"</span>)).similar(<span class="dig">0.90</span>)):
+            hover(Pattern(search_path(<span class="str">"spinning_trayicon"</span>)).similar(<span class="dig">0.90</span>))
+            <span class="kw">print</span>(<span class="str">"Find spinning tray icon"</span>)
+            flag = <span class="dig">1</span>
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"not find tray icon"</span>)
+            flag = <span class="dig">0</span>
+            <span class="kw">break</span>
+    <span class="kw">return</span> flag
+
+<span class="kw">def</span> clean_trayicon():
+    <span class="kw">if</span> hover_trayicon() == <span class="dig">1</span>:
+        <span class="kw">pass</span>
+    <span class="kw">else</span>:
+        <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"extend_trayicon"</span>)).similar(<span class="dig">0.70</span>)):
+            <span class="skw">click</span>(Pattern(search_path(<span class="str">"extend_trayicon"</span>)).similar(<span class="dig">0.70</span>))
+            <span class="skw">wait</span>(<span class="dig">5</span>)
+            hover_trayicon()
+        <span class="kw">else</span>:
+            <span class="kw">print</span>(<span class="str">"not find extend tray icon"</span>)
+
 
 <span class="cmt">################# Qsync opration function ###################</span>
 <span class="kw">def</span> open_qsync(os_bit):

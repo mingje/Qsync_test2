@@ -461,6 +461,34 @@ def check_max_window(os_ver):
             flag = 0
     return flag
 
+def hover_trayicon():
+    flag = 0
+    for i in range(10):
+        if exists(Pattern(search_path("check_trayicon")).similar(0.90)):
+            hover(Pattern(search_path("check_trayicon")).similar(0.90))
+            print("Find check tray icon")
+            flag = 1
+        elif exists(Pattern(search_path("spinning_trayicon")).similar(0.90)):
+            hover(Pattern(search_path("spinning_trayicon")).similar(0.90))
+            print("Find spinning tray icon")
+            flag = 1
+        else:
+            print("not find tray icon")
+            flag = 0
+            break
+    return flag
+
+def clean_trayicon():
+    if hover_trayicon() == 1:
+        pass
+    else:
+        if exists(Pattern(search_path("extend_trayicon")).similar(0.70)):
+            click(Pattern(search_path("extend_trayicon")).similar(0.70))
+            wait(5)
+            hover_trayicon() 
+        else:
+            print("not find extend tray icon")
+
 
 ################# Qsync opration function ###################
 def open_qsync(os_bit):

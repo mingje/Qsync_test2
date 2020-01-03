@@ -141,7 +141,7 @@ for i in range(200):
             clean_trayicon()
         except:
             print("Not clean tray icon")
-     else:
+    else:
          pass
     wait_time(5, 120)
     # wait(10)

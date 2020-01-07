@@ -52,7 +52,14 @@ AT_VM_S1 = {
     "ac": "dqv",
     "pwd": "swqa"
         }
-AT_list = [AT_VM_S2, AT_VM_S3, AT_PC_S2]
+AT_VM_S4 = {
+    "ip": "10.20.241.142",
+    "folder_name": "share_test_Win10-4",
+    "pc_name": "Win10-4",
+    "ac": "Win10_4",
+    "pwd": "swqa"
+        }
+AT_list = [AT_VM_S2, AT_VM_S3, AT_VM_S3, AT_PC_S2]
 
 Mon = {
     "mark": "Mon",

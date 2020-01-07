@@ -160,7 +160,8 @@ def clean_trayicon():
             hover_trayicon() 
         else:
             print("not find extend tray icon")
-    
+
+
 """    
 hover("1577781171111.png")
 

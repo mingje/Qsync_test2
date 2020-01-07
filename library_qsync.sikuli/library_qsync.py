@@ -59,7 +59,7 @@ AT_VM_S4 = {
     "ac": "Win10_4",
     "pwd": "swqa"
         }
-AT_list = [AT_VM_S2, AT_VM_S3, AT_VM_S3, AT_PC_S2]
+AT_list = [AT_VM_S2, AT_VM_S3, AT_VM_S4, AT_PC_S2]
 
 Mon = {
     "mark": "Mon",

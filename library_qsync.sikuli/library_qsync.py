@@ -54,8 +54,8 @@ AT_VM_S1 = {
         }
 AT_VM_S4 = {
     "ip": "10.20.241.142",
-    "folder_name": "share_test_Win10-4",
-    "pc_name": "Win10-4",
+    "folder_name": "share_test_win10-4",
+    "pc_name": "win10-4",
     "ac": "Win10_4",
     "pwd": "swqa"
         }

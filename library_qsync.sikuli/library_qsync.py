@@ -33,9 +33,9 @@ AT_PC_S2 = {
         }
 AT_PC_S3 = {
     "ip": "10.20.241.138",
-    "folder_name": "share_test_erincheng-pc",
-    "pc_name": "erincheng-pc",
-    "ac": "dqv",
+    "folder_name": "share_test_desktop-d6tvbkr",
+    "pc_name": "desktop-d6tvbkr",
+    "ac": "dqv1",
     "pwd": "swqa"
         }
 AT_VM_S3 = {
@@ -59,7 +59,7 @@ AT_VM_S4 = {
     "ac": "Win10_4",
     "pwd": "swqa"
         }
-AT_list = [AT_VM_S2, AT_VM_S3, AT_VM_S4, AT_PC_S2]
+AT_list = [AT_VM_S2, AT_VM_S3, AT_VM_S4, AT_PC_S2, AT_PC_S3]
 
 Mon = {
     "mark": "Mon",

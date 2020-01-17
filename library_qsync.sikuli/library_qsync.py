@@ -184,7 +184,7 @@ def get_os_bit():
 # get_pc_info(info_name = "pc_name" or "user_name")
 def get_pc_info(info_name):
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     info_name_list = []
     pc_info = os.popen("whoami").read()
     pc_info_list = pc_info.split("\\")
@@ -192,26 +192,30 @@ def get_pc_info(info_name):
     user_name = pc_info_list[1]
     user_name = user_name[0:-1]
     if info_name == "pc_name":
-        return pc_name
+        flag = pc_name
     else:
-        return user_name
+        flag = user_name
+    print("--- End " + fun_name + " ---")
+    return flag
 
 def get_os_ver():
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     os_dir = os.popen("ver").read()
     os_split = os_dir.split("[")
     os_split1 = os_split[1].split(" ")
     os_split2 = os_split1[1].split(".")
     if os_split2[0] == "10":
         print("OS is Win10")
-        return "Win10"
+        flag = "Win10"
     elif os_split2[0] == "6":
         print("OS is Win7")
-        return "Win7"
+        flag = "Win7"
     else:
         print("Unknown OS")
-        return "Unknown OS"
+        flag = "Unknown OS"
+    print("--- End " + fun_name + " ---")
+    return flag
 
 def week_current():
     localtime = time.asctime( time.localtime(time.time()) )
@@ -222,7 +226,7 @@ def week_current():
 
 def mount_disk(ip, folder_name, username, password, disk):
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     mount_cmd = "net use " + disk + ": " + "\\\\" + ip + "\\" + folder_name + " /user:" + username + " " + password
     print(mount_cmd)
     os.system(mount_cmd)
@@ -234,10 +238,11 @@ def mount_disk(ip, folder_name, username, password, disk):
         print("Mount failed")
     # assert flag == 0, "Mount failed"
     wait(1)
+    print("--- End " + fun_name + " ---")
 
 def unmount_disk(disk):
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     os.system("net use * /d /YES")
     dir_cmd = "dir " + disk + ":\\"
     flag = os.system(dir_cmd)
@@ -247,11 +252,12 @@ def unmount_disk(disk):
         pass
     assert flag == 1, "Unmount failed"
     wait(1)
-
+    print("--- End " + fun_name + " ---")
+    
 # clean_remote_disk("w")
 def clean_remote_disk(disk):
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     clean_cmd = "rd /s/q " + disk + ":\\"
     try:
         os.system(clean_cmd)
@@ -262,6 +268,7 @@ def clean_remote_disk(disk):
         print("clean success")
     else:
         print("clean failed")
+    print("--- End " + fun_name + " ---")
 
 def run_path():
     source_path =sys.path[0]
@@ -273,7 +280,7 @@ def run_path():
 # delete_folder("D:\\test\\")
 def delete_folder(path):
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     cmd = run_path() + "\\delete.bat " + path
     print(cmd)
     os.system(cmd)
@@ -281,10 +288,11 @@ def delete_folder(path):
         print("Clean success")
     else:
         print("Clean failed")
-
+    print("--- End " + fun_name + " ---")
+    
 def send_mail(test_pc):
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     gmail_user = 'stevenhsu@qnap.com'
     gmail_password = 'Poiu)98765' # your gmail password
     gmail_to = ['mingje1104@gmail.com']
@@ -307,7 +315,8 @@ def send_mail(test_pc):
     server.sendmail(gmail_user,gmail_to,msg.as_string())
     server.quit()
     print('Email sent!')
-
+    print("--- End " + fun_name + " ---")
+    
 def wait_time(loop, waittime):
     x = 0
     for i in range(loop):
@@ -330,7 +339,7 @@ def exist_check(file):
 # open folder with win browser (open_folder("D:\\test"))
 def open_folder(folder_path):
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     wait(2)
     for j in range(3):
         wait(2)
@@ -360,7 +369,7 @@ def open_folder(folder_path):
     
 def open_folder_cmd(folder_path, os_ver):
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     for i in range(3):
         wait(2)
         if folder_path == "default":
@@ -435,7 +444,7 @@ def set_browser_sty(os_ver):
 
 def check_open_folder(os_ver):
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     if os_ver == "Win10":
         if exists(Pattern(search_path("refresh_button")).similar(0.70)):
             doubleClick(Pattern(search_path("refresh_button")).similar(0.70))
@@ -453,7 +462,7 @@ def check_open_folder(os_ver):
 
 def check_max_window(os_ver):
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     flag = 0
     for i in range(3):
         if os_ver == "Win10":
@@ -469,6 +478,7 @@ def check_max_window(os_ver):
         else:
             print("Not max window")
             flag = 0
+    print("--- End " + fun_name + " ---")
     return flag
 
 def hover_trayicon():
@@ -504,7 +514,7 @@ def clean_trayicon():
 ################# Qsync opration function ###################
 def open_qsync(os_bit):
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     flag = 0
     for i in range(3):
         if os_bit == "64": 
@@ -540,7 +550,7 @@ def open_qsync(os_bit):
 
 def close_qsync():
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     os.system("taskkill /f /im Qsync.exe")
     wait(3)
     if check_qsync_live() == False:
@@ -557,7 +567,7 @@ def close_qsync():
 
 def remove_nas_profile():
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     click(Pattern(search_path("more_button")).similar(0.70))
     wait(2)
     click(Pattern(search_path("removeNAS_option")).similar(0.70))
@@ -575,10 +585,11 @@ def remove_nas_profile():
     else:
         flag = 0
     assert flag == 1, "Remove NAS failed"
-
+    print("--- End " + fun_name + " ---")
+    
 def login_pair(ip, ac, pwd):
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     click(Pattern(search_path("host_field")).similar(0.70))
     wait(1)
     type(ip)
@@ -621,20 +632,23 @@ def login_pair(ip, ac, pwd):
     type(Key.ENTER)
     wait(1)
     click(Pattern(search_path("finish_button")).similar(0.70))
-
+    print("--- End " + fun_name + " ---")
+    
 def check_qsync_live():
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     cmd = 'TASKLIST /FI "imagename eq Qsync.exe" /svc'
     tasklist_cmd = os.popen(cmd).read()
     if "Qsync" in tasklist_cmd:
-        return True
+        flag = True
     else:
-        return False
+        flag = False
+    print("--- End " + fun_name + " ---")
+    return flag
 
 def close_qsync_UI():
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     wait(1)
     click(Pattern(search_path("close_button")).similar(0.70))
     wait(2)
@@ -651,7 +665,7 @@ def close_qsync_UI():
 # input path then get check list (get_check_icon_list(path = "D:\\test"))
 def get_check_icon_list(path, os_ver):
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     path = path
     path_q = path + "\\.qsync"
     attrib_cmd = "attrib -s -h -r " + path + "\\*.* && del " + path + "\\*.* /q"
@@ -691,11 +705,12 @@ def get_check_icon_list(path, os_ver):
         mark_data = g.read()
         mark_list = mark_data.split("\n")
         del mark_list[-1]
+    print("--- End " + fun_name + " ---")
     return mark_list
 
 def check_icon_no(data_items, row_items):
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     """
     data_items = 110
     row_items = 11
@@ -742,6 +757,7 @@ def check_icon_no(data_items, row_items):
         print(ss)
     else:
         print(ss)
+    print("--- End " + fun_name + " ---")
     return ss   
               
 # counter_data
@@ -764,7 +780,7 @@ def output_counter_list(out_type, result_line):
 # current_data_counter
 def counter_data(data_type, counter_type, path):
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     if counter_type == "single":
         dir_cmd = "dir " + path
     elif counter_type == "all":
@@ -829,7 +845,7 @@ def size_to_int(size):
 
 def check_data_result(path1, path2):
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     right_week = target_week()
     if path1 == "fixed_path_share": 
         path_from_total = right_week["share_file"] + right_week["share_folder"]
@@ -852,15 +868,17 @@ def check_data_result(path1, path2):
 
     if path_from_total == path_to_total and path_from_size == path_to_size:
         print("Copy data consistent")
-        return True
+        flag = True
     else:
         print("Copy data inconsistent")
-        return False
+        flag = False
+    print("--- End " + fun_name + " ---")
+    return flag
 
 # copy_data("D:\\test", "D:\\test2\\", "by_week")
 def copy_data(path1, path2, check_type):   
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     path_from = path1
     if check_type == "by_week":
         path_to = path2 + week_current()
@@ -877,7 +895,8 @@ def copy_data(path1, path2, check_type):
             print("Copy data failed")
     else:
         print("Folder not existed")
-
+    print("--- End " + fun_name + " ---")
+    
 def outut_page_items():
     current_icon_list = []
     try:
@@ -903,7 +922,7 @@ def output_line_items():
 
 def check_icon_result(data_items, row_items, page_item_no):
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     if data_items == page_item_no:
         print("Icon check PASS: " + str(page_item_no))
         flag = 1
@@ -917,10 +936,11 @@ def check_icon_result(data_items, row_items, page_item_no):
             print("Icon check fail")
             flag = 3
     return flag
-
+    print("--- End " + fun_name + " ---")
+    
 def down_icon_check(data_items, row_items ,page_item_no):
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     quotient = data_items / row_items
     remainder = data_items % row_items
     exclude_no = page_item_no / row_items
@@ -951,11 +971,12 @@ def down_icon_check(data_items, row_items ,page_item_no):
     print("add items: " + str(result_icon))
     print("Total number: " + str(total_no))
     print("Final total number: " + str(total_final))
+    print("--- End " + fun_name + " ---")
     return total_final
 
 def check_icon_no_N(data_items, row_items):
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     # get items at first page
     x = 0
     flag = 0
@@ -979,11 +1000,12 @@ def check_icon_no_N(data_items, row_items):
             flag = 0
             break
         x = x + 1
+    print("--- End " + fun_name + " ---")
     return flag
 
 def check_sync_icon(path, os_ver, os_bit):
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     print(path)
     if counter_data("icon_total", "single", path) != -1:
         open_folder_cmd(path, os_ver)
@@ -1008,11 +1030,12 @@ def check_sync_icon(path, os_ver, os_bit):
     else:
         print("pass icon check, no folder")
         flag = 1
+    print("--- End " + fun_name + " ---")
     return flag
 
 def random_icon_check(ran_switch, ran_no, os_ver, os_bit, *args):
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     if isinstance(args[0], list) == True:
         args = args[0]
     else:
@@ -1035,11 +1058,12 @@ def random_icon_check(ran_switch, ran_no, os_ver, os_bit, *args):
             break
         else:
             result_flag = 1
+    print("--- End " + fun_name + " ---")
     return result_flag
 
 def check_team_folder(os_ver, os_bit):
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     week_info = week_current()
     qa = get_pc_info("pc_name")
     check_flag = 0
@@ -1081,11 +1105,12 @@ def check_team_folder(os_ver, os_bit):
                     check_flag = 0
                     break
             # unmount_disk("w")
+    print("--- End " + fun_name + " ---")
     return check_flag
 
 def check_share_folder(os_ver, os_bit):
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     i = AT_PC_S1
     week_info = week_current()
     check_flag = 0
@@ -1125,11 +1150,12 @@ def check_share_folder(os_ver, os_bit):
                 check_flag = 4
                 break
         # unmount_disk("w")
+    print("--- End " + fun_name + " ---")
     return check_flag
 
 def check_main_sync():
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     flag = 0
     for i in range(10):
         wait(4)
@@ -1142,6 +1168,7 @@ def check_main_sync():
         else:
             print("Sync failed")
             flag = 0
+    print("--- End " + fun_name + " ---")
     return flag
 
 def target_client():

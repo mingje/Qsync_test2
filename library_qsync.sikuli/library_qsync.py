@@ -356,7 +356,8 @@ def open_folder(folder_path):
     type(Key.ENTER)
     wait(3)
     type(Key.UP, KeyModifier.WIN)
-
+    print("--- End " + fun_name + " ---")
+    
 def open_folder_cmd(folder_path, os_ver):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
@@ -369,7 +370,7 @@ def open_folder_cmd(folder_path, os_ver):
         print(path)
         cmd = "explorer " + path
         os.system(cmd)  
-        wait(3)
+        waitVanish((Pattern(search_path("refresh_button")).similar(0.70)),120)
         if check_open_folder(os_ver) == 1:
             print("Open folder success")
             break
@@ -380,15 +381,16 @@ def open_folder_cmd(folder_path, os_ver):
     else:
         print("Max windows fail")
     wait(1)
+    print("--- End " + fun_name + " ---")
 
 def set_browser_sty(os_ver):
     fun_name = sys._getframe().f_code.co_name
-    print("***Start to " + fun_name + " ***")
+    print("*** Start to " + fun_name + " ***")
     if os_ver == "Win10":
 
         check_region = Region(59,7,273,44)
         
-        check_region.click(Pattern(search_path("view_tab")).similar(0.70))
+        check_region.doubleClick(Pattern(search_path("view_tab")).similar(0.70))
         wait(5)
         click(Pattern(search_path("big_view_button")).similar(0.70))
         wait(5)
@@ -429,23 +431,24 @@ def set_browser_sty(os_ver):
         wait(1)
     else:
         print("Failed")
+    print("--- End " + fun_name + " ---")
 
 def check_open_folder(os_ver):
     fun_name = sys._getframe().f_code.co_name
     print("***Start to " + fun_name + " ***")
-    print("***Start to check_open_folder***")
     if os_ver == "Win10":
         if exists(Pattern(search_path("refresh_button")).similar(0.70)):
-            click(Pattern(search_path("refresh_button")).similar(0.70))
+            doubleClick(Pattern(search_path("refresh_button")).similar(0.70))
             flag = 1
         else:
             flag = 0
     else:
         if exists(Pattern(search_path("refresh_button_7")).similar(0.70)):
-            click(Pattern(search_path("refresh_button_7")).similar(0.70))
+            doubleClick(Pattern(search_path("refresh_button_7")).similar(0.70))
             flag = 1
         else:
             flag = 0
+    print("---End " + fun_name + " ---")
     return flag 
 
 def check_max_window(os_ver):
@@ -533,6 +536,7 @@ def open_qsync(os_bit):
         else:
             flag = 0
     assert flag == 1, "Open Qsync failed"
+    print("--- End " + fun_name + " ---")
 
 def close_qsync():
     fun_name = sys._getframe().f_code.co_name
@@ -549,6 +553,7 @@ def close_qsync():
         print("Close Qsync fail_UI")
     else:
         print("Close Qsync success_UI")
+    print("--- End " + fun_name + " ---")
 
 def remove_nas_profile():
     fun_name = sys._getframe().f_code.co_name
@@ -639,6 +644,7 @@ def close_qsync_UI():
         print("Close Qsync UI success")
         flag = 1
     assert flag == 1, "Close Qsync UI fail"
+    print("--- End " + fun_name + " ---")
     wait(1)
 
 ################# Data sync function ###################

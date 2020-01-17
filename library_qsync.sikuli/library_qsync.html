@@ -428,6 +428,7 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     <span class="skw">type</span>(Key.ENTER)
     <span class="skw">wait</span>(<span class="dig">3</span>)
     <span class="skw">type</span>(Key.UP, KeyModifier.WIN)
+    <span class="kw">print</span>(<span class="str">"--- End "</span> + fun_name + <span class="str">" ---"</span>)
 
 <span class="kw">def</span> open_folder_cmd(folder_path, os_ver):
     fun_name = sys._getframe().f_code.co_name
@@ -441,7 +442,7 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
         <span class="kw">print</span>(path)
         cmd = <span class="str">"explorer "</span> + path
         os.system(cmd)
-        <span class="skw">wait</span>(<span class="dig">3</span>)
+        waitVanish((Pattern(search_path(<span class="str">"refresh_button"</span>)).similar(<span class="dig">0.70</span>)),<span class="dig">120</span>)
         <span class="kw">if</span> check_open_folder(os_ver) == <span class="dig">1</span>:
             <span class="kw">print</span>(<span class="str">"Open folder success"</span>)
             <span class="kw">break</span>
@@ -452,15 +453,16 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     <span class="kw">else</span>:
         <span class="kw">print</span>(<span class="str">"Max windows fail"</span>)
     <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="kw">print</span>(<span class="str">"--- End "</span> + fun_name + <span class="str">" ---"</span>)
 
 <span class="kw">def</span> set_browser_sty(os_ver):
     fun_name = sys._getframe().f_code.co_name
-    <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
+    <span class="kw">print</span>(<span class="str">"*** Start to "</span> + fun_name + <span class="str">" ***"</span>)
     <span class="kw">if</span> os_ver == <span class="str">"Win10"</span>:
 
         check_region = Region(<span class="dig">59</span>,<span class="dig">7</span>,<span class="dig">273</span>,<span class="dig">44</span>)
 
-        check_region.<span class="skw">click</span>(Pattern(search_path(<span class="str">"view_tab"</span>)).similar(<span class="dig">0.70</span>))
+        check_region.<span class="skw">doubleClick</span>(Pattern(search_path(<span class="str">"view_tab"</span>)).similar(<span class="dig">0.70</span>))
         <span class="skw">wait</span>(<span class="dig">5</span>)
         <span class="skw">click</span>(Pattern(search_path(<span class="str">"big_view_button"</span>)).similar(<span class="dig">0.70</span>))
         <span class="skw">wait</span>(<span class="dig">5</span>)
@@ -501,23 +503,24 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
         <span class="skw">wait</span>(<span class="dig">1</span>)
     <span class="kw">else</span>:
         <span class="kw">print</span>(<span class="str">"Failed"</span>)
+    <span class="kw">print</span>(<span class="str">"--- End "</span> + fun_name + <span class="str">" ---"</span>)
 
 <span class="kw">def</span> check_open_folder(os_ver):
     fun_name = sys._getframe().f_code.co_name
     <span class="kw">print</span>(<span class="str">"***Start to "</span> + fun_name + <span class="str">" ***"</span>)
-    <span class="kw">print</span>(<span class="str">"***Start to check_open_folder***"</span>)
     <span class="kw">if</span> os_ver == <span class="str">"Win10"</span>:
         <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"refresh_button"</span>)).similar(<span class="dig">0.70</span>)):
-            <span class="skw">click</span>(Pattern(search_path(<span class="str">"refresh_button"</span>)).similar(<span class="dig">0.70</span>))
+            <span class="skw">doubleClick</span>(Pattern(search_path(<span class="str">"refresh_button"</span>)).similar(<span class="dig">0.70</span>))
             flag = <span class="dig">1</span>
         <span class="kw">else</span>:
             flag = <span class="dig">0</span>
     <span class="kw">else</span>:
         <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"refresh_button_7"</span>)).similar(<span class="dig">0.70</span>)):
-            <span class="skw">click</span>(Pattern(search_path(<span class="str">"refresh_button_7"</span>)).similar(<span class="dig">0.70</span>))
+            <span class="skw">doubleClick</span>(Pattern(search_path(<span class="str">"refresh_button_7"</span>)).similar(<span class="dig">0.70</span>))
             flag = <span class="dig">1</span>
         <span class="kw">else</span>:
             flag = <span class="dig">0</span>
+    <span class="kw">print</span>(<span class="str">"---End "</span> + fun_name + <span class="str">" ---"</span>)
     <span class="kw">return</span> flag
 
 <span class="kw">def</span> check_max_window(os_ver):
@@ -605,6 +608,7 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
         <span class="kw">else</span>:
             flag = <span class="dig">0</span>
     <span class="kw">assert</span> flag == <span class="dig">1</span>, <span class="str">"Open Qsync failed"</span>
+    <span class="kw">print</span>(<span class="str">"--- End "</span> + fun_name + <span class="str">" ---"</span>)
 
 <span class="kw">def</span> close_qsync():
     fun_name = sys._getframe().f_code.co_name
@@ -621,6 +625,7 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
         <span class="kw">print</span>(<span class="str">"Close Qsync fail_UI"</span>)
     <span class="kw">else</span>:
         <span class="kw">print</span>(<span class="str">"Close Qsync success_UI"</span>)
+    <span class="kw">print</span>(<span class="str">"--- End "</span> + fun_name + <span class="str">" ---"</span>)
 
 <span class="kw">def</span> remove_nas_profile():
     fun_name = sys._getframe().f_code.co_name
@@ -711,6 +716,7 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
         <span class="kw">print</span>(<span class="str">"Close Qsync UI success"</span>)
         flag = <span class="dig">1</span>
     <span class="kw">assert</span> flag == <span class="dig">1</span>, <span class="str">"Close Qsync UI fail"</span>
+    <span class="kw">print</span>(<span class="str">"--- End "</span> + fun_name + <span class="str">" ---"</span>)
     <span class="skw">wait</span>(<span class="dig">1</span>)
 
 <span class="cmt">################# Data sync function ###################</span>

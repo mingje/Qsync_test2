@@ -650,7 +650,7 @@ def close_qsync_UI():
     fun_name = sys._getframe().f_code.co_name
     print("*** Start to " + fun_name + " ***")
     wait(1)
-    click(Pattern(search_path("close_button")).similar(0.70))
+    doubleClick(Pattern(search_path("close_button")).similar(0.70))
     wait(2)
     if exists(Pattern(search_path("qsync_logo")).similar(0.70)):
         flag = 0

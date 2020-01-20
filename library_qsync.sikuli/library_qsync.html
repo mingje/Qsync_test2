@@ -722,7 +722,7 @@ picture_path = delimiter.join(sys_path_split) + <span class="str">"\\screenshot\
     fun_name = sys._getframe().f_code.co_name
     <span class="kw">print</span>(<span class="str">"*** Start to "</span> + fun_name + <span class="str">" ***"</span>)
     <span class="skw">wait</span>(<span class="dig">1</span>)
-    <span class="skw">click</span>(Pattern(search_path(<span class="str">"close_button"</span>)).similar(<span class="dig">0.70</span>))
+    <span class="skw">doubleClick</span>(Pattern(search_path(<span class="str">"close_button"</span>)).similar(<span class="dig">0.70</span>))
     <span class="skw">wait</span>(<span class="dig">2</span>)
     <span class="kw">if</span> exists(Pattern(search_path(<span class="str">"qsync_logo"</span>)).similar(<span class="dig">0.70</span>)):
         flag = <span class="dig">0</span>

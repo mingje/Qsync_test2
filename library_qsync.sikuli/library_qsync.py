@@ -379,7 +379,7 @@ def open_folder_cmd(folder_path, os_ver):
         print(path)
         cmd = "explorer " + path
         os.system(cmd)  
-        waitVanish((Pattern(search_path("refresh_button")).similar(0.70)),120)
+        wait(5)
         if check_open_folder(os_ver) == 1:
             print("Open folder success")
             break

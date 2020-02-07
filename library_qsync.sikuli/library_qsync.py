@@ -401,7 +401,7 @@ def set_browser_sty(os_ver):
         
         check_region.doubleClick(Pattern(search_path("view_tab")).similar(0.70))
         wait(5)
-        click(Pattern(search_path("big_view_button")).similar(0.70))
+        doubleClick(Pattern(search_path("big_view_button")).similar(0.70))
         wait(5)
         click(Pattern(search_path("browser_window_button")).similar(0.70))
         wait(2)
@@ -466,9 +466,10 @@ def check_max_window(os_ver):
     flag = 0
     for i in range(3):
         if os_ver == "Win10":
-            click(Pattern(search_path("refresh_button")).similar(0.70))
+            doubleClick(Pattern(search_path("refresh_button")).similar(0.70))
         else:
-            click(Pattern(search_path("refresh_button_7")).similar(0.70))
+            doubleClick(Pattern(search_path("refresh_button_7")).similar(0.70))
+        wait(5)
         type(Key.UP, KeyModifier.WIN)
         wait(3)
         if exists(Pattern(search_path("maxwindow_folder_icon")).similar(0.70)):
